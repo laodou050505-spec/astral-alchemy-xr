@@ -1,0 +1,19 @@
+{
+  "task_id": "887e6d30-ea9b-4fa7-9671-e80745d608c6",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Premium wide 16:9 game HUD panel background only, no letters, no numbers, no readable text. Translucent dark indigo obsidian glass rectangle, ornate aged bronze and star-gold filigree only at four corners, faint cyan constellation lines, completely clear empty middle for Chinese game text, subtle magical alchemy style, clean high-end VR game interface, straight-on orthographic view, sharp detailed edges, no character, no icons, no watermark",
+    "model_version": "banana_pro"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260820/887e6d30-ea9b-4fa7-9671-e80745d608c6/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA4MjAvODg3ZTZkMzAtZWE5Yi00ZmE3LTk2NzEtZTgwNzQ1ZDYwOGM2L2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODcyOTAxMDN9fX1dfQ__&Signature=UNHd2~J1pRXXoa67bWZHggBzFVdseBqAGUxETOX3TME1YsGa5WnEjv1I7A9IjO6zkAmQuhQ~kHmaw4aiyS5eP4M4u6uWFkcDVjS7TMoeEyswOnVWM9H1DDAbGkI~rNRTJxbcA4fnnVsQrmTzz9ojucXTAdKXP6Xr4ayTEsNB3Pq-Gaxn4y2OaxkkFcABmdaYrLRD5802-dBo2PIjyrWT5k1WgkAGBThDxj~BCpDGFpSBeYWuflecuwj-0t8dVnKMZWtsd2JnACcW62jN6jVx8rKaEMoYh93er4d8V4Px2M2DJuZm3DEazltLL2Qcgy9Twn6TKTS8MYFr2Ov7v13PJw__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-08-20T05:27:51.933451Z",
+  "completed_at": "2026-08-20T05:28:21.998601Z",
+  "credits_consumed": 15.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-12/w-x/outputs/AstralAlchemyXR/Assets/Art/UI/GeneratedUI/TripoNanoBanana/01_generated_image_url.png"
+  ]
+}

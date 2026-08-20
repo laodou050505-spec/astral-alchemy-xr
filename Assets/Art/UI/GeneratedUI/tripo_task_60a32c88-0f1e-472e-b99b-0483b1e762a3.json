@@ -1,0 +1,19 @@
+{
+  "task_id": "60a32c88-0f1e-472e-b99b-0483b1e762a3",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Premium game UI background sheet only, no text, no readable glyphs, no numbers, no logos. Stylized astral alchemy fantasy HUD panel: midnight violet enamel base, aged copper frame corners, faint celestial orbit lines and engraved star patterns, soft gold and cyan energy, clean central dark empty space for interface overlays, crisp hand-painted 3D game asset, symmetrical, flat front-facing, high contrast, polished PICO VR game aesthetic.",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260812/60a32c88-0f1e-472e-b99b-0483b1e762a3/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA4MTIvNjBhMzJjODgtMGYxZS00NzJlLWI5OWItMDQ4M2IxZTc2MmEzL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODY2MjQwMTV9fX1dfQ__&Signature=ERD-JSItaWZQkWtJiCKrw80PxOsAfou5ppTV-p5uOFA3cQHAUWAlGJJ-TCYHjtDx6fGUP4JzqWsLrKoLLSsRGTUF5k2Q~4x9OJiDYuLUX4hpM6X~-CLbvjkI~otqTKLy2yw0TvGswUr-eeZPZ7VoWjygOcmlsQmYyVxetzGjs0DcpOR8ZmFybSUnRd1jGpZQqhFPJHnK0XlB0j5qmxgj5C-St5NEBqW~XBUCZjXr5FgMaaPK-FELRkkc4Ori8NerNkIA1wwy-MRNTcCJUNjlHLtBUat0rQq7R25t030o8D2ZSoo4HiJfAXiRtdLxYOIBsqAiVWuBE7-yeldOlFfPqw__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-08-12T12:26:34.484360Z",
+  "completed_at": "2026-08-12T12:26:51.879304Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-12/w-x/outputs/AstralAlchemyXR/Assets/Art/UI/GeneratedUI/01_generated_image_url.png"
+  ]
+}
