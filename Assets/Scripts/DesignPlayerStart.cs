@@ -12,7 +12,9 @@ namespace AstralAlchemy
     public class DesignPlayerStart : MonoBehaviour
     {
         [Header("Authoritative design start")]
-        public Vector3 designEyePosition = new Vector3(0f, 3.65f, -9.45f);
+        // Gameplay opens close enough to read the cauldron and the floating
+        // star core, instead of from the former distant arena overview.
+        public Vector3 designEyePosition = new Vector3(0f, 2.65f, -4.7f);
         [Range(-180f, 180f)] public float designYaw = 0f;
         [Tooltip("First gameplay landmark the player faces at launch.")]
         public Transform firstLandmark;

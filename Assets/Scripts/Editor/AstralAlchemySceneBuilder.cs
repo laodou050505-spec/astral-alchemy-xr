@@ -557,14 +557,16 @@ public static class AstralAlchemySceneBuilder
         if (rig == null || camera == null) return;
         var start = rig.GetComponent<DesignPlayerStart>() ?? rig.AddComponent<DesignPlayerStart>();
         start.eyeCamera = camera;
-        start.designEyePosition = new Vector3(0f, 3.65f, -9.45f);
+        // Authoritative gameplay opening pose. Both desktop and PICO tracking
+        // derive from this same near cauldron composition.
+        start.designEyePosition = new Vector3(0f, 2.65f, -4.7f);
         start.designYaw = 0f;
         start.firstLandmark = game.cauldron != null ? game.cauldron.transform : GameObject.Find("Cauldron_可调整坩埚")?.transform;
         var desktop = rig.GetComponent<DesktopPlayerController>();
         if (desktop != null) desktop.designStart = start;
-        rig.transform.position = new Vector3(0f, 0f, -9.45f);
+        rig.transform.position = new Vector3(0f, 0f, -4.7f);
         rig.transform.rotation = Quaternion.identity;
-        camera.transform.localPosition = new Vector3(0f, 3.65f, 0f);
+        camera.transform.localPosition = new Vector3(0f, 2.65f, 0f);
         camera.transform.localRotation = Quaternion.Euler(10f, 0f, 0f);
         EditorUtility.SetDirty(start);
         EditorUtility.SetDirty(rig);
@@ -1476,6 +1478,9 @@ public static class AstralAlchemySceneBuilder
     public static void BuildAndroidApk()
     {
         Directory.CreateDirectory("Builds/Android");
+        // Re-apply the approved 1024px alchemy icon immediately before every
+        // Android build so the emulator and exported APK cannot retain an old icon.
+        ApplyPicoIcon.Run();
         BuildTitleScene();
         EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
         EnsureBuildScenes();

@@ -23354,7 +23354,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 0
   rotationCycleSeconds: 0
   breatheAmount: 0
-  phaseOffset: 0.41
+  phaseOffset: 1.64
 --- !u!1 &281103812
 GameObject:
   m_ObjectHideFlags: 0
@@ -148600,7 +148600,7 @@ Transform:
   m_GameObject: {fileID: 1629615226}
   serializedVersion: 2
   m_LocalRotation: {x: 0.08715574, y: 0, z: 0, w: 0.9961947}
-  m_LocalPosition: {x: 0, y: 3.65, z: 0}
+  m_LocalPosition: {x: 0, y: 2.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -156906,7 +156906,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 0
   rotationCycleSeconds: 0
   breatheAmount: 0
-  phaseOffset: 1.64
+  phaseOffset: 0.82
 --- !u!1 &1714794746
 GameObject:
   m_ObjectHideFlags: 0
@@ -201627,7 +201627,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 1080
   rotationCycleSeconds: 30
   breatheAmount: 0
-  phaseOffset: 0.82
+  phaseOffset: 0.41
 --- !u!23 &2083101825 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: c4218dddfca10404bb839d7e0576093a, type: 3}
@@ -204248,7 +204248,7 @@ Transform:
   m_GameObject: {fileID: 2123399951}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9.45}
+  m_LocalPosition: {x: 0, y: 0, z: -4.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -204353,7 +204353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff9883d4907446d4b9b26492481ce7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AstralAlchemy.DesignPlayerStart
-  designEyePosition: {x: 0, y: 3.65, z: -9.45}
+  designEyePosition: {x: 0, y: 2.65, z: -4.7}
   designYaw: 0
   firstLandmark: {fileID: 979961829}
   eyeCamera: {fileID: 1629615230}
