@@ -15,6 +15,7 @@ namespace AstralAlchemy
         private MaterialPropertyBlock block;
         private ParticleSystem motes;
         private float phase;
+        private float nextVisualUpdate;
 
         private void Awake()
         {
@@ -35,6 +36,11 @@ namespace AstralAlchemy
         private void Update()
         {
             if (orb == null || coreRenderer == null) return;
+            // Twenty-four element bubbles do not need to rebuild two material
+            // property blocks at 72 Hz. Staggered 30 Hz updates preserve the pulse
+            // while reducing CPU/render-thread churn on standalone XR hardware.
+            if (Time.unscaledTime < nextVisualUpdate) return;
+            nextVisualUpdate = Time.unscaledTime + (1f / 30f);
             block ??= new MaterialPropertyBlock();
             var baseColor = ElementPalette.ColorOf(orb.element);
             var pulse = 1f + Mathf.Sin(Time.time * pulseSpeed + phase) * pulseAmount;
@@ -80,11 +86,11 @@ namespace AstralAlchemy
             main.startLifetime = new ParticleSystem.MinMaxCurve(.55f, 1.15f);
             main.startSpeed = new ParticleSystem.MinMaxCurve(.025f, .11f);
             main.startSize = new ParticleSystem.MinMaxCurve(.025f, .058f);
-            main.maxParticles = 12;
+            main.maxParticles = 8;
             main.simulationSpace = ParticleSystemSimulationSpace.Local;
             main.startColor = ElementPalette.ColorOf(orb.element);
             var emission = motes.emission;
-            emission.rateOverTime = orb.element == ElementKind.Void ? 4.5f : 7f;
+            emission.rateOverTime = orb.element == ElementKind.Void ? 3.2f : 5f;
             var shape = motes.shape;
             shape.shapeType = ParticleSystemShapeType.Sphere;
             shape.radius = .27f;

@@ -28,3 +28,7 @@ sysinfo.txt
 # Android signing credentials must remain local
 *.keystore
 *.jks
+
+# Local build logs and rollback snapshots
+*.log
+_RollbackSafety/

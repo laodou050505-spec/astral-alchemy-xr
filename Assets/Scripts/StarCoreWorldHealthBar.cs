@@ -10,6 +10,7 @@ namespace AstralAlchemy
         public Image fill;
         public Image damageTrail;
         public Text valueLabel;
+        public string valuePrefix = "";
         public Vector3 worldOffset = new Vector3(0f, .74f, 0f);
         public bool stayUprightToCamera = true;
         public Color healthyColor = new Color(1f, .18f, .1f, 1f);
@@ -49,7 +50,7 @@ namespace AstralAlchemy
                     damageTrail.fillAmount = trailingHealth;
                 }
                 if (valueLabel != null)
-                    valueLabel.text = Mathf.CeilToInt(core.Health) + " / " + Mathf.CeilToInt(core.maxHealth);
+                    valueLabel.text = valuePrefix + Mathf.CeilToInt(core.Health) + " / " + Mathf.CeilToInt(core.maxHealth);
                 damageFlash = Mathf.MoveTowards(damageFlash, 0f, Time.deltaTime * 2.8f);
                 var healthColor = Color.Lerp(criticalColor, healthyColor, displayedHealth);
                 fill.color = Color.Lerp(healthColor, Color.white, damageFlash * .72f);

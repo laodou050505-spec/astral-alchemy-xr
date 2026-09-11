@@ -22,6 +22,7 @@ namespace AstralAlchemy
         private Vector3 homeScale;
         private bool focused;
         private float focusBlend;
+        private float rejectedUntil;
 
         public bool IsAvailable => available && gameObject.activeInHierarchy;
 
@@ -40,7 +41,8 @@ namespace AstralAlchemy
             if (available)
             {
                 focusBlend = Mathf.MoveTowards(focusBlend, focused ? 1f : 0f, Time.deltaTime * 8f);
-                transform.localScale = homeScale * Mathf.Lerp(1f, 1.13f, focusBlend);
+                var rejectedPulse = Time.time < rejectedUntil ? 1f + Mathf.Abs(Mathf.Sin(Time.time * 18f)) * .16f : 1f;
+                transform.localScale = homeScale * Mathf.Lerp(1f, 1.13f, focusBlend) * rejectedPulse;
             }
         }
 
@@ -79,6 +81,15 @@ namespace AstralAlchemy
             if (!available) return;
             var game = FindFirstObjectByType<ArenaGameController>();
             if (game != null) game.ReceiveElement(this);
+        }
+
+        public void ShowRejected()
+        {
+            rejectedUntil = Time.time + .65f;
+            if (shellRenderer == null) return;
+            shellRenderer.GetPropertyBlock(propertyBlock);
+            propertyBlock.SetColor("_EmissionColor", new Color(1f, .04f, .03f) * 4.6f);
+            shellRenderer.SetPropertyBlock(propertyBlock);
         }
 
         public void SetDemand(bool demanded)

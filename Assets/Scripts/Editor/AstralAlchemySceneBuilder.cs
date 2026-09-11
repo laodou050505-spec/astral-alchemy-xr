@@ -24,7 +24,12 @@ public static class AstralAlchemySceneBuilder
     private const string TitleScenePath = "Assets/Scenes/AstralAlchemyTitle.unity";
     private const string MaterialFolder = "Assets/Materials";
     private const string PrefabFolder = "Assets/Prefabs";
-    private const string UiTexturePath = "Assets/Art/UI/GeneratedUI/TripoNanoBanana/01_generated_image_url.png";
+    private const string TitleUiTexturePath = "Assets/Art/UI/GeneratedUI/NanoBanana_Refined/TitlePanel/TitlePanel_Open.png";
+    private const string ResultFramePieceRoot = "Assets/Art/UI/GeneratedUI/NanoBanana_Refined/TitlePanel/TitlePanel_Frame_";
+    private const string SideUiTexturePath = "Assets/Art/UI/GeneratedUI/NanoBanana_Refined/SidePanelClean/SidePanelClean_Cropped.png";
+    private const string StatusUiTexturePath = "Assets/Art/UI/GeneratedUI/NanoBanana_Refined/StatusPanel/StatusPanel_Cropped.png";
+    private const string IconFolder = "Assets/Art/UI/GeneratedUI/NanoBanana_Refined/ElementIcons";
+    private const string TitleFeatherPath = "Assets/Art/UI/GeneratedUI/TitleRedesign20260908/Background_Feathered.png";
     private const string ChineseFontPath = "Assets/Art/UI/Fonts/ArialUnicode.ttf";
     private static Font chineseFont;
     private static readonly Color Ink = new Color(.025f, .018f, .09f);
@@ -217,34 +222,11 @@ public static class AstralAlchemySceneBuilder
         // Preserve the authored adjustable light values; only guarantee it remains attached to the star core.
         point.type = LightType.Point;
         controller.coreLight = point;
-        var barNode = FindChildDeep(astrolabe.transform, "星核血条_可调整");
-        if (barNode == null)
-        {
-            var canvasGo = New("星核血条_可调整", astrolabe.transform);
-            canvasGo.transform.localPosition = new Vector3(0f, 1.24f, 0f); canvasGo.transform.localScale = Vector3.one * .00125f;
-            var canvas = canvasGo.AddComponent<Canvas>(); canvas.renderMode = RenderMode.WorldSpace; canvas.sortingOrder = 55; canvas.worldCamera = Camera.main;
-            canvasGo.AddComponent<CanvasScaler>(); canvasGo.GetComponent<RectTransform>().sizeDelta = new Vector2(460f, 68f);
-            var bg = NewUi("星核血条暗底", canvasGo.transform); bg.GetComponent<RectTransform>().sizeDelta = new Vector2(420f, 30f);
-            bg.AddComponent<Image>().color = new Color(.03f, .008f, .07f, .93f);
-            var outline = bg.AddComponent<Outline>(); outline.effectColor = new Color(1f, .55f, .17f, .95f); outline.effectDistance = new Vector2(2f, -2f);
-            var fillGo = NewUi("星核血量填充", bg.transform); var fillRt = fillGo.GetComponent<RectTransform>(); fillRt.anchorMin = Vector2.zero; fillRt.anchorMax = Vector2.one; fillRt.offsetMin = new Vector2(4f, 4f); fillRt.offsetMax = new Vector2(-4f, -4f);
-            var fill = fillGo.AddComponent<Image>(); fill.color = new Color(1f, .16f, .12f, 1f); fill.type = Image.Type.Filled; fill.fillMethod = Image.FillMethod.Horizontal;
-            Text("星核", canvasGo.transform, new Vector2(420f, 30f), new Vector2(0f, 38f), 24, StarGold, TextAnchor.MiddleCenter);
-            var health = canvasGo.AddComponent<StarCoreWorldHealthBar>(); health.coreTarget = astrolabe.transform; health.core = controller; health.fill = fill; health.worldOffset = new Vector3(0f, .74f, 0f);
-            UpgradeWorldHealthBarVisuals(canvasGo.transform, health);
-        }
-        else
-        {
-            var health = barNode.GetComponent<StarCoreWorldHealthBar>();
-            if (health != null)
-            {
-                health.worldOffset = barNode.position - astrolabe.transform.position;
-                health.coreTarget = astrolabe.transform;
-                health.core = controller;
-                health.stayUprightToCamera = true;
-                UpgradeWorldHealthBarVisuals(barNode, health);
-            }
-        }
+        // The previous small bar above the spinning model competed with the single
+        // authoritative top HUD bar and was difficult to read in PICO. Remove it;
+        // UpgradeHud binds the real health value to the large top bar instead.
+        var oldBar = FindChildDeep(astrolabe.transform, "星核血条_可调整");
+        if (oldBar != null) UnityEngine.Object.DestroyImmediate(oldBar.gameObject);
         EditorUtility.SetDirty(root); EditorUtility.SetDirty(astrolabe);
         Debug.Log("AstralAlchemy astrolabe promoted to the only visible star core.");
     }
@@ -471,6 +453,9 @@ public static class AstralAlchemySceneBuilder
         canvas.name = "主战斗信息牌_世界空间_深靛星金";
         canvas.renderMode = RenderMode.WorldSpace;
         canvas.worldCamera = camera;
+        // Desktop framing includes the raised HUD. XR supplies its own tracked projection.
+        camera.fieldOfView = 64f;
+        camera.transform.localRotation = Quaternion.identity;
         canvas.sortingOrder = 50;
         canvas.overrideSorting = true;
         // Core recipe, star-core and end-state information belongs beside the physical
@@ -480,75 +465,208 @@ public static class AstralAlchemySceneBuilder
         var worldUi = GameObject.Find("WorldSpaceUI_舒适视区界面")?.transform;
         if (worldUi != null && canvas.transform.parent != worldUi)
             canvas.transform.SetParent(worldUi, false);
-        canvas.transform.localPosition = new Vector3(0f, 3.0f, .4f);
+        // Place the complete world-space HUD on the rear upper arc of the arena.
+        // The canvas remains a real spatial object: players can walk around it,
+        // while the raised position keeps the cauldron and star-core unobstructed.
+        canvas.transform.localPosition = new Vector3(0f, 4.65f, 2.1f);
         // The canvas front faces the design start on -Z.  Keeping its authored
         // front (Y=0) avoids mirrored Chinese text in the PICO compositor.
         canvas.transform.localRotation = Quaternion.identity;
-        canvas.transform.localScale = Vector3.one * .005f;
+        canvas.transform.localScale = Vector3.one * .0057f;
         var canvasRect = canvas.GetComponent<RectTransform>();
 
-        // Existing RectTransforms are authored layout data. Styling upgrades must not
-        // move or resize panels the user has positioned in the Scene/Game view.
-        var leftPanel = canvas.transform.Find("左侧配方仪");
-        RestylePanelPreservingLayout(leftPanel);
-        RestylePanelPreservingLayout(canvas.transform.Find("右侧星核仪"));
-        RestylePanelPreservingLayout(canvas.transform.Find("中央状态提示"));
-        RestylePanelPreservingLayout(canvas.transform.Find("胜败结算面板"));
+        // Resolve from the serialized gameplay references first. Earlier authored
+        // scenes used slightly different localized node names, while the bindings
+        // themselves remain authoritative and survive user layout edits.
+        var leftPanel = game.recipeTitle != null ? game.recipeTitle.transform.parent : canvas.transform.Find("左侧配方仪");
+        var rightPanel = game.scoreLabel != null ? game.scoreLabel.transform.parent : canvas.transform.Find("右侧星核仪");
+        var statusPanel = game.statusLabel != null ? game.statusLabel.transform.parent : canvas.transform.Find("中央状态提示");
+        var resultPanel = game.resultPanel != null ? game.resultPanel.transform : canvas.transform.Find("胜败结算面板");
+        if (resultPanel != null)
+        {
+            foreach (var staleBackdrop in resultPanel.GetComponentsInChildren<Image>(true)
+                .Where(image => image.transform != resultPanel && image.name == "结算文字底色遮罩").ToArray())
+                UnityEngine.Object.DestroyImmediate(staleBackdrop.gameObject);
+        }
+        if (rightPanel != null)
+        {
+            foreach (var staleHealth in rightPanel.GetComponents<StarCoreWorldHealthBar>())
+                UnityEngine.Object.DestroyImmediate(staleHealth);
+            foreach (var staleValue in rightPanel.GetComponentsInChildren<Text>(true).Where(text => text.name == "星核血量数值").ToArray())
+                UnityEngine.Object.DestroyImmediate(staleValue.gameObject);
+            foreach (var staleTrail in rightPanel.GetComponentsInChildren<Image>(true).Where(image => image.name == "星核损失滞后条").ToArray())
+                UnityEngine.Object.DestroyImmediate(staleTrail.gameObject);
+        }
+        RestylePanel(leftPanel, new Vector2(380f, 380f), new Vector2(-500f, 42f));
+        RestylePanel(rightPanel, new Vector2(380f, 380f), new Vector2(500f, 42f));
+        RestylePanel(statusPanel, new Vector2(600f, 140f), new Vector2(0f, 45f));
+        ArrangeWraparoundHud(canvas, leftPanel, rightPanel, statusPanel);
+        var healthPanel = canvas.transform.Find("星核血量条_顶部");
+        if (healthPanel == null || healthPanel == rightPanel)
+        {
+            var newHealth = Panel("星核血量条_顶部", canvas.transform, new Vector2(640f, 119f), new Vector2(0f, 270f), Color.white, LoadUiSprite(StatusUiTexturePath));
+            healthPanel = newHealth.transform;
+        }
+        if (game.coreLabel != null && game.coreLabel.transform.parent != healthPanel)
+            game.coreLabel.transform.SetParent(healthPanel, false);
+        var coreBarRoot = game.coreFill != null ? game.coreFill.transform.parent : null;
+        if (coreBarRoot != null && coreBarRoot.parent != healthPanel)
+            coreBarRoot.SetParent(healthPanel, false);
+        RestylePanel(healthPanel, new Vector2(640f, 119f), new Vector2(0f, 206f));
+        ApplyGeneratedPanelArt(healthPanel, LoadUiSprite(StatusUiTexturePath), .96f);
+        if (game.coreLabel != null) SetTextLayout(game.coreLabel, new Vector2(560f, 30f), new Vector2(0f, 28f), 23, 20, 25);
+        SetRect(game.coreFill != null ? game.coreFill.transform.parent : null, new Vector2(540f, 25f), new Vector2(0f, -16f));
+        RestylePanel(resultPanel, new Vector2(760f, 263f), Vector2.zero);
+        ApplyGeneratedPanelArt(leftPanel, LoadUiSprite(SideUiTexturePath), .96f);
+        ApplyGeneratedPanelArt(rightPanel, LoadUiSprite(SideUiTexturePath), .96f);
+        ApplyGeneratedPanelArt(statusPanel, LoadUiSprite(StatusUiTexturePath), .96f);
+        // Give the instruction strip actual interior height while retaining its
+        // authored border thickness: slice the frame instead of stretching it.
+        var statusImage = statusPanel.GetComponent<Image>();
+        var statusImporter = AssetImporter.GetAtPath(StatusUiTexturePath) as TextureImporter;
+        if (statusImporter != null && statusImporter.spriteBorder == Vector4.zero)
+        {
+            statusImporter.spriteBorder = new Vector4(42f, 18f, 42f, 18f);
+            statusImporter.SaveAndReimport();
+        }
+        statusImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(StatusUiTexturePath);
+        statusImage.type = Image.Type.Sliced;
+        statusImage.preserveAspect = false;
+        ApplyGeneratedPanelArt(resultPanel, LoadUiSprite(TitleUiTexturePath), .97f);
+        BuildOpenResultFrame(resultPanel);
+
+        SetTextLayout(game.recipeTitle, new Vector2(306f, 48f), new Vector2(0f, 113f), 24, 22, 25);
+        SetTextLayout(game.recipeDetail, new Vector2(306f, 86f), new Vector2(0f, 46f), 23, 21, 24);
+        SetTextLayout(game.timerLabel, new Vector2(310f, 46f), new Vector2(0f, 91f), 24, 22, 25);
+        SetRect(game.tideFill != null ? game.tideFill.transform.parent : null, new Vector2(260f, 20f), new Vector2(0f, 38f));
+        SetTextLayout(game.scoreLabel, new Vector2(310f, 70f), new Vector2(0f, -20f), 23, 21, 24);
 
         if (game.recipeTitle != null)
         {
             game.recipeTitle.text = "目标配方";
-            game.recipeTitle.fontSize = 23;
+            game.recipeTitle.fontSize = 25;
         }
         if (game.recipeDetail != null)
         {
-            game.recipeDetail.fontSize = 20;
+            game.recipeDetail.fontSize = 23;
             game.recipeDetail.resizeTextForBestFit = true;
-            game.recipeDetail.resizeTextMinSize = 16;
-            game.recipeDetail.resizeTextMaxSize = 21;
+            game.recipeDetail.resizeTextMinSize = 21;
+            game.recipeDetail.resizeTextMaxSize = 24;
         }
         var selected = leftPanel != null ? leftPanel.Find("已选元素文字")?.GetComponent<Text>() : null;
         if (selected == null && leftPanel != null)
         {
-            selected = Text("已选元素  待选择  +  待选择", leftPanel, new Vector2(264f, 36f), new Vector2(0f, -34f), 18, new Color(.88f, .92f, 1f), TextAnchor.MiddleCenter);
+            selected = Text("已选元素", leftPanel, new Vector2(278f, 42f), new Vector2(0f, -48f), 19, new Color(.88f, .92f, 1f), TextAnchor.MiddleCenter);
             selected.name = "已选元素文字";
         }
         if (selected != null)
         {
-            selected.fontSize = 18;
+            SetTextLayout(selected, new Vector2(306f, 50f), new Vector2(0f, -46f), 21, 20, 22);
             selected.resizeTextForBestFit = true;
-            selected.resizeTextMinSize = 14;
-            selected.resizeTextMaxSize = 18;
+            selected.resizeTextMinSize = 20;
+            selected.resizeTextMaxSize = 22;
         }
+        var tokenA = leftPanel != null ? leftPanel.Find("元素令牌A") : null;
+        var tokenB = leftPanel != null ? leftPanel.Find("元素令牌B") : null;
+        SetRect(tokenA, new Vector2(60f, 60f), new Vector2(-66f, -116f));
+        SetRect(tokenB, new Vector2(60f, 60f), new Vector2(66f, -116f));
+        var plus = leftPanel != null ? leftPanel.GetComponentsInChildren<Text>(true).FirstOrDefault(t => t.text == "+") : null;
+        SetTextLayout(plus, new Vector2(54f, 46f), new Vector2(0f, -116f), 30, 27, 31);
         game.selectionLabel = selected;
+        game.elementIcons = LoadElementIcons();
+
+        if (healthPanel != null && game.starCore != null && game.coreFill != null)
+        {
+            var healthFeedback = healthPanel.GetComponent<StarCoreWorldHealthBar>() ?? healthPanel.gameObject.AddComponent<StarCoreWorldHealthBar>();
+            healthFeedback.coreTarget = null;
+            healthFeedback.core = game.starCore;
+            healthFeedback.fill = game.coreFill;
+            healthFeedback.stayUprightToCamera = false;
+            healthFeedback.valuePrefix = "";
+            UpgradeWorldHealthBarVisuals(healthPanel, healthFeedback);
+            if (healthFeedback.valueLabel != null)
+            {
+                SetTextLayout(healthFeedback.valueLabel, new Vector2(180f, 25f), new Vector2(0f, -16f), 18, 17, 19);
+                healthFeedback.valueLabel.color = Color.white;
+            }
+        }
+        // The result board is intentionally open: the illustration supplies only
+        // the astral frame and star field.  Give the title and the three-line
+        // summary independent reading zones instead of stacking them over a
+        // translucent inner card.
+        SetTextLayout(game.resultTitle, new Vector2(610f, 52f), new Vector2(0f, 88f), 38, 34, 40);
+        SetTextLayout(game.resultStats, new Vector2(560f, 126f), new Vector2(0f, -18f), 24, 22, 25);
+        if (game.resultTitle != null) game.resultTitle.lineSpacing = 1f;
+        if (game.resultStats != null) game.resultStats.lineSpacing = 1.22f;
         foreach (var text in canvas.GetComponentsInChildren<Text>(true))
         {
             text.font = GetChineseFont();
-            text.fontStyle = FontStyle.Bold;
+            // The generated frames carry the visual weight; keep copy lighter
+            // and high-contrast so Chinese glyphs remain legible in XR.
+            text.fontStyle = FontStyle.Normal;
             text.color = text == game.recipeTitle || text == game.scoreLabel || text == game.resultTitle ? StarGold : new Color(.93f, .94f, 1f);
             var outline = text.GetComponent<Outline>() ?? text.gameObject.AddComponent<Outline>();
             outline.effectColor = new Color(.005f, .002f, .02f, .96f);
-            outline.effectDistance = new Vector2(1.5f, -1.5f);
+            outline.effectDistance = new Vector2(.85f, -.85f);
         }
         if (game.statusLabel != null) game.statusLabel.color = new Color(.78f, .9f, 1f);
         if (game.statusLabel != null)
         {
-            game.statusLabel.fontSize = 16;
+            SetTextLayout(game.statusLabel, new Vector2(500f, 96f), new Vector2(0f, 14f), 22, 21, 22);
+            game.statusLabel.fontSize = 22;
             game.statusLabel.resizeTextForBestFit = true;
-            game.statusLabel.resizeTextMinSize = 13;
-            game.statusLabel.resizeTextMaxSize = 17;
+            game.statusLabel.resizeTextMinSize = 21;
+            game.statusLabel.resizeTextMaxSize = 22;
             game.statusLabel.horizontalOverflow = HorizontalWrapMode.Wrap;
             game.statusLabel.verticalOverflow = VerticalWrapMode.Truncate;
         }
-        AddHudCornerOrnaments(canvas.transform.Find("左侧配方仪"));
-        AddHudCornerOrnaments(canvas.transform.Find("右侧星核仪"));
-        AddHudCornerOrnaments(canvas.transform.Find("胜败结算面板"));
-        AddHudTitleRule(canvas.transform.Find("左侧配方仪"), -1f);
-        AddHudTitleRule(canvas.transform.Find("右侧星核仪"), 1f);
-        ApplyGeneratedPanelArt(canvas.transform.Find("左侧配方仪"));
-        ApplyGeneratedPanelArt(canvas.transform.Find("右侧星核仪"));
-        ApplyGeneratedPanelArt(canvas.transform.Find("胜败结算面板"));
+        AddHudCornerOrnaments(leftPanel);
+        AddHudCornerOrnaments(rightPanel);
+        AddHudCornerOrnaments(resultPanel);
+        AddHudTitleRule(leftPanel, -1f);
+        AddHudTitleRule(rightPanel, 1f);
         Canvas.ForceUpdateCanvases();
+    }
+
+    private static void ArrangeWraparoundHud(Canvas canvas, params Transform[] panels)
+    {
+        var start = UnityEngine.Object.FindFirstObjectByType<DesignPlayerStart>();
+        if (start == null) throw new Exception("Wraparound HUD requires the authored player start.");
+        var eye = canvas.transform.InverseTransformPoint(start.designEyePosition);
+        var radius = -eye.z;
+        foreach (var panel in panels)
+        {
+            if (panel == null) continue;
+            var position = panel.localPosition;
+            var horizontalOffset = position.x - eye.x;
+            if (radius <= Mathf.Abs(horizontalOffset))
+                throw new Exception("HUD panel is outside the player-centered layout arc: " + panel.name);
+            // Keep the approved height and lateral spacing, but put the boards
+            // on a horizontal arc around the opening player position.
+            position.z = eye.z + Mathf.Sqrt(radius * radius - horizontalOffset * horizontalOffset);
+            panel.localPosition = position;
+            // UI's readable front is local -Z. Face it toward the player by
+            // yawing only; no roll, pitch, or runtime camera following.
+            var awayFromEye = new Vector3(horizontalOffset, 0f, position.z - eye.z);
+            panel.localRotation = Quaternion.LookRotation(awayFromEye, Vector3.up);
+            Debug.Log($"ASTRAL_WRAPAROUND {panel.name} world={panel.position:F3} rotation={panel.localEulerAngles:F2}");
+        }
+    }
+
+    public static void ApplyWraparoundHudToCurrentScene()
+    {
+        var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+        var game = UnityEngine.Object.FindFirstObjectByType<ArenaGameController>();
+        if (game == null || game.recipeTitle == null || game.scoreLabel == null || game.statusLabel == null)
+            throw new Exception("Gameplay HUD bindings are missing.");
+        var canvas = game.recipeTitle.GetComponentInParent<Canvas>();
+        ArrangeWraparoundHud(canvas, game.recipeTitle.transform.parent, game.scoreLabel.transform.parent, game.statusLabel.transform.parent);
+        AddHudTitleRule(game.recipeTitle.transform.parent, -1f);
+        AddHudTitleRule(game.scoreLabel.transform.parent, 1f);
+        EditorSceneManager.MarkSceneDirty(scene);
+        EditorSceneManager.SaveScene(scene);
+        AssetDatabase.SaveAssets();
+        ValidateDemo();
     }
 
     private static void UpgradeDesignPlayerStart(Camera camera, ArenaGameController game)
@@ -567,24 +685,102 @@ public static class AstralAlchemySceneBuilder
         rig.transform.position = new Vector3(0f, 0f, -4.7f);
         rig.transform.rotation = Quaternion.identity;
         camera.transform.localPosition = new Vector3(0f, 2.65f, 0f);
-        camera.transform.localRotation = Quaternion.Euler(10f, 0f, 0f);
+        camera.transform.localRotation = Quaternion.identity;
         EditorUtility.SetDirty(start);
         EditorUtility.SetDirty(rig);
     }
 
-    private static void ApplyGeneratedPanelArt(Transform panel)
+    private static void ApplyGeneratedPanelArt(Transform panel, Sprite sprite, float opacity = 1f)
     {
         if (panel == null) return;
-        var sprite = LoadUiSprite();
         if (sprite == null) return;
         var image = panel.GetComponent<Image>();
         if (image == null) return;
         image.sprite = sprite;
         image.type = Image.Type.Simple;
-        image.preserveAspect = false;
-        image.color = new Color(1f, 1f, 1f, .82f);
+        image.preserveAspect = true;
+        image.color = new Color(1f, 1f, 1f, opacity);
         var outline = panel.GetComponent<Outline>();
-        if (outline != null) outline.effectColor = new Color(.04f, .01f, .12f, .95f);
+        // Nano Banana art has its own star-gold edge. A generated Unity outline
+        // creates the black rectangle visible in the user's screenshots.
+        if (outline != null) UnityEngine.Object.DestroyImmediate(outline);
+    }
+
+    private static void BuildOpenResultFrame(Transform panel)
+    {
+        if (panel == null) return;
+        var rootImage = panel.GetComponent<Image>();
+        if (rootImage != null) UnityEngine.Object.DestroyImmediate(rootImage);
+
+        // Render only the four opaque perimeter bands. No graphic covers the
+        // middle of the frame, so the result text sits directly over the world.
+        const float sourceWidth = 1367f;
+        const float sourceHeight = 459f;
+        const float innerLeft = 299f;
+        const float innerRight = 1068f;
+        const float innerTop = 64f;
+        const float innerBottom = 365f;
+        var panelSize = panel.GetComponent<RectTransform>().sizeDelta;
+        var leftWidth = panelSize.x * innerLeft / sourceWidth;
+        var rightWidth = panelSize.x * (sourceWidth - innerRight) / sourceWidth;
+        var topHeight = panelSize.y * innerTop / sourceHeight;
+        var bottomHeight = panelSize.y * (sourceHeight - innerBottom) / sourceHeight;
+        var middleHeight = panelSize.y - topHeight - bottomHeight;
+
+        ConfigureResultFramePiece(panel, "结算框_上边", ResultFramePieceRoot + "Top.png",
+            new Vector2(panelSize.x, topHeight), new Vector2(0f, (panelSize.y - topHeight) * .5f));
+        ConfigureResultFramePiece(panel, "结算框_下边", ResultFramePieceRoot + "Bottom.png",
+            new Vector2(panelSize.x, bottomHeight), new Vector2(0f, -(panelSize.y - bottomHeight) * .5f));
+        ConfigureResultFramePiece(panel, "结算框_左边", ResultFramePieceRoot + "Left.png",
+            new Vector2(leftWidth, middleHeight), new Vector2(-(panelSize.x - leftWidth) * .5f, (bottomHeight - topHeight) * .5f));
+        ConfigureResultFramePiece(panel, "结算框_右边", ResultFramePieceRoot + "Right.png",
+            new Vector2(rightWidth, middleHeight), new Vector2((panelSize.x - rightWidth) * .5f, (bottomHeight - topHeight) * .5f));
+    }
+
+    private static void ConfigureResultFramePiece(Transform panel, string name, string spritePath, Vector2 size, Vector2 position)
+    {
+        var existing = panel.Find(name);
+        var piece = existing != null ? existing.gameObject : NewUi(name, panel);
+        piece.layer = panel.gameObject.layer;
+        piece.transform.localPosition = Vector3.zero;
+        piece.transform.localRotation = Quaternion.identity;
+        piece.transform.localScale = Vector3.one;
+        var rect = piece.GetComponent<RectTransform>();
+        rect.anchorMin = rect.anchorMax = new Vector2(.5f, .5f);
+        rect.pivot = new Vector2(.5f, .5f);
+        rect.sizeDelta = size;
+        rect.anchoredPosition = position;
+        rect.SetSiblingIndex(0);
+        var raw = piece.GetComponent<RawImage>();
+        if (raw != null) UnityEngine.Object.DestroyImmediate(raw);
+        var image = piece.GetComponent<Image>() ?? piece.AddComponent<Image>();
+        image.sprite = LoadUiSprite(spritePath);
+        image.type = Image.Type.Simple;
+        image.preserveAspect = false;
+        image.color = new Color(1f, 1f, 1f, .97f);
+        image.raycastTarget = false;
+    }
+
+    private static void SetRect(Transform target, Vector2 size, Vector2 position)
+    {
+        if (target == null) return;
+        var rect = target.GetComponent<RectTransform>();
+        if (rect == null) return;
+        rect.sizeDelta = size;
+        rect.anchoredPosition = position;
+    }
+
+    private static void SetTextLayout(Text label, Vector2 size, Vector2 position, int fontSize, int minSize, int maxSize)
+    {
+        if (label == null) return;
+        SetRect(label.transform, size, position);
+        label.fontSize = fontSize;
+        label.resizeTextForBestFit = true;
+        label.resizeTextMinSize = minSize;
+        label.resizeTextMaxSize = maxSize;
+        label.horizontalOverflow = HorizontalWrapMode.Wrap;
+        label.verticalOverflow = VerticalWrapMode.Truncate;
+        label.lineSpacing = 1.05f;
     }
 
     private static void AddHudTitleRule(Transform panel, float direction)
@@ -593,10 +789,14 @@ public static class AstralAlchemySceneBuilder
         var existing = panel.Find("星金标题分隔线");
         var line = existing != null ? existing.gameObject : NewUi("星金标题分隔线", panel);
         var rect = line.GetComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(252f, 2f);
-        rect.anchoredPosition = new Vector2(direction * 4f, panel.name.Contains("左侧") ? 69f : 57f);
+        rect.sizeDelta = new Vector2(176f, 2f);
+        // Use the gutters between full content bounds, including wrapped text.
+        // Left: recipe bottom 3, selection top -21; right: tide bottom 28,
+        // score top 15. Keep the rules fully inside these reserved gutters.
+        rect.anchoredPosition = new Vector2(0f, direction < 0f ? -9f : 21.5f);
         var image = line.GetComponent<Image>() ?? line.AddComponent<Image>();
         image.color = new Color(1f, .55f, .18f, .72f);
+        image.raycastTarget = false;
     }
 
     private static void ClampHudToCanvas(Transform panel, float halfCanvasWidth, float margin)
@@ -616,9 +816,8 @@ public static class AstralAlchemySceneBuilder
         rect.anchoredPosition = position;
         var image = panel.GetComponent<Image>();
         if (image != null) image.color = new Color(.018f, .01f, .075f, .9f);
-        var outline = panel.GetComponent<Outline>() ?? panel.gameObject.AddComponent<Outline>();
-        outline.effectColor = new Color(.88f, .44f, .15f, .96f);
-        outline.effectDistance = new Vector2(2f, -2f);
+        var outline = panel.GetComponent<Outline>();
+        if (outline != null) UnityEngine.Object.DestroyImmediate(outline);
     }
 
     private static void RestylePanelPreservingLayout(Transform panel)
@@ -929,15 +1128,20 @@ public static class AstralAlchemySceneBuilder
         Debug.Log("Astral Alchemy scene built: " + ScenePath);
     }
 
+    // THESIS: a full-bleed observatory, separate generated lettering, and a deliberate menu.
+    // OWN-WORLD: midnight blue, engraved star-gold, cyan alchemy; user-supplied game menus guide the hierarchy.
+    // STORY: recognize the game, learn the two-hand loop, then enter the arena.
+    // FIRST VIEWPORT: title and three live menu actions on the left; astrolabe key art on the right.
+    // FORM: user-pinned conventional game title menu. FINISH: verify both UI and input paths.
     [MenuItem("Astral Alchemy/Build Dedicated Title Scene")]
     public static void BuildTitleScene()
     {
         Directory.CreateDirectory("Assets/Scenes");
+        EnsureTitleFeatherAsset();
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
         RenderSettings.ambientMode = AmbientMode.Flat;
         RenderSettings.ambientLight = new Color(.02f, .005f, .05f);
         RenderSettings.fog = false;
-
         var root = New("TitleRoot_独立启动阶段");
         var rig = New("TitlePlayerRig_桌面与PICO共用", root.transform);
         rig.transform.position = new Vector3(0f, 0f, -2.8f);
@@ -947,44 +1151,171 @@ public static class AstralAlchemySceneBuilder
         cameraGo.transform.localPosition = new Vector3(0f, 1.62f, 0f);
         var camera = cameraGo.AddComponent<Camera>();
         camera.clearFlags = CameraClearFlags.SolidColor;
-        camera.backgroundColor = new Color(.006f, .002f, .026f);
-        camera.nearClipPlane = .05f; camera.farClipPlane = 40f; camera.fieldOfView = 48f;
+        camera.backgroundColor = Color.black;
+        camera.nearClipPlane = .05f; camera.farClipPlane = 40f; camera.fieldOfView = 58f;
         cameraGo.AddComponent<AudioListener>();
         cameraGo.AddComponent<UnityEngine.SpatialTracking.TrackedPoseDriver>();
         var start = rig.AddComponent<DesignPlayerStart>();
-        start.eyeCamera = camera;
-        start.designEyePosition = new Vector3(0f, 1.62f, -2.8f);
-        start.designYaw = 0f;
-
-        var titleCanvasGo = New("TitleCanvas_不透明封面", root.transform);
+        start.eyeCamera = camera; start.designEyePosition = new Vector3(0f, 1.62f, -2.8f); start.designYaw = 0f;
+        var titleCanvasGo = New("TitleCanvas_EnglishCover", root.transform);
         var canvas = titleCanvasGo.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.WorldSpace; canvas.worldCamera = camera; canvas.sortingOrder = 100; canvas.overrideSorting = true;
         titleCanvasGo.AddComponent<CanvasScaler>();
-        titleCanvasGo.transform.position = new Vector3(0f, 1.65f, 2.8f);
+        // Preserve the cover placement and scale approved in the 2026-09-09
+        // simulator reference. Feathering affects only the background pixels.
+        titleCanvasGo.transform.position = new Vector3(0f, 1.62f, 3.65f);
         titleCanvasGo.transform.localRotation = Quaternion.identity;
-        titleCanvasGo.transform.localScale = Vector3.one * .0058f;
-        var rect = titleCanvasGo.GetComponent<RectTransform>(); rect.sizeDelta = new Vector2(1180f, 700f);
-        var panel = Panel("不透明星界封面", titleCanvasGo.transform, new Vector2(1120f, 650f), Vector2.zero, Color.white, LoadUiSprite());
-        panel.GetComponent<Image>().color = Color.white;
-        Text("元素融合", panel.transform, new Vector2(850f, 100f), new Vector2(0f, 170f), 66, StarGold, TextAnchor.MiddleCenter);
-        Text("ASTRAL ALCHEMY", panel.transform, new Vector2(780f, 40f), new Vector2(0f, 112f), 24, new Color(.4f, .92f, 1f), TextAnchor.MiddleCenter);
-        Text("以双手召唤元素 · 在星界炼金台守护星核", panel.transform, new Vector2(820f, 60f), new Vector2(0f, 32f), 28, Color.white, TextAnchor.MiddleCenter);
-        var startButton = Panel("START_开始游戏", panel.transform, new Vector2(350f, 78f), new Vector2(0f, -85f), new Color(.12f, .055f, .25f, 1f), null);
-        // The title needs a deliberate world-space mouse target.  Without this,
-        // macOS window-focus clicks can accidentally advance into gameplay.
-        var startCollider = startButton.AddComponent<BoxCollider>();
-        startCollider.size = new Vector3(350f, 78f, 18f);
-        startCollider.center = new Vector3(0f, 0f, -9f);
-        Text("START  开始游戏", startButton.transform, new Vector2(330f, 55f), Vector2.zero, 29, StarGold, TextAnchor.MiddleCenter);
-        Text("按 Enter / 空格 / 任意扳机开始", panel.transform, new Vector2(650f, 44f), new Vector2(0f, -150f), 20, new Color(.75f, .88f, 1f), TextAnchor.MiddleCenter);
-        Text("ESC 退出", panel.transform, new Vector2(350f, 38f), new Vector2(0f, -215f), 18, new Color(.62f, .72f, .92f), TextAnchor.MiddleCenter);
-        var menu = root.AddComponent<TitleMenuController>(); menu.designStart = start; menu.startTarget = startCollider;
-        start.firstLandmark = panel.transform;
+        titleCanvasGo.transform.localScale = Vector3.one * .0057f;
+        titleCanvasGo.GetComponent<RectTransform>().sizeDelta = new Vector2(1600f, 900f);
+        const string artRoot = "Assets/Art/UI/GeneratedUI/TitleRedesign20260908/";
+        var background = Panel("Observatory_KeyArt", titleCanvasGo.transform, new Vector2(1600f, 914f), Vector2.zero,
+            Color.white, LoadTitleSprite(TitleFeatherPath));
+        background.GetComponent<Image>().raycastTarget = false;
+        var logo = Panel("ASTRAL_ALCHEMY_GeneratedLogo", titleCanvasGo.transform, new Vector2(670f, 315f), new Vector2(-425f, 217f),
+            Color.white, LoadTitleSprite(artRoot + "Logo.png"));
+        logo.GetComponent<Image>().raycastTarget = false;
+        TitleText("MASTER THE ELEMENTS. DEFEND THE STAR.", titleCanvasGo.transform, new Vector2(720f, 35f), new Vector2(-400f, 25f), 23, new Color(.66f, .83f, .9f));
+        var menu = root.AddComponent<TitleMenuController>(); menu.designStart = start;
+        menu.mainMenu = NewUi("MainMenu", titleCanvasGo.transform);
+        menu.helpPage = Panel("HowToPlay", titleCanvasGo.transform, new Vector2(760f, 710f), new Vector2(410f, 10f), new Color(.015f, .028f, .065f, .98f), null);
+        menu.quitPage = Panel("QuitConfirmation", titleCanvasGo.transform, new Vector2(720f, 470f), new Vector2(410f, 0f), new Color(.015f, .028f, .065f, .98f), null);
+        var entries = new List<TitleMenuButton>();
+        entries.Add(TitleButton("START GAME", menu.mainMenu.transform, new Vector2(-435f, -85f), TitleMenuButton.Command.Start));
+        entries.Add(TitleButton("HOW TO PLAY", menu.mainMenu.transform, new Vector2(-435f, -180f), TitleMenuButton.Command.Help));
+        entries.Add(TitleButton("QUIT", menu.mainMenu.transform, new Vector2(-435f, -275f), TitleMenuButton.Command.Quit));
+        TitleText("HOW TO PLAY", menu.helpPage.transform, new Vector2(650f, 55f), new Vector2(0f, 278f), 36, StarGold);
+        TitleText("SELECT", menu.helpPage.transform, new Vector2(650f, 40f), new Vector2(0f, 186f), 26, Cyan);
+        TitleText("Point your LEFT controller at an element.\nPull the trigger to send it into the cauldron.", menu.helpPage.transform, new Vector2(650f, 76f), new Vector2(0f, 124f), 25, Color.white);
+        TitleText("COMBINE", menu.helpPage.transform, new Vector2(650f, 40f), new Vector2(0f, 47f), 26, Cyan);
+        TitleText("Match the two elements shown in the recipe.\nThe cauldron prepares your spell.", menu.helpPage.transform, new Vector2(650f, 76f), new Vector2(0f, -15f), 25, Color.white);
+        TitleText("CAST", menu.helpPage.transform, new Vector2(650f, 40f), new Vector2(0f, -92f), 26, Cyan);
+        TitleText("Aim with your RIGHT controller. Hold the trigger\nto charge, then release. Protect the star core!", menu.helpPage.transform, new Vector2(650f, 76f), new Vector2(0f, -154f), 25, Color.white);
+        entries.Add(TitleButton("BACK", menu.helpPage.transform, new Vector2(0f, -273f), TitleMenuButton.Command.Back));
+        TitleText("LEAVE THE OBSERVATORY?", menu.quitPage.transform, new Vector2(630f, 80f), new Vector2(0f, 127f), 33, StarGold);
+        TitleText("Return to your headset home.", menu.quitPage.transform, new Vector2(630f, 50f), new Vector2(0f, 50f), 26, Color.white);
+        entries.Add(TitleButton("CANCEL", menu.quitPage.transform, new Vector2(0f, -55f), TitleMenuButton.Command.CancelQuit));
+        entries.Add(TitleButton("QUIT GAME", menu.quitPage.transform, new Vector2(0f, -150f), TitleMenuButton.Command.ConfirmQuit));
+        menu.buttons = entries.ToArray(); menu.startTarget = entries[0].GetComponent<Collider>();
+        menu.helpPage.SetActive(false); menu.quitPage.SetActive(false);
+        TitleText("POINT AT A BUTTON  /  PULL EITHER TRIGGER", titleCanvasGo.transform, new Vector2(1460f, 35f), new Vector2(0f, -422f), 23, new Color(.77f, .84f, .89f));
+        var left = New("Left_MenuPointer", rig.transform); var right = New("Right_MenuPointer", rig.transform);
+        menu.leftController = left.transform; menu.rightController = right.transform;
+        var rayMaterial = AssetDatabase.LoadAssetAtPath<Material>(MaterialFolder + "/M_TitlePointer.mat");
+        if (rayMaterial == null)
+        {
+            rayMaterial = new Material(Shader.Find("Sprites/Default"));
+            AssetDatabase.CreateAsset(rayMaterial, MaterialFolder + "/M_TitlePointer.mat");
+        }
+        menu.leftRay = left.AddComponent<LineRenderer>(); SetupLine(menu.leftRay, rayMaterial); menu.leftRay.enabled = false;
+        menu.rightRay = right.AddComponent<LineRenderer>(); SetupLine(menu.rightRay, rayMaterial); menu.rightRay.enabled = false;
+        start.firstLandmark = logo.transform;
+        EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene, TitleScenePath);
+        AssetDatabase.ImportAsset(TitleScenePath, ImportAssetOptions.ForceSynchronousImport); AssetDatabase.SaveAssets();
+        Debug.Log("AstralAlchemy dedicated English title built: generated art/logo and six working menu actions.");
+    }
+
+    private static Text TitleText(string value, Transform parent, Vector2 size, Vector2 position, int fontSize, Color color)
+    {
+        var text = Text(value, parent, size, position, fontSize, color, TextAnchor.MiddleLeft);
+        text.fontStyle = FontStyle.Normal; text.horizontalOverflow = HorizontalWrapMode.Wrap; text.verticalOverflow = VerticalWrapMode.Truncate;
+        text.raycastTarget = false;
+        var outline = text.GetComponent<Outline>(); if (outline != null) outline.effectDistance = new Vector2(.5f, -.5f);
+        return text;
+    }
+
+    private static TitleMenuButton TitleButton(string value, Transform parent, Vector2 position, TitleMenuButton.Command command)
+    {
+        var go = Panel("Button_" + command, parent, new Vector2(570f, 76f), position, new Color(.24f, .18f, .075f, .12f), null);
+        var button = go.AddComponent<TitleMenuButton>(); button.command = command; button.background = go.GetComponent<Image>();
+        var collider = go.GetComponent<BoxCollider>(); collider.size = new Vector3(570f, 76f, 12f); collider.center = new Vector3(0f, 0f, -6f);
+        button.label = TitleText(value, go.transform, new Vector2(520f, 60f), new Vector2(8f, 0f), 32, new Color(.9f, .92f, .96f));
+        return button;
+    }
+
+    private static Sprite LoadTitleSprite(string path)
+    {
+        AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
+        var importer = AssetImporter.GetAtPath(path) as TextureImporter;
+        if (importer == null) throw new Exception("Missing generated title asset: " + path);
+        importer.textureType = TextureImporterType.Sprite; importer.spriteImportMode = SpriteImportMode.Single;
+        importer.maxTextureSize = 2048; importer.textureCompression = TextureImporterCompression.Uncompressed;
+        if (path == TitleFeatherPath)
+        {
+            var settings = new TextureImporterSettings();
+            importer.ReadTextureSettings(settings);
+            settings.spriteMeshType = SpriteMeshType.FullRect;
+            importer.SetTextureSettings(settings);
+            importer.alphaSource = TextureImporterAlphaSource.FromInput;
+            importer.wrapMode = TextureWrapMode.Clamp;
+        }
+        importer.mipmapEnabled = false; importer.alphaIsTransparency = true; importer.SaveAndReimport();
+        return AssetDatabase.LoadAssetAtPath<Sprite>(path);
+    }
+
+    private static void EnsureTitleFeatherAsset()
+    {
+        const string sourcePath = "Assets/Art/UI/GeneratedUI/TitleRedesign20260908/Background.png";
+        var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+        try
+        {
+            if (!ImageConversion.LoadImage(texture, File.ReadAllBytes(sourcePath)))
+                throw new Exception("Unable to read title cover: " + sourcePath);
+            var pixels = texture.GetPixels32();
+            for (var y = 0; y < texture.height; y++)
+            for (var x = 0; x < texture.width; x++)
+            {
+                var u = x / (float)(texture.width - 1);
+                var v = y / (float)(texture.height - 1);
+                // Broad top/bottom fade, narrower sides, rounded soft corners.
+                // The outermost pixels are fully transparent; the center and
+                // all separately rendered lettering retain their brightness.
+                var horizontal = Mathf.SmoothStep(0f, 1f, Mathf.Min(u, 1f - u) / .085f);
+                var vertical = Mathf.SmoothStep(0f, 1f, Mathf.Min(v, 1f - v) / .17f);
+                var index = y * texture.width + x;
+                pixels[index].a = (byte)Mathf.RoundToInt(pixels[index].a * horizontal * vertical);
+            }
+            texture.SetPixels32(pixels);
+            texture.Apply(false, false);
+            var png = texture.EncodeToPNG();
+            // Compare generated content so future tuning actually takes effect,
+            // while unchanged builds avoid rewriting/reimporting the asset.
+            if (!File.Exists(TitleFeatherPath) || !File.ReadAllBytes(TitleFeatherPath).SequenceEqual(png))
+            {
+                File.WriteAllBytes(TitleFeatherPath, png);
+                AssetDatabase.ImportAsset(TitleFeatherPath, ImportAssetOptions.ForceSynchronousImport);
+            }
+        }
+        finally { UnityEngine.Object.DestroyImmediate(texture); }
+    }
+
+    public static void ApplyTitleFeatherAndCapture()
+    {
+        EnsureTitleFeatherAsset();
+        var scene = EditorSceneManager.OpenScene(TitleScenePath, OpenSceneMode.Single);
+        var canvas = GameObject.Find("TitleCanvas_EnglishCover").transform;
+        var background = canvas.Find("Observatory_KeyArt").GetComponent<Image>();
+        var oldFeather = canvas.Find("封面边缘羽化");
+        if (oldFeather != null) UnityEngine.Object.DestroyImmediate(oldFeather.gameObject);
+        background.sprite = LoadTitleSprite(TitleFeatherPath);
+        Camera.main.backgroundColor = Color.black;
         EditorSceneManager.MarkSceneDirty(scene);
-        EditorSceneManager.SaveScene(scene, TitleScenePath);
-        AssetDatabase.ImportAsset(TitleScenePath, ImportAssetOptions.ForceSynchronousImport);
+        EditorSceneManager.SaveScene(scene);
         AssetDatabase.SaveAssets();
-        Debug.Log("AstralAlchemy dedicated title scene built: " + TitleScenePath);
+
+        Directory.CreateDirectory("Preview/CoverRefinement");
+        Canvas.ForceUpdateCanvases();
+        CaptureCameraToPng(Camera.main, "Preview/CoverRefinement/Title_Feathered_20260909.png");
+        Debug.Log("ASTRAL_TITLE_FEATHER: cover pose preserved at " + canvas.position.ToString("F4")
+            + ", scale=" + canvas.localScale.ToString("F4") + "; title-only refinement saved and captured.");
+    }
+
+    public static void ApplyCoverAndHudRefinement()
+    {
+        EnsureTitleFeatherAsset();
+        var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+        UpgradeHud(Camera.main, UnityEngine.Object.FindFirstObjectByType<ArenaGameController>());
+        EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene); AssetDatabase.SaveAssets();
+        BuildTitleScene(); ValidateDemo();
     }
 
     [MenuItem("Astral Alchemy/Validate Demo _F8")]
@@ -1000,7 +1331,13 @@ public static class AstralAlchemySceneBuilder
         var core = UnityEngine.Object.FindFirstObjectByType<StarCoreController>();
         if (core == null || core.coreAnchor == null || core.coreAnchor.name != "星象仪星核_可调整") errors.Add("Astrolabe is not configured as the star core target");
         if (GameObject.Find("星核随动点光_可调整")?.GetComponent<Light>() == null) errors.Add("Adjustable star-core point light is missing");
-        if (GameObject.Find("星核血条_可调整")?.GetComponent<StarCoreWorldHealthBar>() == null) errors.Add("World-space star-core health bar is missing");
+        var gameController = UnityEngine.Object.FindFirstObjectByType<ArenaGameController>();
+        var topHealth = gameController != null && gameController.coreLabel != null
+            ? gameController.coreLabel.GetComponentInParent<StarCoreWorldHealthBar>()
+            : null;
+        if (topHealth == null || topHealth.core == null || topHealth.fill == null) errors.Add("Authoritative top star-core health bar is missing or unbound");
+        if (gameController != null && gameController.scoreLabel != null && gameController.coreLabel != null && gameController.scoreLabel.transform.parent == gameController.coreLabel.transform.parent)
+            errors.Add("Right information panel and top star-core health bar were merged");
         if (GameObject.Find("桌面十字准星_可调整") == null) errors.Add("Desktop crosshair upgrade is missing");
         var hudCanvas = UnityEngine.Object.FindFirstObjectByType<Canvas>();
         if (hudCanvas == null || (Camera.main != null && hudCanvas.transform.IsChildOf(Camera.main.transform))) errors.Add("Core HUD must remain world-space, not camera-attached");
@@ -1062,6 +1399,129 @@ public static class AstralAlchemySceneBuilder
         UnityEngine.Object.DestroyImmediate(image);
         if (previewEnemies != null) previewEnemies.SetActive(previewWasActive);
         Debug.Log("AstralAlchemy desktop preview captured: Preview/AstralAlchemyArena_EditorPreview.png");
+    }
+
+    public static void CaptureFinalUiEvidence()
+    {
+        try
+        {
+            Directory.CreateDirectory("Preview");
+            var titleScene = EditorSceneManager.OpenScene(TitleScenePath, OpenSceneMode.Single);
+            if (!titleScene.IsValid() || Camera.main == null) throw new Exception("Title camera is unavailable for UI evidence.");
+            CaptureCameraToPng(Camera.main, "Preview/UI_Final_Title.png");
+
+            var gameplayScene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            if (!gameplayScene.IsValid() || Camera.main == null) throw new Exception("Gameplay camera is unavailable for UI evidence.");
+            var game = UnityEngine.Object.FindFirstObjectByType<ArenaGameController>();
+            if (game != null)
+            {
+                game.RefreshHud();
+                if (game.resultPanel != null) game.resultPanel.SetActive(false);
+            }
+            foreach (var canvas in UnityEngine.Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None))
+                if (canvas.renderMode == RenderMode.WorldSpace) canvas.worldCamera = Camera.main;
+            Canvas.ForceUpdateCanvases();
+            CaptureCameraToPng(Camera.main, "Preview/UI_Final_Gameplay.png");
+            // A level gaze shows the complete raised HUD; this preview-only
+            // camera change is never serialized into the gameplay scene.
+            var authoredRotation = Camera.main.transform.rotation;
+            var start = UnityEngine.Object.FindFirstObjectByType<DesignPlayerStart>();
+            Camera.main.transform.rotation = Quaternion.Euler(0f, start != null ? start.designYaw : 0f, 0f);
+            CaptureCameraToPng(Camera.main, "Preview/UI_Wraparound_Gameplay.png");
+            Camera.main.transform.rotation = authoredRotation;
+            Debug.Log("AstralAlchemy final UI evidence captured: Preview/UI_Final_Title.png and Preview/UI_Final_Gameplay.png");
+            EditorApplication.Exit(0);
+        }
+        catch (Exception exception)
+        {
+            Debug.LogException(exception);
+            EditorApplication.Exit(4);
+        }
+    }
+
+    public static void CaptureResultPanelEvidence()
+    {
+        try
+        {
+            Directory.CreateDirectory("Preview/CoverRefinement");
+            var gameplayScene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            if (!gameplayScene.IsValid() || Camera.main == null) throw new Exception("Gameplay camera is unavailable for result-panel evidence.");
+            var game = UnityEngine.Object.FindFirstObjectByType<ArenaGameController>();
+            if (game == null || game.resultPanel == null) throw new Exception("Result panel is unavailable for evidence.");
+            if (game.recipeTitle != null) game.recipeTitle.transform.parent.gameObject.SetActive(false);
+            if (game.scoreLabel != null) game.scoreLabel.transform.parent.gameObject.SetActive(false);
+            if (game.statusLabel != null) game.statusLabel.transform.parent.gameObject.SetActive(false);
+            game.resultPanel.SetActive(true);
+            if (game.resultTitle != null) game.resultTitle.text = "星核已熄灭";
+            if (game.resultStats != null) game.resultStats.text = "敌人突破了炼金防线\n本局击退敌人  2\n按任一手柄扳机 · 再试一次";
+            foreach (var canvas in UnityEngine.Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None))
+                if (canvas.renderMode == RenderMode.WorldSpace) canvas.worldCamera = Camera.main;
+            var start = UnityEngine.Object.FindFirstObjectByType<DesignPlayerStart>();
+            Camera.main.transform.rotation = Quaternion.Euler(0f, start != null ? start.designYaw : 0f, 0f);
+            Canvas.ForceUpdateCanvases();
+            CaptureCameraToPng(Camera.main, "Preview/CoverRefinement/HUD_Result_Open.png");
+            var framePieces = game.resultPanel.GetComponentsInChildren<Image>(true)
+                .Where(image => image.name.StartsWith("结算框_")).ToArray();
+            foreach (var piece in framePieces)
+            {
+                piece.enabled = false;
+                Canvas.ForceUpdateCanvases();
+                CaptureCameraToPng(Camera.main, "Preview/CoverRefinement/HUD_Result_Without_" + piece.name + ".png");
+                piece.enabled = true;
+            }
+            foreach (var image in framePieces) image.enabled = false;
+            Canvas.ForceUpdateCanvases();
+            CaptureCameraToPng(Camera.main, "Preview/CoverRefinement/HUD_Result_NoFrame_Diagnostic.png");
+            foreach (var image in framePieces) image.enabled = true;
+            Debug.Log("AstralAlchemy result-panel evidence captured: Preview/CoverRefinement/HUD_Result_Open.png");
+            EditorApplication.Exit(0);
+        }
+        catch (Exception exception)
+        {
+            Debug.LogException(exception);
+            EditorApplication.Exit(4);
+        }
+    }
+
+    public static void InspectFinalHudLayout()
+    {
+        EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+        var game = UnityEngine.Object.FindFirstObjectByType<ArenaGameController>();
+        var canvas = game != null && game.recipeTitle != null ? game.recipeTitle.GetComponentInParent<Canvas>() : null;
+        Debug.Log("ASTRAL_HUD canvas=" + (canvas != null ? canvas.transform.position + " scale=" + canvas.transform.lossyScale : "missing"));
+        if (game != null)
+        {
+            DumpHudNode("recipe", game.recipeTitle != null ? game.recipeTitle.transform.parent : null);
+            DumpHudNode("score", game.scoreLabel != null ? game.scoreLabel.transform.parent : null);
+            DumpHudNode("core", game.coreLabel != null ? game.coreLabel.transform.parent : null);
+            DumpHudNode("status", game.statusLabel != null ? game.statusLabel.transform.parent : null);
+            DumpHudNode("result", game.resultPanel != null ? game.resultPanel.transform : null);
+        }
+        EditorApplication.Exit(0);
+    }
+
+    private static void DumpHudNode(string label, Transform node)
+    {
+        var rect = node != null ? node.GetComponent<RectTransform>() : null;
+        Debug.Log("ASTRAL_HUD " + label + " node=" + (node != null ? node.name : "missing") + " active=" + (node != null && node.gameObject.activeSelf) + " pos=" + (rect != null ? rect.anchoredPosition : Vector2.zero) + " size=" + (rect != null ? rect.sizeDelta : Vector2.zero));
+    }
+
+    private static void CaptureCameraToPng(Camera camera, string path)
+    {
+        var previousTarget = camera.targetTexture;
+        var previousActive = RenderTexture.active;
+        var texture = new RenderTexture(1440, 900, 24, RenderTextureFormat.ARGB32);
+        camera.targetTexture = texture;
+        camera.Render();
+        RenderTexture.active = texture;
+        var pixels = new Texture2D(texture.width, texture.height, TextureFormat.RGB24, false);
+        pixels.ReadPixels(new Rect(0, 0, texture.width, texture.height), 0, 0);
+        pixels.Apply();
+        File.WriteAllBytes(path, pixels.EncodeToPNG());
+        camera.targetTexture = previousTarget;
+        RenderTexture.active = previousActive;
+        UnityEngine.Object.DestroyImmediate(pixels);
+        UnityEngine.Object.DestroyImmediate(texture);
     }
 
     [MenuItem("Astral Alchemy/Capture Model Orientation Sheet")]
@@ -1195,7 +1655,7 @@ public static class AstralAlchemySceneBuilder
         ClearEditorConsole();
         EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
         smokeFrame = 0;
-        smokeStep = 0;
+        smokeStep = -1;
         smokeFailure = null;
         smokeEnteredPlayMode = false;
         previousEnterPlayModeOptionsEnabled = EditorSettings.enterPlayModeOptionsEnabled;
@@ -1247,6 +1707,11 @@ public static class AstralAlchemySceneBuilder
         if (game == null) { smokeFailure = "ArenaGameController missing"; EditorApplication.isPlaying = false; return; }
         if (smokeStep == 0 && smokeFrame == 30)
         {
+            // The smoke test covers the complete free-play loop. Disable the
+            // tutorial only on the runtime instance after Start has initialized.
+            game.tutorialMode = false;
+            if (game.CurrentRecipeA == ElementKind.Fire && game.CurrentRecipeB == ElementKind.Frost)
+                game.ForceCompleteTutorialForTesting();
             game.SpawnEnemyForTesting();
             game.SpawnEnemyForTesting();
             var previewEnemiesNow = UnityEngine.Object.FindObjectsByType<AstralEnemy>(FindObjectsSortMode.None);
@@ -1268,6 +1733,30 @@ public static class AstralAlchemySceneBuilder
         var orbs = UnityEngine.Object.FindObjectsByType<ElementOrb>(FindObjectsSortMode.None);
         var currentA = game.CurrentRecipeA;
         var currentB = game.CurrentRecipeB;
+        if (smokeStep == -1)
+        {
+            if (UnityEngine.Object.FindObjectsByType<AstralEnemy>(FindObjectsSortMode.None).Length != 0)
+                smokeFailure = "Tutorial began with active enemies before the player learned the loop";
+            if (game.statusLabel == null || !game.statusLabel.text.Contains("教学 1/3"))
+                smokeFailure = "Tutorial opening instruction is missing";
+            var fire = orbs.FirstOrDefault(o => o != null && o.element == ElementKind.Fire && o.IsAvailable);
+            var frost = orbs.FirstOrDefault(o => o != null && o.element == ElementKind.Frost && o.IsAvailable);
+            if (fire == null || frost == null) { smokeFailure = "Tutorial elements are unavailable"; EditorApplication.isPlaying = false; return; }
+            game.ReceiveElement(fire);
+            if (game.statusLabel == null || !game.statusLabel.text.Contains("教学 2/3")) smokeFailure = "Tutorial did not advance after the first element";
+            game.ReceiveElement(frost);
+            if (!game.IsSpellReady || game.statusLabel == null || !game.statusLabel.text.Contains("教学 3/3"))
+                smokeFailure = "Tutorial did not prepare the first spell";
+            var target = UnityEngine.Object.FindObjectsByType<AstralEnemy>(FindObjectsSortMode.None).FirstOrDefault(e => e.name.Contains("教学敌人"));
+            if (target == null) { smokeFailure = "Tutorial cast target did not appear"; EditorApplication.isPlaying = false; return; }
+            game.CastAtRay(new Ray(Camera.main.transform.position, target.transform.position + Vector3.up - Camera.main.transform.position), .9f);
+            if (game.IsSpellReady || game.statusLabel == null || !game.statusLabel.text.Contains("教学完成"))
+                smokeFailure = "Tutorial did not complete after a successful cast";
+            game.tutorialMode = false;
+            smokeStep = 0;
+            smokeFrame = 0;
+            return;
+        }
         if (smokeStep == 0)
         {
             var aimOrb = orbs.FirstOrDefault(o => o != null && o.IsAvailable);
@@ -1309,6 +1798,10 @@ public static class AstralAlchemySceneBuilder
                 if (!game.IsSpellReady || !thirdOrb.IsAvailable) smokeFailure = "A third element replaced or consumed the prepared two-element spell";
             }
             if (game.selectionLabel == null || game.selectionLabel.text.Contains("待选择")) smokeFailure = "Selected two-element HUD did not show the prepared pair";
+            if (game.elementIcons == null || game.elementIcons.Length != 6 || game.elementIcons.Any(icon => icon == null))
+                smokeFailure = "One or more element HUD icons are missing";
+            if (game.recipeTokens == null || game.recipeTokens.Length < 2 || game.recipeTokens[0] == null || game.recipeTokens[1] == null || game.recipeTokens[0].sprite == null || game.recipeTokens[1].sprite == null)
+                smokeFailure = "Selected elements did not render as icons";
             CaptureRuntimePreview();
             var enemy = UnityEngine.Object.FindFirstObjectByType<AstralEnemy>();
             var ray = enemy != null ? new Ray(Camera.main.transform.position, enemy.transform.position - Camera.main.transform.position) : new Ray(Camera.main.transform.position, Camera.main.transform.forward);
@@ -1350,7 +1843,7 @@ public static class AstralAlchemySceneBuilder
         }
         if (smokeStep == 4 && EditorApplication.timeSinceStartup - smokeCoreDamageTime > .55d)
         {
-            var worldHealth = UnityEngine.Object.FindFirstObjectByType<StarCoreWorldHealthBar>();
+            var worldHealth = game.coreLabel != null ? game.coreLabel.GetComponentInParent<StarCoreWorldHealthBar>() : null;
             if (worldHealth == null || worldHealth.fill == null) smokeFailure = "World star-core health bar is not bound";
             else if (worldHealth.fill.fillAmount > smokeExpectedCoreFill + .04f) smokeFailure = "World star-core health bar did not visibly decrease after damage";
             game.EndGame(true);
@@ -1757,7 +2250,7 @@ public static class AstralAlchemySceneBuilder
         var camera = New("Main Camera", rig.transform);
         camera.tag = "MainCamera";
         camera.transform.localPosition = new Vector3(0f, 3.65f, 0f);
-        camera.transform.localRotation = Quaternion.Euler(10f, 0f, 0f);
+        camera.transform.localRotation = Quaternion.identity;
         var cam = camera.AddComponent<Camera>(); cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = new Color(.012f, .008f, .045f); cam.nearClipPlane = .05f; cam.farClipPlane = 120f; cam.fieldOfView = 48f;
         camera.AddComponent<AudioListener>(); camera.AddComponent<UnityEngine.SpatialTracking.TrackedPoseDriver>();
         desktop.playerCamera = cam;
@@ -1785,22 +2278,25 @@ public static class AstralAlchemySceneBuilder
         canvas.worldCamera = Camera.main;
         canvasGo.transform.localPosition = new Vector3(0f, 3.0f, .4f); canvasGo.transform.localRotation = Quaternion.identity; canvasGo.transform.localScale = Vector3.one * .005f;
         var rt = canvasGo.GetComponent<RectTransform>(); rt.sizeDelta = new Vector2(1280f, 720f);
-        var panelArt = LoadUiSprite();
-        var leftPanel = Panel("左侧配方仪", canvasGo.transform, new Vector2(315f, 245f), new Vector2(-450f, 95f), Color.white, panelArt);
-        var rightPanel = Panel("右侧星核仪", canvasGo.transform, new Vector2(315f, 225f), new Vector2(450f, 100f), Color.white, panelArt);
-        var statusPanel = Panel("中央状态提示", canvasGo.transform, new Vector2(590f, 58f), new Vector2(0f, 270f), new Color(.025f, .018f, .09f, .86f), null);
-        var resultPanel = Panel("胜败结算面板", canvasGo.transform, new Vector2(650f, 420f), Vector2.zero, Color.white, panelArt);
-        var recipeTitle = Text("本轮星图配方", leftPanel.transform, new Vector2(280f, 42f), new Vector2(0f, 86f), 28, StarGold, TextAnchor.MiddleCenter);
-        var recipeDetail = Text("炎 + 炎 → 赤阳爆", leftPanel.transform, new Vector2(285f, 72f), new Vector2(0f, 18f), 23, Color.white, TextAnchor.MiddleCenter);
-        var tokenA = ImageCircle("元素令牌A", leftPanel.transform, new Vector2(-56f, -72f), 46f, ElementPalette.ColorOf(ElementKind.Fire));
-        var tokenB = ImageCircle("元素令牌B", leftPanel.transform, new Vector2(56f, -72f), 46f, ElementPalette.ColorOf(ElementKind.Storm));
-        Text("+", leftPanel.transform, new Vector2(60f, 42f), new Vector2(0f, -72f), 29, StarGold, TextAnchor.MiddleCenter);
-        var core = Text("星核完整度 100%", rightPanel.transform, new Vector2(290f, 38f), new Vector2(0f, 78f), 24, Color.white, TextAnchor.MiddleCenter);
-        var coreFill = Bar("星核血条", rightPanel.transform, new Vector2(260f, 20f), new Vector2(0f, 43f), new Color(.95f, .24f, .18f), out _);
-        var timer = Text("星潮倒计时 90 s", rightPanel.transform, new Vector2(290f, 38f), new Vector2(0f, -5f), 23, new Color(.8f, .88f, 1f), TextAnchor.MiddleCenter);
-        var tideFill = Bar("星潮能量", rightPanel.transform, new Vector2(260f, 17f), new Vector2(0f, -42f), Cyan, out _);
-        var score = Text("星尘分数 0000", rightPanel.transform, new Vector2(290f, 38f), new Vector2(0f, -88f), 22, StarGold, TextAnchor.MiddleCenter);
-        var status = Text("选择元素 · 炼制 · 释放", statusPanel.transform, new Vector2(680f, 50f), Vector2.zero, 22, new Color(.82f, .9f, 1f), TextAnchor.MiddleCenter);
+        var sideArt = LoadUiSprite(SideUiTexturePath);
+        var leftPanel = Panel("左侧配方仪", canvasGo.transform, new Vector2(340f, 340f), new Vector2(-450f, 72f), Color.white, sideArt);
+        var rightPanel = Panel("右侧星核仪", canvasGo.transform, new Vector2(340f, 340f), new Vector2(450f, 72f), Color.white, sideArt);
+        var healthPanel = Panel("星核血量条_顶部", canvasGo.transform, new Vector2(640f, 119f), new Vector2(0f, 286f), Color.white, LoadUiSprite(StatusUiTexturePath));
+        var statusPanel = Panel("中央状态提示", canvasGo.transform, new Vector2(590f, 110f), new Vector2(0f, -270f), Color.white, LoadUiSprite(StatusUiTexturePath));
+        var resultPanel = Panel("胜败结算面板", canvasGo.transform, new Vector2(760f, 263f), Vector2.zero, Color.white, LoadUiSprite(TitleUiTexturePath));
+        var recipeTitle = Text("本轮星图配方", leftPanel.transform, new Vector2(320f, 42f), new Vector2(0f, 119f), 25, StarGold, TextAnchor.MiddleCenter);
+        var recipeDetail = Text("炎 + 炎 → 赤阳爆", leftPanel.transform, new Vector2(318f, 102f), new Vector2(0f, 50f), 22, Color.white, TextAnchor.MiddleCenter);
+        var selected = Text("已选元素  待选择  +  待选择", leftPanel.transform, new Vector2(320f, 48f), new Vector2(0f, -41f), 19, new Color(.88f, .92f, 1f), TextAnchor.MiddleCenter);
+        selected.name = "已选元素文字";
+        var tokenA = ImageCircle("元素令牌A", leftPanel.transform, new Vector2(-62f, -109f), 52f, ElementPalette.ColorOf(ElementKind.Fire));
+        var tokenB = ImageCircle("元素令牌B", leftPanel.transform, new Vector2(62f, -109f), 52f, ElementPalette.ColorOf(ElementKind.Storm));
+        Text("+", leftPanel.transform, new Vector2(54f, 46f), new Vector2(0f, -109f), 30, StarGold, TextAnchor.MiddleCenter);
+        var core = Text("星核完整度", healthPanel.transform, new Vector2(560f, 30f), new Vector2(0f, 28f), 23, Color.white, TextAnchor.MiddleCenter);
+        var coreFill = Bar("星核血条", healthPanel.transform, new Vector2(540f, 25f), new Vector2(0f, -16f), new Color(.95f, .24f, .18f), out _);
+        var timer = Text("星潮倒计时 90 s", rightPanel.transform, new Vector2(315f, 40f), new Vector2(0f, 22f), 22, new Color(.8f, .88f, 1f), TextAnchor.MiddleCenter);
+        var tideFill = Bar("星潮能量", rightPanel.transform, new Vector2(300f, 17f), new Vector2(0f, -13f), Cyan, out _);
+        var score = Text("星尘分数 0000", rightPanel.transform, new Vector2(320f, 54f), new Vector2(0f, -72f), 20, StarGold, TextAnchor.MiddleCenter);
+        var status = Text("选择元素 · 炼制 · 释放", statusPanel.transform, new Vector2(590f, 54f), Vector2.zero, 20, new Color(.82f, .9f, 1f), TextAnchor.MiddleCenter);
         resultPanel.SetActive(false);
         var resultTitle = Text("星核守住了！", resultPanel.transform, new Vector2(550f, 70f), new Vector2(0f, 105f), 48, StarGold, TextAnchor.MiddleCenter);
         var resultStats = Text("本局星尘分数", resultPanel.transform, new Vector2(520f, 180f), new Vector2(0f, -20f), 28, Color.white, TextAnchor.MiddleCenter);
@@ -1825,7 +2321,7 @@ public static class AstralAlchemySceneBuilder
 
     private static void BuildSettings(Scene scene)
     {
-        PlayerSettings.productName = "元素融合";
+        PlayerSettings.productName = "星界炼金术";
         PlayerSettings.companyName = "Astral Workshop";
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "com.astralworkshop.alchemyxr");
         PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
@@ -1839,6 +2335,9 @@ public static class AstralAlchemySceneBuilder
         PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, new[] { GraphicsDeviceType.OpenGLES3 });
         QualitySettings.vSyncCount = 0;
         QualitySettings.antiAliasing = 4;
+        QualitySettings.shadowDistance = 34f;
+        QualitySettings.pixelLightCount = 2;
+        Application.targetFrameRate = 72;
         EnsureBuildScenes();
         ConfigurePicoLoader();
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX);
@@ -1982,8 +2481,7 @@ public static class AstralAlchemySceneBuilder
 
     private static GameObject Panel(string name, Transform parent, Vector2 size, Vector2 position, Color color, Sprite sprite)
     {
-        var go = NewUi(name, parent); var rect = go.GetComponent<RectTransform>(); rect.sizeDelta = size; rect.anchoredPosition = position; var image = go.AddComponent<Image>(); image.color = color; if (sprite != null) { image.sprite = sprite; image.type = Image.Type.Sliced; }
-        var outline = go.AddComponent<Outline>(); outline.effectColor = new Color(.72f, .36f, .14f, .95f); outline.effectDistance = new Vector2(2f, -2f);
+        var go = NewUi(name, parent); var rect = go.GetComponent<RectTransform>(); rect.sizeDelta = size; rect.anchoredPosition = position; var image = go.AddComponent<Image>(); image.color = color; if (sprite != null) { image.sprite = sprite; image.type = Image.Type.Simple; image.preserveAspect = true; }
         return go;
     }
 
@@ -1998,7 +2496,40 @@ public static class AstralAlchemySceneBuilder
 
     private static Image ImageCircle(string name, Transform parent, Vector2 position, float size, Color color)
     {
-        var go = NewUi(name, parent); var rect = go.GetComponent<RectTransform>(); rect.sizeDelta = Vector2.one * size; rect.anchoredPosition = position; var image = go.AddComponent<Image>(); image.color = color; return image;
+        var go = NewUi(name, parent); var rect = go.GetComponent<RectTransform>(); rect.sizeDelta = Vector2.one * size; rect.anchoredPosition = position; var image = go.AddComponent<Image>(); image.color = Color.white;
+        var iconName = name.Contains("令牌A") ? "Fire" : name.Contains("令牌B") ? "Frost" : "Star";
+        var iconPath = IconFolder + "/" + iconName + ".png";
+        var importer = AssetImporter.GetAtPath(iconPath) as TextureImporter;
+        if (importer != null && importer.textureType != TextureImporterType.Sprite) { importer.textureType = TextureImporterType.Sprite; importer.spriteImportMode = SpriteImportMode.Single; importer.SaveAndReimport(); }
+        image.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(iconPath);
+        image.preserveAspect = true;
+        return image;
+    }
+
+    private static Sprite[] LoadElementIcons()
+    {
+        var icons = new Sprite[6];
+        foreach (var iconName in new[] { "Fire", "Frost", "Storm", "Bloom", "Void", "Star" })
+        {
+            var path = IconFolder + "/" + iconName + ".png";
+            var importer = AssetImporter.GetAtPath(path) as TextureImporter;
+            if (importer != null && (importer.textureType != TextureImporterType.Sprite || importer.mipmapEnabled))
+            {
+                importer.textureType = TextureImporterType.Sprite;
+                importer.spriteImportMode = SpriteImportMode.Single;
+                importer.mipmapEnabled = false;
+                importer.alphaIsTransparency = true;
+                importer.textureCompression = TextureImporterCompression.CompressedHQ;
+                importer.SaveAndReimport();
+            }
+        }
+        icons[(int)ElementKind.Fire] = AssetDatabase.LoadAssetAtPath<Sprite>(IconFolder + "/Fire.png");
+        icons[(int)ElementKind.Frost] = AssetDatabase.LoadAssetAtPath<Sprite>(IconFolder + "/Frost.png");
+        icons[(int)ElementKind.Storm] = AssetDatabase.LoadAssetAtPath<Sprite>(IconFolder + "/Storm.png");
+        icons[(int)ElementKind.Bloom] = AssetDatabase.LoadAssetAtPath<Sprite>(IconFolder + "/Bloom.png");
+        icons[(int)ElementKind.Void] = AssetDatabase.LoadAssetAtPath<Sprite>(IconFolder + "/Void.png");
+        icons[(int)ElementKind.Star] = AssetDatabase.LoadAssetAtPath<Sprite>(IconFolder + "/Star.png");
+        return icons;
     }
 
     private static Image Bar(string name, Transform parent, Vector2 size, Vector2 position, Color color, out Image background)
@@ -2016,11 +2547,26 @@ public static class AstralAlchemySceneBuilder
         return go;
     }
 
-    private static Sprite LoadUiSprite()
+    private static Sprite LoadUiSprite(string path)
     {
-        var importer = AssetImporter.GetAtPath(UiTexturePath) as TextureImporter;
-        if (importer != null && importer.textureType != TextureImporterType.Sprite) { importer.textureType = TextureImporterType.Sprite; importer.spriteImportMode = SpriteImportMode.Single; importer.SaveAndReimport(); }
-        return AssetDatabase.LoadAssetAtPath<Sprite>(UiTexturePath);
+        var importer = AssetImporter.GetAtPath(path) as TextureImporter;
+        var needsInputAlpha = path == TitleUiTexturePath;
+        if (importer != null && (importer.textureType != TextureImporterType.Sprite || importer.textureCompression != TextureImporterCompression.CompressedHQ || importer.mipmapEnabled ||
+            (needsInputAlpha && importer.alphaSource != TextureImporterAlphaSource.FromInput)))
+        {
+            importer.textureType = TextureImporterType.Sprite;
+            importer.spriteImportMode = SpriteImportMode.Single;
+            importer.textureCompression = TextureImporterCompression.CompressedHQ;
+            importer.maxTextureSize = 1024;
+            importer.mipmapEnabled = false;
+            if (needsInputAlpha)
+            {
+                importer.alphaSource = TextureImporterAlphaSource.FromInput;
+                importer.alphaIsTransparency = true;
+            }
+            importer.SaveAndReimport();
+        }
+        return AssetDatabase.LoadAssetAtPath<Sprite>(path);
     }
 
     private static Font GetChineseFont()

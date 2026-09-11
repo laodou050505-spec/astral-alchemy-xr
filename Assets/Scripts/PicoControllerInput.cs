@@ -32,6 +32,13 @@ namespace AstralAlchemy
             UpdatePose(rightDevice, rightController);
             var leftPressed = ReadTrigger(leftDevice);
             var rightPressed = ReadTrigger(rightDevice);
+            if (game != null && game.IsEnded && ((leftPressed && !leftWasPressed) || (rightPressed && !rightWasPressed)))
+            {
+                game.Restart();
+                leftWasPressed = leftPressed;
+                rightWasPressed = rightPressed;
+                return;
+            }
             UpdateElementFocus();
             if (leftPressed && !leftWasPressed) SelectElement();
             if (rightPressed && !rightWasPressed) rightChargeStart = Time.time;

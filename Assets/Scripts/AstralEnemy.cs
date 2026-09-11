@@ -36,6 +36,7 @@ namespace AstralAlchemy
         private Vector3 independentFxBasePosition;
         private Quaternion independentFxBaseRotation;
         private float independentFxPhase;
+        private bool tutorialHold;
 
         public bool IsShielded => shielded;
 
@@ -69,6 +70,11 @@ namespace AstralAlchemy
         {
             if (!Application.isPlaying) return;
             if (dead || target == null) return;
+            if (tutorialHold)
+            {
+                AnimatePresentationOnly();
+                return;
+            }
             if (frozenTimer > 0f)
             {
                 frozenTimer -= Time.deltaTime;
@@ -111,6 +117,11 @@ namespace AstralAlchemy
                     Destroy(gameObject);
                 }
             }
+            AnimatePresentationOnly();
+        }
+
+        private void AnimatePresentationOnly()
+        {
             if (visual != null)
             {
                 visual.localPosition = new Vector3(0f, Mathf.Abs(Mathf.Sin(Time.time * 4.5f + transform.position.x)) * .08f, 0f);
@@ -130,6 +141,8 @@ namespace AstralAlchemy
             }
             if (footRing != null) footRing.Rotate(0f, 18f * Time.deltaTime, 0f, Space.Self);
         }
+
+        public void SetTutorialHold(bool value) => tutorialHold = value;
 
         private void FaceTargetHorizontally(bool immediate)
         {

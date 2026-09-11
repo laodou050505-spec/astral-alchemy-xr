@@ -13,6 +13,7 @@ namespace AstralAlchemy
         [Range(0f, 1f)] public float scalePulse = .22f;
         private MaterialPropertyBlock block;
         private Vector3 homeScale;
+        private float nextVisualUpdate;
 
         private void Awake()
         {
@@ -31,6 +32,8 @@ namespace AstralAlchemy
         private void Update()
         {
             if (starRenderer == null) return;
+            if (Time.unscaledTime < nextVisualUpdate) return;
+            nextVisualUpdate = Time.unscaledTime + (1f / 30f);
             block ??= new MaterialPropertyBlock();
             var wave = Mathf.Pow(Mathf.InverseLerp(-1f, 1f, Mathf.Sin(Time.time * speed + phase)), 2.1f);
             starRenderer.GetPropertyBlock(block);
