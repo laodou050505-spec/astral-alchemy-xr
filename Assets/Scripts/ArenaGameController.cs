@@ -182,7 +182,7 @@ namespace AstralAlchemy
             preparedSpellName = recipe.name;
             cauldron.Correct(first, second);
             tide = Mathf.Min(100f, tide + 16f);
-            SetStatus(“Brew complete! Aim right · [Hold Trigger] to charge · [Release] to cast “” + preparedSpellName + “””, new Color(1f, .76f, .21f));
+            SetStatus("Brew complete! Aim right · [Hold Trigger] to charge · [Release] to cast “" + preparedSpellName + "”", new Color(1f, .76f, .21f));
             if (positiveAudio != null) positiveAudio.Play();
             // 炼制成功 → 双手中强度震动，提醒立即蓄力施法
             picoInput?.TriggerHaptic(true, true, 0.44f, 0.075f);
