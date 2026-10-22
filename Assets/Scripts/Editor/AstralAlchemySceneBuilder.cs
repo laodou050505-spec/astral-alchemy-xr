@@ -2692,8 +2692,9 @@ public static class AstralAlchemySceneBuilder
             imp.spriteImportMode = SpriteImportMode.Single;
             imp.spriteBorder = new Vector4(80f, 50f, 80f, 50f); // 9-slice borders
             imp.textureCompression = TextureImporterCompression.CompressedHQ;
-            imp.maxTextureSize = 1024;
+            imp.maxTextureSize = 2048; // 1376x768 → keep full res for crisp frame
             imp.mipmapEnabled = false;
+            imp.alphaSource = TextureImporterAlphaSource.FromInput;
             imp.alphaIsTransparency = true;
             imp.SaveAndReimport();
         }
