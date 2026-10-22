@@ -1,0 +1,12 @@
+# Unity 中间产物
+Library/
+Temp/
+Logs/
+build/
+Builds/
+obj/
+UserSettings/
+.utmp/
+
+# macOS
+.DS_Store
