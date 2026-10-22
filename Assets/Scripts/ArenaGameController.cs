@@ -46,11 +46,15 @@ namespace AstralAlchemy
         public AudioSource music;
         public AudioSource spellAudio;
         public AudioSource positiveAudio;
+        public AudioSource negativeAudio;
 
         public bool IsEnded { get; private set; }
         public ElementKind CurrentRecipeA => currentRecipeA;
         public ElementKind CurrentRecipeB => currentRecipeB;
         public bool IsSpellReady => spellReady;
+
+        // 震动反馈引用，由 Start() 自动查找。可留空（无 XR 设备时不报错）。
+        private PicoControllerInput picoInput;
         private ElementKind first;
         private ElementKind second;
         private bool hasFirst;
@@ -83,6 +87,7 @@ namespace AstralAlchemy
             spawnCooldown = initialEnemyDelay;
             if (resultPanel != null) resultPanel.SetActive(false);
             if (music != null) music.Play();
+            picoInput = FindFirstObjectByType<PicoControllerInput>();
             var tutorialCompleted = PlayerPrefs.GetInt(TutorialCompletedKey, 0) == 1;
             if (tutorialMode && !tutorialCompleted) BeginTutorial();
             else ChooseRecipe();
@@ -138,6 +143,8 @@ namespace AstralAlchemy
                 return;
             }
             orb.PulseToCauldron(cauldron.transform);
+            // 元素被坩埚接受 → 左手短促震动确认
+            picoInput?.TriggerHaptic(true, false, 0.28f, 0.048f);
             if (!hasFirst)
             {
                 first = orb.element;
@@ -175,8 +182,10 @@ namespace AstralAlchemy
             preparedSpellName = recipe.name;
             cauldron.Correct(first, second);
             tide = Mathf.Min(100f, tide + 16f);
-            SetStatus("Brew complete! Aim right · [Hold Trigger] to charge · [Release] to cast “" + preparedSpellName + "”", new Color(1f, .76f, .21f));
+            SetStatus(“Brew complete! Aim right · [Hold Trigger] to charge · [Release] to cast “” + preparedSpellName + “””, new Color(1f, .76f, .21f));
             if (positiveAudio != null) positiveAudio.Play();
+            // 炼制成功 → 双手中强度震动，提醒立即蓄力施法
+            picoInput?.TriggerHaptic(true, true, 0.44f, 0.075f);
             if (tutorialStage == TutorialStage.SelectSecond)
             {
                 tutorialStage = TutorialStage.CastSpell;
@@ -196,7 +205,10 @@ namespace AstralAlchemy
             var miscastA = first;
             var miscastB = second;
             cauldron.Rampage(miscastA, miscastB);
-            SetStatus("Miscast: “" + recipe.name + "” — " + recipe.role, recipe.color);
+            SetStatus(“Miscast: “” + recipe.name + “” — “ + recipe.role, recipe.color);
+            if (negativeAudio != null) negativeAudio.Play();
+            // 误配 → 双手强震动，比炼制成功更重，提醒玩家注意后果
+            picoInput?.TriggerHaptic(true, true, 0.65f, 0.11f);
             StartCoroutine(ApplyMiscastEffect(recipe));
         }
 
@@ -267,8 +279,9 @@ namespace AstralAlchemy
             var perfect = charge >= .72f && charge <= 1.16f;
             var chargeMultiplier = perfect ? 1.9f : Mathf.Lerp(.7f, 1.45f, Mathf.Clamp01(charge / 1.55f));
             var hitSomething = false;
+            var isWeaknessHit = false;
             var impactPoint = ray.origin + ray.direction * 5f;
-            var castMessage = "“" + preparedSpellName + "” cast — brew again to prepare the next shot";
+            var castMessage = “”” + preparedSpellName + “” cast — brew again to prepare the next shot”;
             var castColor = ElementPalette.ColorOf(preparedSpellElement);
             if (Physics.Raycast(ray, out var hit, 60f))
             {
@@ -278,10 +291,11 @@ namespace AstralAlchemy
                     impactPoint = enemy.transform.position + Vector3.up * 1.05f;
                     enemy.Hit(preparedSpellElement, (preparedRecipe.damage + tide * .18f) * chargeMultiplier);
                     hitSomething = true;
-                    castMessage = preparedSpellElement == enemy.weakness
-                        ? "Weakness hit! " + ElementPalette.DisplayName(enemy.weakness) + " deals amplified damage"
-                        : (enemy.IsShielded ? "Shield blocked — damage reduced" : "Hit! Enemy takes damage");
-                    castColor = preparedSpellElement == enemy.weakness ? new Color(1f, .76f, .2f) : new Color(.78f, .88f, 1f);
+                    isWeaknessHit = preparedSpellElement == enemy.weakness;
+                    castMessage = isWeaknessHit
+                        ? “Weakness hit! “ + ElementPalette.DisplayName(enemy.weakness) + “ deals amplified damage”
+                        : (enemy.IsShielded ? “Shield blocked — damage reduced” : “Hit! Enemy takes damage”);
+                    castColor = isWeaknessHit ? new Color(1f, .76f, .2f) : new Color(.78f, .88f, 1f);
                 }
             }
             if (!hitSomething)
@@ -310,9 +324,29 @@ namespace AstralAlchemy
             {
                 score += 150;
                 tide = Mathf.Min(100f, tide + 16f);
-                castMessage = "Perfect release! “" + preparedSpellName + "” damage boosted";
+                castMessage = “Perfect release! “” + preparedSpellName + “” damage boosted”;
                 castColor = new Color(1f, .86f, .38f);
             }
+
+            // ── 命中震动反馈（右手，强度分三档）──
+            // 弱点命中：强震 + 若完美释放则左手同步震动（双重奖励感）
+            // 普通命中：中等震动
+            // 未命中：极轻微震动提示手柄已响应
+            if (isWeaknessHit)
+            {
+                picoInput?.TriggerHaptic(false, true, 0.72f, 0.11f);
+                if (perfect) picoInput?.TriggerHaptic(true, false, 0.52f, 0.09f);
+            }
+            else if (hitSomething)
+            {
+                picoInput?.TriggerHaptic(false, true, 0.42f, 0.07f);
+                if (perfect) picoInput?.TriggerHaptic(true, false, 0.34f, 0.07f);
+            }
+            else
+            {
+                picoInput?.TriggerHaptic(false, true, 0.16f, 0.038f);
+            }
+
             SetStatus(castMessage, castColor);
             if (tutorialStage == TutorialStage.CastSpell)
             {
@@ -560,6 +594,63 @@ namespace AstralAlchemy
                 : "The alchemy barrier was breached\nEnemies Defeated  " + defeated + "\n[Pull Any Trigger] · Try Again";
             SetStatus(victory ? "Victory: The Astral Alchemy Forge holds steady" : "Defeat: Next round — focus on correct recipes first", victory ? new Color(1f, .76f, .2f) : new Color(1f, .25f, .32f));
             if (music != null) music.Stop();
+
+            // ── 胜负演出 ──
+            if (victory)
+            {
+                // 胜利：双手中强震动 + 三段金色粒子爆发
+                picoInput?.TriggerHaptic(true, true, 0.62f, 0.18f);
+                StartCoroutine(VictoryBurst());
+            }
+            else
+            {
+                // 失败：双手重震动 + 核心光源红色闪烁
+                picoInput?.TriggerHaptic(true, true, 0.82f, 0.16f);
+                CameraShaker.Shake(0.035f, 0.30f);
+                StartCoroutine(DefeatCoreFlash());
+            }
+        }
+
+        /// <summary>胜利时三段金色粒子爆发。</summary>
+        private System.Collections.IEnumerator VictoryBurst()
+        {
+            if (castBurst == null) yield break;
+            for (var i = 0; i < 3; i++)
+            {
+                castBurst.transform.position = new Vector3(0f, 1.6f, 2f);
+                var main = castBurst.main;
+                main.startColor = new Color(1f, .88f, .32f);
+                main.startSize = new ParticleSystem.MinMaxCurve(.18f, .46f);
+                var emission = castBurst.emission;
+                emission.SetBursts(new[] { new ParticleSystem.Burst(0f, (short)90) });
+                castBurst.Play(true);
+                yield return new WaitForSeconds(0.45f);
+            }
+        }
+
+        /// <summary>失败时核心灯光红色双闪。</summary>
+        private System.Collections.IEnumerator DefeatCoreFlash()
+        {
+            if (starCore == null || starCore.coreLight == null) yield break;
+            for (var i = 0; i < 2; i++)
+            {
+                starCore.coreLight.color = new Color(1f, .08f, .04f);
+                starCore.coreLight.intensity = 3.2f;
+                yield return new WaitForSeconds(0.14f);
+                starCore.coreLight.color = new Color(.9f, .03f, .08f);
+                starCore.coreLight.intensity = 0.45f;
+                yield return new WaitForSeconds(0.14f);
+            }
+        }
+
+        /// <summary>
+        /// 星核受伤通知：由 StarCoreController.Damage() 调用，触发震动和相机震动。
+        /// </summary>
+        public void NotifyCoreDamaged(float amount)
+        {
+            var amp = Mathf.Clamp(0.30f + amount * 0.020f, 0.30f, 0.85f);
+            picoInput?.TriggerHaptic(true, true, amp, 0.12f);
+            CameraShaker.Shake(Mathf.Clamp(0.012f + amount * 0.0012f, 0.012f, 0.038f), 0.22f);
         }
 
         public void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

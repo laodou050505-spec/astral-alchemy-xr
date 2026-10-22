@@ -37,6 +37,8 @@ namespace AstralAlchemy
         private Quaternion independentFxBaseRotation;
         private float independentFxPhase;
         private bool tutorialHold;
+        // 增益脉冲协程句柄——运行期间持续修改 tintRenderers 颜色以区分增益状态
+        private Coroutine buffPulse;
 
         public bool IsShielded => shielded;
 
@@ -170,11 +172,49 @@ namespace AstralAlchemy
             {
                 var main = hitBurst.main;
                 main.startColor = ElementPalette.ColorOf(spell);
-                main.startSize = weaknessHit ? .19f : .12f;
+                // 弱点命中：粒子更大、更多，强调击打感
+                main.startSize = new ParticleSystem.MinMaxCurve(
+                    weaknessHit ? .14f : .08f,
+                    weaknessHit ? .28f : .16f);
+                if (weaknessHit)
+                {
+                    var emission = hitBurst.emission;
+                    emission.SetBursts(new[] { new ParticleSystem.Burst(0f, (short)32) });
+                }
                 hitBurst.transform.position = transform.position + Vector3.up * 1f;
                 hitBurst.Play(true);
             }
-            if (visual != null) StartCoroutine(HitPunch(weaknessHit ? 1.16f : 1.08f));
+            if (visual != null)
+            {
+                if (weaknessHit && Application.isPlaying)
+                    StartCoroutine(WeaknessFlash());
+                StartCoroutine(HitPunch(weaknessHit ? 1.22f : 1.08f));
+            }
+        }
+
+        /// <summary>弱点命中瞬间：全身闪白，再还原元素色，增强视觉冲击感。</summary>
+        private System.Collections.IEnumerator WeaknessFlash()
+        {
+            // 闪白
+            if (tintRenderers != null)
+            {
+                foreach (var r in tintRenderers)
+                {
+                    if (r == null) continue;
+                    var block = new MaterialPropertyBlock();
+                    r.GetPropertyBlock(block);
+                    block.SetColor("_EmissionColor", Color.white * 9f);
+                    r.SetPropertyBlock(block);
+                }
+            }
+            if (weaknessLight != null)
+            {
+                weaknessLight.color = Color.white;
+                weaknessLight.intensity = 2.4f;
+            }
+            yield return new WaitForSeconds(0.055f);
+            // 还原元素色（buff 脉冲或普通色均可接管）
+            ApplyWeaknessColor();
         }
 
         private System.Collections.IEnumerator HitPunch(float strength)
@@ -219,6 +259,61 @@ namespace AstralAlchemy
                 case BuffType.Overcharge: moveSpeed *= 1.55f; touchDamage *= 1.18f; ApplyTint(new Color(1f, .78f, .2f), 2.5f); break;
                 case BuffType.Siphon: moveSpeed *= 1.08f; touchDamage *= 1.12f; ApplyTint(new Color(1f, .38f, .78f), 2.3f); break;
             }
+            // 启动持续脉冲效果，让不同增益在外观上明确可辨认
+            if (Application.isPlaying && type != BuffType.None)
+            {
+                if (buffPulse != null) StopCoroutine(buffPulse);
+                buffPulse = StartCoroutine(PulseBuffEffect(type));
+            }
+        }
+
+        /// <summary>
+        /// 增益可读性脉冲——在增益存续期间持续闪烁，
+        /// 每种增益都有独特的颜色节奏：
+        ///   Frenzy(狂暴)：快速红橙闪烁
+        ///   Ward(护盾)  ：蓝紫慢脉冲
+        ///   Overcharge  ：黄白亮闪
+        ///   Siphon      ：粉紫引流波动
+        /// </summary>
+        private System.Collections.IEnumerator PulseBuffEffect(BuffType type)
+        {
+            while (true)
+            {
+                Color pulseColor;
+                float intensity;
+                float speed;
+                switch (type)
+                {
+                    case BuffType.Frenzy:
+                        speed = 6.2f;
+                        var ft = (Mathf.Sin(Time.time * speed) + 1f) * 0.5f;
+                        pulseColor = Color.Lerp(new Color(1f, .18f, .04f), new Color(1f, .72f, .18f), ft);
+                        intensity = Mathf.Lerp(2.0f, 4.4f, ft);
+                        break;
+                    case BuffType.Ward:
+                        speed = 2.8f;
+                        var wt = (Mathf.Sin(Time.time * speed) + 1f) * 0.5f;
+                        pulseColor = Color.Lerp(new Color(.38f, .12f, .92f), new Color(.72f, .48f, 1f), wt);
+                        intensity = Mathf.Lerp(1.6f, 3.2f, wt);
+                        break;
+                    case BuffType.Overcharge:
+                        speed = 4.8f;
+                        var ot = (Mathf.Sin(Time.time * speed) + 1f) * 0.5f;
+                        pulseColor = Color.Lerp(new Color(1f, .72f, .14f), new Color(1f, .98f, .82f), ot);
+                        intensity = Mathf.Lerp(2.2f, 5.0f, ot);
+                        break;
+                    case BuffType.Siphon:
+                        speed = 3.6f;
+                        var st = (Mathf.Sin(Time.time * speed) + 1f) * 0.5f;
+                        pulseColor = Color.Lerp(new Color(1f, .28f, .68f), new Color(1f, .72f, .9f), st);
+                        intensity = Mathf.Lerp(1.8f, 3.6f, st);
+                        break;
+                    default:
+                        yield break;
+                }
+                ApplyTint(pulseColor, intensity);
+                yield return null;
+            }
         }
 
         public void ConfigureType(EnemyType type)
@@ -247,6 +342,12 @@ namespace AstralAlchemy
             buffType = BuffType.None;
             moveSpeed = baseMoveSpeed;
             touchDamage = baseTouchDamage;
+            // 停止增益脉冲并还原元素色
+            if (Application.isPlaying && buffPulse != null)
+            {
+                StopCoroutine(buffPulse);
+                buffPulse = null;
+            }
             ApplyWeaknessColor();
         }
 

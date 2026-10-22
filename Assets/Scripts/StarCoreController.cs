@@ -11,9 +11,17 @@ namespace AstralAlchemy
         public Transform coreAnchor;
         public float Health { get; private set; }
 
+        private ArenaGameController gameController;
+
         private void Awake()
         {
             Health = maxHealth;
+        }
+
+        private void Start()
+        {
+            // 缓存 ArenaGameController 引用，避免每帧 FindFirstObjectByType 的开销。
+            gameController = FindFirstObjectByType<ArenaGameController>();
         }
 
         private void Update()
@@ -32,16 +40,27 @@ namespace AstralAlchemy
         {
             Health = Mathf.Max(0f, Health - amount);
             if (coreLight != null) coreLight.intensity = .45f + Health / maxHealth * 1.05f;
-            var game = FindFirstObjectByType<ArenaGameController>();
-            if (game != null) game.RefreshHud();
-            if (Health <= 0f && game != null) game.EndGame(false);
+
+            if (gameController == null) gameController = FindFirstObjectByType<ArenaGameController>();
+            if (gameController != null) gameController.RefreshHud();
+
+            // 受伤视觉反馈：相机轻震 + 控制器震动（通过 ArenaGameController 路由）
+            if (amount >= 3f)
+            {
+                CameraShaker.Shake(
+                    Mathf.Clamp(0.010f + amount * 0.0015f, 0.010f, 0.038f),
+                    0.20f);
+                gameController?.NotifyCoreDamaged(amount);
+            }
+
+            if (Health <= 0f && gameController != null) gameController.EndGame(false);
         }
 
         public void Heal(float amount)
         {
             Health = Mathf.Min(maxHealth, Health + amount);
-            var game = FindFirstObjectByType<ArenaGameController>();
-            if (game != null) game.RefreshHud();
+            if (gameController == null) gameController = FindFirstObjectByType<ArenaGameController>();
+            if (gameController != null) gameController.RefreshHud();
         }
     }
 }
