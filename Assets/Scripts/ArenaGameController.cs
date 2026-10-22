@@ -175,7 +175,7 @@ namespace AstralAlchemy
             preparedSpellName = recipe.name;
             cauldron.Correct(first, second);
             tide = Mathf.Min(100f, tide + 16f);
-            SetStatus(“Brew complete! Aim right · [Hold Trigger] to charge · [Release] to cast “” + preparedSpellName + “””, new Color(1f, .76f, .21f));
+            SetStatus("Brew complete! Aim right · [Hold Trigger] to charge · [Release] to cast “" + preparedSpellName + "”", new Color(1f, .76f, .21f));
             if (positiveAudio != null) positiveAudio.Play();
             if (tutorialStage == TutorialStage.SelectSecond)
             {
