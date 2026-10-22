@@ -1452,8 +1452,8 @@ public static class AstralAlchemySceneBuilder
             if (game.scoreLabel != null) game.scoreLabel.transform.parent.gameObject.SetActive(false);
             if (game.statusLabel != null) game.statusLabel.transform.parent.gameObject.SetActive(false);
             game.resultPanel.SetActive(true);
-            if (game.resultTitle != null) game.resultTitle.text = "星核已熄灭";
-            if (game.resultStats != null) game.resultStats.text = "敌人突破了炼金防线\n本局击退敌人  2\n按任一手柄扳机 · 再试一次";
+            if (game.resultTitle != null) game.resultTitle.text = "Star Core Fallen";
+            if (game.resultStats != null) game.resultStats.text = "Enemy breached the alchemy line\nEnemies repelled: 2\nPress any trigger · Try again";
             foreach (var canvas in UnityEngine.Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None))
                 if (canvas.renderMode == RenderMode.WorldSpace) canvas.worldCamera = Camera.main;
             var start = UnityEngine.Object.FindFirstObjectByType<DesignPlayerStart>();
@@ -2284,22 +2284,22 @@ public static class AstralAlchemySceneBuilder
         var healthPanel = Panel("星核血量条_顶部", canvasGo.transform, new Vector2(640f, 119f), new Vector2(0f, 286f), Color.white, LoadUiSprite(StatusUiTexturePath));
         var statusPanel = Panel("中央状态提示", canvasGo.transform, new Vector2(590f, 110f), new Vector2(0f, -270f), Color.white, LoadUiSprite(StatusUiTexturePath));
         var resultPanel = Panel("胜败结算面板", canvasGo.transform, new Vector2(760f, 263f), Vector2.zero, Color.white, LoadUiSprite(TitleUiTexturePath));
-        var recipeTitle = Text("本轮星图配方", leftPanel.transform, new Vector2(320f, 42f), new Vector2(0f, 119f), 25, StarGold, TextAnchor.MiddleCenter);
-        var recipeDetail = Text("炎 + 炎 → 赤阳爆", leftPanel.transform, new Vector2(318f, 102f), new Vector2(0f, 50f), 22, Color.white, TextAnchor.MiddleCenter);
-        var selected = Text("已选元素  待选择  +  待选择", leftPanel.transform, new Vector2(320f, 48f), new Vector2(0f, -41f), 19, new Color(.88f, .92f, 1f), TextAnchor.MiddleCenter);
+        var recipeTitle = Text("Target Recipe", leftPanel.transform, new Vector2(320f, 42f), new Vector2(0f, 119f), 25, StarGold, TextAnchor.MiddleCenter);
+        var recipeDetail = Text("Fire + Fire → Solar Burst", leftPanel.transform, new Vector2(318f, 102f), new Vector2(0f, 50f), 22, Color.white, TextAnchor.MiddleCenter);
+        var selected = Text("Selected  —  +  —", leftPanel.transform, new Vector2(320f, 48f), new Vector2(0f, -41f), 19, new Color(.88f, .92f, 1f), TextAnchor.MiddleCenter);
         selected.name = "SelectedElementLabel";
         var tokenA = ImageCircle("元素令牌A", leftPanel.transform, new Vector2(-62f, -109f), 52f, ElementPalette.ColorOf(ElementKind.Fire));
         var tokenB = ImageCircle("元素令牌B", leftPanel.transform, new Vector2(62f, -109f), 52f, ElementPalette.ColorOf(ElementKind.Storm));
         Text("+", leftPanel.transform, new Vector2(54f, 46f), new Vector2(0f, -109f), 30, StarGold, TextAnchor.MiddleCenter);
-        var core = Text("星核完整度", healthPanel.transform, new Vector2(560f, 30f), new Vector2(0f, 28f), 23, Color.white, TextAnchor.MiddleCenter);
+        var core = Text("Star Core", healthPanel.transform, new Vector2(560f, 30f), new Vector2(0f, 28f), 23, Color.white, TextAnchor.MiddleCenter);
         var coreFill = Bar("星核血条", healthPanel.transform, new Vector2(540f, 25f), new Vector2(0f, -16f), new Color(.95f, .24f, .18f), out _);
-        var timer = Text("星潮倒计时 90 s", rightPanel.transform, new Vector2(315f, 40f), new Vector2(0f, 22f), 22, new Color(.8f, .88f, 1f), TextAnchor.MiddleCenter);
+        var timer = Text("Tide Countdown 90 s", rightPanel.transform, new Vector2(315f, 40f), new Vector2(0f, 22f), 22, new Color(.8f, .88f, 1f), TextAnchor.MiddleCenter);
         var tideFill = Bar("星潮能量", rightPanel.transform, new Vector2(300f, 17f), new Vector2(0f, -13f), Cyan, out _);
-        var score = Text("星尘分数 0000", rightPanel.transform, new Vector2(320f, 54f), new Vector2(0f, -72f), 20, StarGold, TextAnchor.MiddleCenter);
-        var status = Text("选择元素 · 炼制 · 释放", statusPanel.transform, new Vector2(590f, 54f), Vector2.zero, 20, new Color(.82f, .9f, 1f), TextAnchor.MiddleCenter);
+        var score = Text("Score 0000", rightPanel.transform, new Vector2(320f, 54f), new Vector2(0f, -72f), 20, StarGold, TextAnchor.MiddleCenter);
+        var status = Text("Select · Brew · Release", statusPanel.transform, new Vector2(590f, 54f), Vector2.zero, 20, new Color(.82f, .9f, 1f), TextAnchor.MiddleCenter);
         resultPanel.SetActive(false);
-        var resultTitle = Text("星核守住了！", resultPanel.transform, new Vector2(550f, 70f), new Vector2(0f, 105f), 48, StarGold, TextAnchor.MiddleCenter);
-        var resultStats = Text("本局星尘分数", resultPanel.transform, new Vector2(520f, 180f), new Vector2(0f, -20f), 28, Color.white, TextAnchor.MiddleCenter);
+        var resultTitle = Text("Star Core Defended!", resultPanel.transform, new Vector2(550f, 70f), new Vector2(0f, 105f), 48, StarGold, TextAnchor.MiddleCenter);
+        var resultStats = Text("Wave Score", resultPanel.transform, new Vector2(520f, 180f), new Vector2(0f, -20f), 28, Color.white, TextAnchor.MiddleCenter);
         return new HudRefs { recipeTitle = recipeTitle, recipeDetail = recipeDetail, score = score, core = core, timer = timer, status = status, tokens = new[] { tokenA, tokenB }, coreFill = coreFill, tideFill = tideFill, resultPanel = resultPanel, resultTitle = resultTitle, resultStats = resultStats, crosshair = null };
     }
 
@@ -2321,7 +2321,7 @@ public static class AstralAlchemySceneBuilder
 
     private static void BuildSettings(Scene scene)
     {
-        PlayerSettings.productName = "星界炼金术";
+        PlayerSettings.productName = "Astral Alchemy XR";
         PlayerSettings.companyName = "Astral Workshop";
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, "com.astralworkshop.alchemyxr");
         PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);

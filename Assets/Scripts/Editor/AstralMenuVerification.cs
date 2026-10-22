@@ -80,7 +80,7 @@ public static class AstralMenuVerification
             if (phase == 3 && SceneManager.GetActiveScene().name == "AstralAlchemyArena")
             {
                 var game = UnityEngine.Object.FindFirstObjectByType<ArenaGameController>();
-                Require(game != null && game.statusLabel.text.Contains("教学 1/3"), "START did not enter tutorial");
+                Require(game != null && game.statusLabel.text.Contains("Tutorial 1/3"), "START did not enter tutorial");
                 Capture("HUD_Tutorial");
                 var orbs = UnityEngine.Object.FindObjectsByType<ElementOrb>(FindObjectsSortMode.None);
                 game.ReceiveElement(orbs.First(o => o.element == ElementKind.Fire && o.IsAvailable));
