@@ -175,7 +175,7 @@ namespace AstralAlchemy
             preparedSpellName = recipe.name;
             cauldron.Correct(first, second);
             tide = Mathf.Min(100f, tide + 16f);
-            SetStatus("Brew success! Aim right · [Hold Trigger] to charge · [Release] to cast “" + preparedSpellName + "”", new Color(1f, .76f, .21f));
+            SetStatus(“Brew complete! Aim right · [Hold Trigger] to charge · [Release] to cast “” + preparedSpellName + “””, new Color(1f, .76f, .21f));
             if (positiveAudio != null) positiveAudio.Play();
             if (tutorialStage == TutorialStage.SelectSecond)
             {
@@ -206,13 +206,13 @@ namespace AstralAlchemy
             if (recipe.style == "wildfire")
             {
                 foreach (var enemy in enemies) { enemy.Hit(ElementKind.Fire, 14f); enemy.ApplyBuff(AstralEnemy.BuffType.Frenzy, 9f); }
-                SetStatus("Wildfire Rampage: Rain of fire — survivors enter Frenzy", recipe.color);
+                SetStatus("Wildfire Sprouts: Rain of fire — survivors enter Frenzy", recipe.color);
             }
             else if (recipe.style == "backfire" || recipe.style == "overload")
             {
                 foreach (var enemy in enemies) enemy.ApplyBuff(recipe.style == "backfire" ? AstralEnemy.BuffType.Overcharge : AstralEnemy.BuffType.Frenzy, 9f);
                 if (starCore != null) starCore.Damage(7f);
-                SetStatus("Alchemic Backfire: Core -7, enemies gain speed & power", recipe.color);
+                SetStatus("Alchemical Backfire: Core -7, enemies gain speed & power", recipe.color);
             }
             else if (recipe.style == "rift")
             {
@@ -220,13 +220,13 @@ namespace AstralAlchemy
                 enemyShielded = true;
                 foreach (var enemy in enemies) enemy.ApplyBuff(AstralEnemy.BuffType.Ward, 12f);
                 if (starCore != null) starCore.Damage(7f);
-                SetStatus("Dark Rift: Enemies gain Void Ward, Core -7", recipe.color);
+                SetStatus("Darkflame Rift: Enemies gain Void Shield, Core -7", recipe.color);
             }
             else if (recipe.style == "flashfreeze")
             {
                 foreach (var enemy in enemies) enemy.Freeze(6.5f);
                 if (starCore != null) starCore.Heal(8f);
-                SetStatus("Flash Freeze: All enemies frozen, Core +8", recipe.color);
+                SetStatus("Polar Day Storm: All enemies frozen, Core +8", recipe.color);
             }
             else if (recipe.style == "pollen")
             {
@@ -237,13 +237,13 @@ namespace AstralAlchemy
             else if (recipe.style == "bubbleburst")
             {
                 foreach (var orb in elementOrbs) if (orb != null) orb.Supply();
-                SetStatus("Frost Comet: All six element orbs resupplied", recipe.color);
+                SetStatus("Comet Frost Mist: All six element orbs resupplied", recipe.color);
             }
             else if (recipe.style == "vine")
             {
                 foreach (var enemy in enemies) enemy.Freeze(3.5f);
                 SpawnEnemy(AstralEnemy.BuffType.Ward);
-                SetStatus("Star Vine: Enemies ensnared, a Ward enemy is summoned", recipe.color);
+                SetStatus("Stareater Vine: Enemies ensnared, a Shield enemy is summoned", recipe.color);
             }
             else
             {
@@ -497,7 +497,7 @@ namespace AstralAlchemy
             }
             if (scoreLabel != null) scoreLabel.text = "Score  " + score.ToString("0000") + "\n" + defeated + "/" + defeatTarget + " Defeated";
             if (coreLabel != null) coreLabel.text = "Star Core";
-            if (timerLabel != null) timerLabel.text = "Timer  " + Mathf.CeilToInt(Mathf.Max(0f, timeRemaining)) + " s";
+            if (timerLabel != null) timerLabel.text = "Star Tide  " + Mathf.CeilToInt(Mathf.Max(0f, timeRemaining)) + "s";
             // The bound StarCoreWorldHealthBar drives the visible fill, damage
             // trail and numeric value every frame. Do not overwrite that feedback
             // here with an abrupt eight-Hz jump.
@@ -575,7 +575,7 @@ namespace AstralAlchemy
                 desktop.transform.position = new Vector3(0f, 0f, -4.7f);
                 desktop.transform.rotation = Quaternion.identity;
             }
-            SetStatus("Reset to start position — facing the forge", new Color(.72f, .88f, 1f));
+            SetStatus("Reset to start position — facing the alchemy table", new Color(.72f, .88f, 1f));
         }
     }
 }

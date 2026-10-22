@@ -23,12 +23,12 @@
 | 弱点 | Weakness |
 | 波次 | Wave |
 | 星尘分数 | Score |
-| 星潮 | Alchemy Tide |
+| 星潮 | Star Tide |
 | 教学 | Tutorial |
 | 教学 1/3 | Tutorial 1/3 |
 | 教学 2/3 | Tutorial 2/3 |
 | 教学 3/3 | Tutorial 3/3 |
-| 护盾 / 虚空盾 | Ward |
+| 护盾 / 虚空护盾 | Shield |
 | 狂暴 | Frenzy |
 | 超载 | Overcharge |
 | 汲能 | Siphon |
@@ -39,9 +39,9 @@
 | 敌人弱点 | Enemy Weakness |
 | 待选择 | — |
 | 精准释放 | Perfect Release |
-| 炼金反噬 | Alchemic Backfire |
+| 炼金反噬 | Alchemical Backfire |
 | 星核完整度 | Star Core |
-| 星潮倒计时 | Timer |
+| 星潮倒计时 | Star Tide |
 | 击退 | Defeated |
 | 星尘分数 | Score |
 | 已选元素 | Selected |
@@ -71,14 +71,14 @@
 | key | 原中文 | 英文 | 元素组合 | 状态 |
 |---|---|---|---|---|
 | recipe.solar_burst | 赤阳爆 | Solar Burst | Fire+Fire | 已翻译 |
-| recipe.frost_bell | 冰晶钟 | Frost Bell | Frost+Frost | 已翻译 |
+| recipe.frost_bell | 冰晶钟 | Ice Crystal Bell | Frost+Frost | 已翻译 |
 | recipe.verdant_pulse | 翠星脉 | Verdant Pulse | Bloom+Bloom | 已翻译 |
-| recipe.thunder_crown | 雷冠链 | Thunder Crown | Storm+Storm | 已翻译 |
-| recipe.star_vortex | 吞星涡 | Star Vortex | Void+Void | 已翻译 |
+| recipe.thunder_crown | 雷冠链 | Thunder Crown Chain | Storm+Storm | 已翻译 |
+| recipe.star_vortex | 吞星涡 | Stareater Vortex | Void+Void | 已翻译 |
 | recipe.starfall_rain | 星海雨 | Starfall Rain | Star+Star | 已翻译 |
 | recipe.steam_comet | 蒸汽彗星 | Steam Comet | Fire+Frost | 已翻译 |
 | recipe.corona_lance | 日冕贯星 | Corona Lance | Fire+Star | 已翻译 |
-| recipe.amber_bloom | 琥珀花钟 | Amber Bloom | Frost+Bloom | 已翻译 |
+| recipe.amber_bloom | 琥珀花钟 | Amber Flower Bell | Frost+Bloom | 已翻译 |
 | recipe.thornstorm | 荆雷风暴 | Thornstorm | Bloom+Storm | 已翻译 |
 | recipe.aurora_chain | 极光连击 | Aurora Chain | Storm+Star | 已翻译 |
 | recipe.eclipse_mirror | 月蚀镜界 | Eclipse Mirror | Void+Star | 已翻译 |
@@ -92,9 +92,9 @@
 | 穿透 · 修复 | Pierce · Restore | 已翻译 |
 | 连锁 · 追击 | Chain · Pursuit | 已翻译 |
 | 聚怪 · 斩杀 | Gather · Execute | 已翻译 |
-| 多重 · 覆盖 | Multi · Coverage | 已翻译 |
-| 高速 · 穿透 | High-Speed · Pierce | 已翻译 |
-| 暴击 · 直线 | Crit · Linear | 已翻译 |
+| 多重 · 覆盖 | Multi-hit · Wide Area | 已翻译 |
+| 高速 · 穿透 | Fast · Pierce | 已翻译 |
+| 暴击 · 直线 | Crit · Piercing Line | 已翻译 |
 | 冻结 · 回春 | Freeze · Rejuvenate | 已翻译 |
 | 缠绕 · 群攻 | Ensnare · AoE | 已翻译 |
 | 定身 · 爆发 | Root · Burst | 已翻译 |
@@ -103,15 +103,15 @@
 
 | key | 原中文 | 英文 | 元素组合 | 状态 |
 |---|---|---|---|---|
-| miscast.wildfire | 炽芽暴走 | Wildfire Rampage | Fire+Bloom | 已翻译 |
-| miscast.backfire | 闪燃短路 | Backfire Flash | Fire+Storm | 已翻译 |
-| miscast.rift | 黯焰裂缝 | Dark Rift | Fire+Void | 已翻译 |
-| miscast.flashfreeze | 极昼风暴 | Flash Freeze | Frost+Storm | 已翻译 |
-| miscast.mirror | 碎月镜片 | Moon Shard | Frost+Void | 已翻译 |
-| miscast.bubbleburst | 彗星霜雾 | Frost Comet | Frost+Star | 已翻译 |
-| miscast.vine | 食星藤蔓 | Star Vine | Bloom+Void | 已翻译 |
+| miscast.wildfire | 炽芽暴走 | Wildfire Sprouts | Fire+Bloom | 已翻译 |
+| miscast.backfire | 闪燃短路 | Flashfire Short Circuit | Fire+Storm | 已翻译 |
+| miscast.rift | 黯焰裂缝 | Darkflame Rift | Fire+Void | 已翻译 |
+| miscast.flashfreeze | 极昼风暴 | Polar Day Storm | Frost+Storm | 已翻译 |
+| miscast.mirror | 碎月镜片 | Shattered Moon Mirror | Frost+Void | 已翻译 |
+| miscast.bubbleburst | 彗星霜雾 | Comet Frost Mist | Frost+Star | 已翻译 |
+| miscast.vine | 食星藤蔓 | Stareater Vine | Bloom+Void | 已翻译 |
 | miscast.pollen | 流星花粉 | Meteor Pollen | Bloom+Star | 已翻译 |
-| miscast.overload | 黑潮雷暴 | Dark Surge | Storm+Void | 已翻译 |
+| miscast.overload | 黑潮雷暴 | Black Tide Tempest | Storm+Void | 已翻译 |
 | miscast.default | 熵流溢出 | Entropy Overflow | any | 已翻译 |
 
 ## 误配配方角色
@@ -120,14 +120,14 @@
 |---|---|---|
 | 火雨清场 · 残敌狂暴 | Rain of Fire · Survivors Frenzy | 已翻译 |
 | 闪电连锁 · 近敌超载 | Lightning Chain · Overload | 已翻译 |
-| 聚怪爆裂 · 虚空护盾 | Gather & Burst · Void Ward | 已翻译 |
+| 聚怪爆裂 · 虚空护盾 | Gather & Burst · Void Shield | 已翻译 |
 | 全场冻结 · 星核修复 | Full Freeze · Core Restore | 已翻译 |
 | 镜片散射 · 汲能标记 | Mirror Scatter · Energy Siphon | 已翻译 |
 | 霜雾爆发 · 补齐元素 | Frost Burst · Resupply Elements | 已翻译 |
-| 缠绕吸取 · 唤醒护盾 | Snare & Drain · Ward Spawn | 已翻译 |
+| 缠绕吸取 · 唤醒护盾 | Snare & Drain · Summon Shield | 已翻译 |
 | 回春扩散 · 敌人汲能 | Bloom Spread · Enemy Siphon | 已翻译 |
 | 连锁过载 · 余波狂暴 | Chain Overload · Frenzy | 已翻译 |
-| 失控 · 星尘爆裂 | Wild · Star Dust Burst | 已翻译 |
+| 失控 · 星尘爆裂 | Uncontrolled · Stardust Burst | 已翻译 |
 
 ---
 
@@ -158,7 +158,7 @@
 | hud.recipe.title | 目标配方 | Target Recipe | ArenaGameController.cs:485 | HUD 左侧标题 | 已翻译 |
 | hud.score | 星尘分数  {s}\n击退 {d}/{t} | Score  {s}\n{d}/{t} Defeated | ArenaGameController.cs:498 | HUD 右侧 | 已翻译 |
 | hud.core | 星核完整度 | Star Core | ArenaGameController.cs:499 | 顶部血条标签 | 已翻译 |
-| hud.timer | 星潮倒计时  {t} s | Timer  {t} s | ArenaGameController.cs:500 | HUD 右侧计时 | 已翻译 |
+| hud.timer | 星潮倒计时  {t} s | Star Tide  {t}s | ArenaGameController.cs:500 | HUD 右侧计时 | 已翻译 |
 | hud.selection | 已选元素  {a}  +  {b} | Selected  {a}  +  {b} | ArenaGameController.cs:515 | HUD 左侧 | 已翻译 |
 | hud.selection.empty | 待选择 | — | ArenaGameController.cs:513-514 | 未选元素时 | 已翻译 |
 | hud.recipe.default | {A}  +  {B}   →   {spell}\n{role}\n敌人头顶元素 = 弱点 | {A}  +  {B}   →   {spell}\n{role}\nElement above enemy = Weakness | ArenaGameController.cs:495 | HUD 详情 | 已翻译 |
@@ -171,7 +171,7 @@
 |---|---|---|---|---|---|
 | brew.first | 第一枚元素已入锅 · 再投入一枚完成炼制 | First element added — add another to brew | ArenaGameController.cs:151 | 状态栏 | 已翻译 |
 | brew.full | 已选满两枚元素 · 请先释放「{s}」 | Two elements selected — cast "{s}" first | ArenaGameController.cs:123 | 状态栏 | 已翻译 |
-| brew.success | 炼制成功 · 右手瞄准敌人，按住扳机蓄力，松开释放「{s}」 | Brew success! Aim right, hold trigger to charge, [Release] to cast "{s}" | ArenaGameController.cs:178 | 状态栏 | 已翻译 |
+| brew.success | 炼制成功 · 右手瞄准敌人，按住扳机蓄力，松开释放「{s}」 | Brew complete! Aim right, hold trigger to charge, [Release] to cast "{s}" | ArenaGameController.cs:178 | 状态栏 | 已翻译 |
 | brew.no_elements | 先按配方将两枚正确元素投入坩埚 | First brew two matching elements in the cauldron | ArenaGameController.cs:261 | 状态栏 | 已翻译 |
 
 ---
@@ -195,13 +195,13 @@
 | key | 原中文 | 英文 | 来源文件:行 | 使用场景 | 状态 |
 |---|---|---|---|---|---|
 | miscast.label | 错误配方「{n}」· {r} | Miscast: "{n}" — {r} | ArenaGameController.cs:199 | 状态栏 | 已翻译 |
-| miscast.wildfire.msg | 炽芽暴走：火雨清场，幸存敌人进入狂暴 | Wildfire Rampage: Rain of fire — survivors enter Frenzy | ArenaGameController.cs:209 | 状态栏 | 已翻译 |
-| miscast.backfire.msg | 炼金反噬：星核 -7，敌人速度与攻击提升 | Alchemic Backfire: Core -7, enemies gain speed & power | ArenaGameController.cs:215 | 状态栏 | 已翻译 |
-| miscast.rift.msg | 黯焰裂缝：敌人获得虚空盾，星核 -7 | Dark Rift: Enemies gain Void Ward, Core -7 | ArenaGameController.cs:222 | 状态栏 | 已翻译 |
-| miscast.flashfreeze.msg | 极昼风暴：全场冻结，星核 +8 | Flash Freeze: All enemies frozen, Core +8 | ArenaGameController.cs:229 | 状态栏 | 已翻译 |
+| miscast.wildfire.msg | 炽芽暴走：火雨清场，幸存敌人进入狂暴 | Wildfire Sprouts: Rain of fire — survivors enter Frenzy | ArenaGameController.cs:209 | 状态栏 | 已翻译 |
+| miscast.backfire.msg | 炼金反噬：星核 -7，敌人速度与攻击提升 | Alchemical Backfire: Core -7, enemies gain speed & power | ArenaGameController.cs:215 | 状态栏 | 已翻译 |
+| miscast.rift.msg | 黯焰裂缝：敌人获得虚空盾，星核 -7 | Darkflame Rift: Enemies gain Void Shield, Core -7 | ArenaGameController.cs:222 | 状态栏 | 已翻译 |
+| miscast.flashfreeze.msg | 极昼风暴：全场冻结，星核 +8 | Polar Day Storm: All enemies frozen, Core +8 | ArenaGameController.cs:229 | 状态栏 | 已翻译 |
 | miscast.pollen.msg | 流星花粉：星核 +18，残敌获得汲能 | Meteor Pollen: Core +18, survivors gain Siphon | ArenaGameController.cs:234 | 状态栏 | 已翻译 |
-| miscast.bubbleburst.msg | 彗星霜雾：六色元素泡泡已全部补齐 | Frost Comet: All six element orbs resupplied | ArenaGameController.cs:238 | 状态栏 | 已翻译 |
-| miscast.vine.msg | 食星藤蔓：敌人被缠绕，但唤醒一只护盾怪 | Star Vine: Enemies ensnared, a Ward enemy is summoned | ArenaGameController.cs:243 | 状态栏 | 已翻译 |
+| miscast.bubbleburst.msg | 彗星霜雾：六色元素泡泡已全部补齐 | Comet Frost Mist: All six element orbs resupplied | ArenaGameController.cs:238 | 状态栏 | 已翻译 |
+| miscast.vine.msg | 食星藤蔓：敌人被缠绕，但唤醒一只护盾怪 | Stareater Vine: Enemies ensnared, a Shield enemy is summoned | ArenaGameController.cs:243 | 状态栏 | 已翻译 |
 | miscast.default.msg | {n}：失控星尘横扫全场 | {n}: Entropy wave sweeps the arena | ArenaGameController.cs:251 | 状态栏 | 已翻译 |
 
 ---

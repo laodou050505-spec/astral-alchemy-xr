@@ -2293,7 +2293,7 @@ public static class AstralAlchemySceneBuilder
         Text("+", leftPanel.transform, new Vector2(54f, 46f), new Vector2(0f, -109f), 30, StarGold, TextAnchor.MiddleCenter);
         var core = Text("Star Core", healthPanel.transform, new Vector2(560f, 30f), new Vector2(0f, 28f), 23, Color.white, TextAnchor.MiddleCenter);
         var coreFill = Bar("星核血条", healthPanel.transform, new Vector2(540f, 25f), new Vector2(0f, -16f), new Color(.95f, .24f, .18f), out _);
-        var timer = Text("Tide Countdown 90 s", rightPanel.transform, new Vector2(315f, 40f), new Vector2(0f, 22f), 22, new Color(.8f, .88f, 1f), TextAnchor.MiddleCenter);
+        var timer = Text("Star Tide  90s", rightPanel.transform, new Vector2(315f, 40f), new Vector2(0f, 22f), 22, new Color(.8f, .88f, 1f), TextAnchor.MiddleCenter);
         var tideFill = Bar("星潮能量", rightPanel.transform, new Vector2(300f, 17f), new Vector2(0f, -13f), Cyan, out _);
         var score = Text("Score 0000", rightPanel.transform, new Vector2(320f, 54f), new Vector2(0f, -72f), 20, StarGold, TextAnchor.MiddleCenter);
         var status = Text("Select · Brew · Release", statusPanel.transform, new Vector2(590f, 54f), Vector2.zero, 20, new Color(.82f, .9f, 1f), TextAnchor.MiddleCenter);
