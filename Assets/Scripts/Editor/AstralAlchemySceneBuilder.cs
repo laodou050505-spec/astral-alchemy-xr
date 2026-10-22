@@ -1174,7 +1174,7 @@ public static class AstralAlchemySceneBuilder
         var logo = Panel("ASTRAL_ALCHEMY_GeneratedLogo", titleCanvasGo.transform, new Vector2(670f, 315f), new Vector2(-425f, 217f),
             Color.white, LoadTitleSprite(artRoot + "Logo.png"));
         logo.GetComponent<Image>().raycastTarget = false;
-        TitleText("MASTER THE ELEMENTS. DEFEND THE STAR.", titleCanvasGo.transform, new Vector2(720f, 35f), new Vector2(-400f, 25f), 23, new Color(.66f, .83f, .9f));
+        // EN: 标语去除 // TitleText("MASTER THE ELEMENTS. DEFEND THE STAR.", titleCanvasGo.transform, new Vector2(720f, 35f), new Vector2(-400f, 25f), 23, new Color(.66f, .83f, .9f));
         var menu = root.AddComponent<TitleMenuController>(); menu.designStart = start;
         menu.mainMenu = NewUi("MainMenu", titleCanvasGo.transform);
         menu.helpPage = Panel("HowToPlay", titleCanvasGo.transform, new Vector2(760f, 710f), new Vector2(410f, 10f), new Color(.015f, .028f, .065f, .98f), null);
