@@ -119,7 +119,16 @@ namespace AstralAlchemy
             if (focused == next) return;
             if (focused != null) focused.SetFocused(false);
             focused = next;
-            if (focused != null) focused.SetFocused(true);
+            if (focused != null)
+            {
+                focused.SetFocused(true);
+                focused.OnGainFocus();
+                // Gentle hover haptic on both hands so the player feels the ray land.
+                var left  = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+                var right = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+                HapticImpulse(left,  .15f, .02f);
+                HapticImpulse(right, .15f, .02f);
+            }
         }
         private static bool UpdatePose(UnityEngine.XR.InputDevice device, Transform target)
         {
@@ -128,9 +137,11 @@ namespace AstralAlchemy
             target.localPosition = position; target.localRotation = rotation; return true;
         }
         private static bool ReadTrigger(UnityEngine.XR.InputDevice device) => device.TryGetFeatureValue(CommonUsages.triggerButton, out var pressed) && pressed;
-        private static void Haptic(UnityEngine.XR.InputDevice device)
+        private static void Haptic(UnityEngine.XR.InputDevice device) => HapticImpulse(device, .4f, .04f);
+        private static void HapticImpulse(UnityEngine.XR.InputDevice device, float amplitude, float duration)
         {
-            if (device.TryGetHapticCapabilities(out var capabilities) && capabilities.supportsImpulse) device.SendHapticImpulse(0, .25f, .045f);
+            if (device.TryGetHapticCapabilities(out var capabilities) && capabilities.supportsImpulse)
+                device.SendHapticImpulse(0, amplitude, duration);
         }
         private static void DrawRay(LineRenderer line, Transform origin, bool tracked, TitleMenuButton hit)
         {

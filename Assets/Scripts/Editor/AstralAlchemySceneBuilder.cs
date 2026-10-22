@@ -30,8 +30,15 @@ public static class AstralAlchemySceneBuilder
     private const string StatusUiTexturePath = "Assets/Art/UI/GeneratedUI/NanoBanana_Refined/StatusPanel/StatusPanel_Cropped.png";
     private const string IconFolder = "Assets/Art/UI/GeneratedUI/NanoBanana_Refined/ElementIcons";
     private const string TitleFeatherPath = "Assets/Art/UI/GeneratedUI/TitleRedesign20260908/Background_Feathered.png";
-    private const string ChineseFontPath = "Assets/Art/UI/Fonts/ArialUnicode.ttf";
+    private const string ChineseFontPath   = "Assets/Art/UI/Fonts/ArialUnicode.ttf";
+    private const string DisplayFontPath   = "Assets/Art/UI/Fonts/Cinzel-Bold.ttf";
+    private const string BodyFontPath      = "Assets/Art/UI/Fonts/EBGaramond-Regular.ttf";
+    private const string ButtonBgPath      = "Assets/Art/UI/GeneratedUI/NanoBanana_Refined/ButtonBg_Alchemical.png";
+    private const string ClickAudioPath    = "Assets/Art/Audio/magic_ui_click.mp3";
+    private const string HoverAudioPath    = "Assets/Art/Audio/magic_ui_hover.mp3";
     private static Font chineseFont;
+    private static Font displayFont;
+    private static Font bodyFont;
     private static readonly Color Ink = new Color(.025f, .018f, .09f);
     private static readonly Color Indigo = new Color(.055f, .03f, .18f);
     private static readonly Color Violet = new Color(.16f, .045f, .32f);
@@ -514,7 +521,7 @@ public static class AstralAlchemySceneBuilder
             coreBarRoot.SetParent(healthPanel, false);
         RestylePanel(healthPanel, new Vector2(640f, 119f), new Vector2(0f, 206f));
         ApplyGeneratedPanelArt(healthPanel, LoadUiSprite(StatusUiTexturePath), .96f);
-        if (game.coreLabel != null) SetTextLayout(game.coreLabel, new Vector2(560f, 30f), new Vector2(0f, 28f), 23, 20, 25);
+        if (game.coreLabel != null) SetTextLayout(game.coreLabel, new Vector2(560f, 32f), new Vector2(0f, 28f), 24, 22, 26);
         SetRect(game.coreFill != null ? game.coreFill.transform.parent : null, new Vector2(540f, 25f), new Vector2(0f, -16f));
         RestylePanel(resultPanel, new Vector2(760f, 263f), Vector2.zero);
         ApplyGeneratedPanelArt(leftPanel, LoadUiSprite(SideUiTexturePath), .96f);
@@ -535,23 +542,26 @@ public static class AstralAlchemySceneBuilder
         ApplyGeneratedPanelArt(resultPanel, LoadUiSprite(TitleUiTexturePath), .97f);
         BuildOpenResultFrame(resultPanel);
 
-        SetTextLayout(game.recipeTitle, new Vector2(306f, 48f), new Vector2(0f, 113f), 24, 22, 25);
-        SetTextLayout(game.recipeDetail, new Vector2(306f, 86f), new Vector2(0f, 46f), 23, 21, 24);
+        // Hierarchy: panel header (Cinzel 26) > body text (EB Garamond 22) > secondary (EB Garamond 21)
+        SetTextLayout(game.recipeTitle, new Vector2(306f, 48f), new Vector2(0f, 113f), 26, 24, 27);
+        SetTextLayout(game.recipeDetail, new Vector2(306f, 86f), new Vector2(0f, 46f), 22, 20, 23);
         SetTextLayout(game.timerLabel, new Vector2(310f, 46f), new Vector2(0f, 91f), 24, 22, 25);
         SetRect(game.tideFill != null ? game.tideFill.transform.parent : null, new Vector2(260f, 20f), new Vector2(0f, 38f));
-        SetTextLayout(game.scoreLabel, new Vector2(310f, 70f), new Vector2(0f, -20f), 23, 21, 24);
+        SetTextLayout(game.scoreLabel, new Vector2(310f, 70f), new Vector2(0f, -20f), 24, 22, 25);
 
         if (game.recipeTitle != null)
         {
             game.recipeTitle.text = "Target Recipe";
-            game.recipeTitle.fontSize = 25;
+            game.recipeTitle.fontSize = 26;
+            game.recipeTitle.lineSpacing = 1.05f;
         }
         if (game.recipeDetail != null)
         {
-            game.recipeDetail.fontSize = 23;
+            game.recipeDetail.fontSize = 22;
             game.recipeDetail.resizeTextForBestFit = true;
-            game.recipeDetail.resizeTextMinSize = 21;
-            game.recipeDetail.resizeTextMaxSize = 24;
+            game.recipeDetail.resizeTextMinSize = 20;
+            game.recipeDetail.resizeTextMaxSize = 23;
+            game.recipeDetail.lineSpacing = 1.2f;
         }
         var selected = leftPanel != null ? leftPanel.Find("已选元素文字")?.GetComponent<Text>() : null;
         if (selected == null && leftPanel != null)
@@ -594,31 +604,38 @@ public static class AstralAlchemySceneBuilder
         // the astral frame and star field.  Give the title and the three-line
         // summary independent reading zones instead of stacking them over a
         // translucent inner card.
-        SetTextLayout(game.resultTitle, new Vector2(610f, 52f), new Vector2(0f, 88f), 38, 34, 40);
+        SetTextLayout(game.resultTitle, new Vector2(610f, 58f), new Vector2(0f, 88f), 40, 36, 42);
         SetTextLayout(game.resultStats, new Vector2(560f, 126f), new Vector2(0f, -18f), 24, 22, 25);
-        if (game.resultTitle != null) game.resultTitle.lineSpacing = 1f;
-        if (game.resultStats != null) game.resultStats.lineSpacing = 1.22f;
+        if (game.resultTitle != null) { game.resultTitle.lineSpacing = 1.05f; game.resultTitle.fontStyle = FontStyle.Bold; }
+        if (game.resultStats != null) game.resultStats.lineSpacing = 1.25f;
         foreach (var text in canvas.GetComponentsInChildren<Text>(true))
         {
-            text.font = GetChineseFont();
-            // The generated frames carry the visual weight; keep copy lighter
-            // and high-contrast so Chinese glyphs remain legible in XR.
-            text.fontStyle = FontStyle.Normal;
-            text.color = text == game.recipeTitle || text == game.scoreLabel || text == game.resultTitle ? StarGold : new Color(.93f, .94f, 1f);
+            // Title labels (panel headers, score, result) → Cinzel Bold for visual authority.
+            // Body copy (recipe detail, status hint, stats) → EB Garamond for legibility.
+            var isTitle = text == game.recipeTitle || text == game.scoreLabel || text == game.resultTitle
+                       || text == game.coreLabel  || text == game.timerLabel;
+            text.font      = isTitle ? GetDisplayFont() : GetBodyFont();
+            text.fontStyle = isTitle ? FontStyle.Bold   : FontStyle.Normal;
+            text.color     = isTitle ? StarGold          : new Color(.93f, .94f, 1f);
+            // Add subtle dark drop-shadow for readability on varied backgrounds.
             var outline = text.GetComponent<Outline>() ?? text.gameObject.AddComponent<Outline>();
-            outline.effectColor = new Color(.005f, .002f, .02f, .96f);
-            outline.effectDistance = new Vector2(.85f, -.85f);
+            outline.effectColor    = new Color(.003f, .001f, .018f, .92f);
+            outline.effectDistance = new Vector2(1f, -1f);
         }
-        if (game.statusLabel != null) game.statusLabel.color = new Color(.78f, .9f, 1f);
         if (game.statusLabel != null)
         {
-            SetTextLayout(game.statusLabel, new Vector2(500f, 96f), new Vector2(0f, 14f), 22, 21, 22);
-            game.statusLabel.fontSize = 22;
-            game.statusLabel.resizeTextForBestFit = true;
-            game.statusLabel.resizeTextMinSize = 21;
-            game.statusLabel.resizeTextMaxSize = 22;
+            SetTextLayout(game.statusLabel, new Vector2(500f, 96f), new Vector2(0f, 14f), 22, 20, 23);
+            game.statusLabel.font      = GetBodyFont();
+            game.statusLabel.fontStyle = FontStyle.Normal;
+            game.statusLabel.fontSize  = 22;
+            game.statusLabel.color     = new Color(.82f, .93f, 1f, 1f);
+            game.statusLabel.lineSpacing = 1.22f;
+            game.statusLabel.resizeTextForBestFit  = true;
+            game.statusLabel.resizeTextMinSize = 20;
+            game.statusLabel.resizeTextMaxSize = 23;
             game.statusLabel.horizontalOverflow = HorizontalWrapMode.Wrap;
-            game.statusLabel.verticalOverflow = VerticalWrapMode.Truncate;
+            game.statusLabel.verticalOverflow   = VerticalWrapMode.Truncate;
+            game.statusLabel.alignment = TextAnchor.MiddleCenter;
         }
         AddHudCornerOrnaments(leftPanel);
         AddHudCornerOrnaments(rightPanel);
@@ -1217,18 +1234,55 @@ public static class AstralAlchemySceneBuilder
     private static Text TitleText(string value, Transform parent, Vector2 size, Vector2 position, int fontSize, Color color)
     {
         var text = Text(value, parent, size, position, fontSize, color, TextAnchor.MiddleLeft);
-        text.fontStyle = FontStyle.Normal; text.horizontalOverflow = HorizontalWrapMode.Wrap; text.verticalOverflow = VerticalWrapMode.Truncate;
+        // Large headers (>=26) use Cinzel for display authority; body copy uses EB Garamond.
+        text.font      = fontSize >= 26 ? GetDisplayFont() : GetBodyFont();
+        text.fontStyle = fontSize >= 26 ? FontStyle.Bold : FontStyle.Normal;
+        text.horizontalOverflow = HorizontalWrapMode.Wrap;
+        text.verticalOverflow   = VerticalWrapMode.Truncate;
+        text.lineSpacing = fontSize >= 26 ? 1.05f : 1.18f;
         text.raycastTarget = false;
-        var outline = text.GetComponent<Outline>(); if (outline != null) outline.effectDistance = new Vector2(.5f, -.5f);
+        var outline = text.GetComponent<Outline>();
+        if (outline != null) { outline.effectColor = new Color(.002f, 0f, .015f, .9f); outline.effectDistance = new Vector2(.8f, -.8f); }
         return text;
     }
 
     private static TitleMenuButton TitleButton(string value, Transform parent, Vector2 position, TitleMenuButton.Command command)
     {
-        var go = Panel("Button_" + command, parent, new Vector2(570f, 76f), position, new Color(.24f, .18f, .075f, .12f), null);
-        var button = go.AddComponent<TitleMenuButton>(); button.command = command; button.background = go.GetComponent<Image>();
-        var collider = go.GetComponent<BoxCollider>(); collider.size = new Vector3(570f, 76f, 12f); collider.center = new Vector3(0f, 0f, -6f);
-        button.label = TitleText(value, go.transform, new Vector2(520f, 60f), new Vector2(8f, 0f), 32, new Color(.9f, .92f, .96f));
+        // Alchemical background from generated banana2 image, 9-sliced to preserve frame corners.
+        var bgSprite = LoadButtonBgSprite();
+        var bgColor = bgSprite != null ? new Color(.9f, .82f, .65f, .42f) : new Color(.24f, .18f, .075f, .55f);
+        // Button height 95 canvas-px: at 6.45m viewing distance and canvas scale 0.0057 this gives
+        // a 44px cap-height of 18.1cm, exactly meeting the d×0.028 title spec.
+        var go = Panel("Button_" + command, parent, new Vector2(570f, 95f), position, bgColor, bgSprite);
+        var bgImage = go.GetComponent<Image>();
+        if (bgSprite != null) { bgImage.type = Image.Type.Sliced; bgImage.preserveAspect = false; }
+        var button = go.AddComponent<TitleMenuButton>(); button.command = command; button.background = bgImage;
+
+        // Gold glow overlay — full-rect transparent Image used for hover brightening.
+        var glowGo = NewUi("GoldGlow", go.transform);
+        var glowRect = glowGo.GetComponent<RectTransform>();
+        glowRect.anchorMin = Vector2.zero; glowRect.anchorMax = Vector2.one;
+        glowRect.offsetMin = Vector2.zero; glowRect.offsetMax = Vector2.zero;
+        var glow = glowGo.AddComponent<Image>();
+        glow.color = new Color(1f, .82f, .3f, 0f);
+        glow.raycastTarget = false;
+        button.glowOverlay = glow;
+
+        var collider = go.GetComponent<BoxCollider>(); collider.size = new Vector3(570f, 95f, 12f); collider.center = new Vector3(0f, 0f, -6f);
+
+        // Cinzel Bold label — centred; 44px meets VR title spec at 6.45m.
+        var label = Text(value, go.transform, new Vector2(520f, 86f), Vector2.zero, 44, new Color(.92f, .88f, .78f, 1f), TextAnchor.MiddleCenter);
+        label.font = GetDisplayFont();
+        label.fontStyle = FontStyle.Bold;
+        label.raycastTarget = false;
+        button.label = label;
+
+        // Wire up UI audio clips so TitleMenuButton can play them without extra AudioSources.
+        var clickClip = LoadAudioClip(ClickAudioPath);
+        var hoverClip = LoadAudioClip(HoverAudioPath);
+        button.clickClip = clickClip;
+        button.hoverClip = hoverClip;
+
         return button;
     }
 
@@ -2579,6 +2633,51 @@ public static class AstralAlchemySceneBuilder
         chineseFont = AssetDatabase.LoadAssetAtPath<Font>(ChineseFontPath);
         if (chineseFont == null) chineseFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         return chineseFont;
+    }
+
+    // Cinzel Bold — OFL serif display font for panel titles, headers and button labels.
+    private static Font GetDisplayFont()
+    {
+        if (displayFont != null) return displayFont;
+        AssetDatabase.ImportAsset(DisplayFontPath, ImportAssetOptions.ForceSynchronousImport);
+        displayFont = AssetDatabase.LoadAssetAtPath<Font>(DisplayFontPath);
+        if (displayFont == null) displayFont = GetChineseFont();
+        return displayFont;
+    }
+
+    // EB Garamond Regular — readable humanist serif for HUD body text.
+    private static Font GetBodyFont()
+    {
+        if (bodyFont != null) return bodyFont;
+        AssetDatabase.ImportAsset(BodyFontPath, ImportAssetOptions.ForceSynchronousImport);
+        bodyFont = AssetDatabase.LoadAssetAtPath<Font>(BodyFontPath);
+        if (bodyFont == null) bodyFont = GetChineseFont();
+        return bodyFont;
+    }
+
+    private static Sprite LoadButtonBgSprite()
+    {
+        if (!File.Exists(ButtonBgPath)) return null;
+        var imp = AssetImporter.GetAtPath(ButtonBgPath) as TextureImporter;
+        if (imp == null) { AssetDatabase.ImportAsset(ButtonBgPath, ImportAssetOptions.ForceSynchronousImport); imp = AssetImporter.GetAtPath(ButtonBgPath) as TextureImporter; }
+        if (imp != null)
+        {
+            imp.textureType = TextureImporterType.Sprite;
+            imp.spriteImportMode = SpriteImportMode.Single;
+            imp.spriteBorder = new Vector4(80f, 50f, 80f, 50f); // 9-slice borders
+            imp.textureCompression = TextureImporterCompression.CompressedHQ;
+            imp.maxTextureSize = 1024;
+            imp.mipmapEnabled = false;
+            imp.alphaIsTransparency = true;
+            imp.SaveAndReimport();
+        }
+        return AssetDatabase.LoadAssetAtPath<Sprite>(ButtonBgPath);
+    }
+
+    private static AudioClip LoadAudioClip(string path)
+    {
+        AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
+        return AssetDatabase.LoadAssetAtPath<AudioClip>(path);
     }
 
     private struct HudRefs
