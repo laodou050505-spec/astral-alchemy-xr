@@ -12,6 +12,7 @@ namespace AstralAlchemy
     public class CameraShaker : MonoBehaviour
     {
         private static CameraShaker _instance;
+        private const bool AllowCameraShakeInXR = false;
 
         private Vector3 _originLocalPos;
         private Coroutine _active;
@@ -34,6 +35,9 @@ namespace AstralAlchemy
         /// <param name="duration">震动持续时间（秒）。</param>
         public static void Shake(float magnitude = 0.022f, float duration = 0.20f)
         {
+            // 总控审查：VR 中相机位姿由头部追踪每帧写入，脚本晃动相机会与追踪冲突并引起晕动，
+            // 属于舒适度红线。保留接口但不执行；受伤反馈由手柄震动（TriggerHaptic）与星核闪光承担。
+            if (!AllowCameraShakeInXR) return;
             EnsureInstance();
             if (_instance == null) return;
             _instance.DoShake(magnitude, duration);
