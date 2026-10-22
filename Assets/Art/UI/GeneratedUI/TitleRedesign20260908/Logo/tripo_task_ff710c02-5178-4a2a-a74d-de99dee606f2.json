@@ -1,0 +1,19 @@
+{
+  "task_id": "ff710c02-5178-4a2a-a74d-de99dee606f2",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Create an isolated premium fantasy videogame title logotype with the EXACT English words ASTRAL ALCHEMY only, two centered lines: ASTRAL on the upper line, ALCHEMY on the lower line. Both lines similar width, majestic custom engraved Roman serif lettering in brushed antique gold with elegant sharp wedge serifs, exceptionally readable thick letter bodies, subtle luminous pale gold bevel edges and delicate constellation engraving inside letters. A small restrained gold astronomical star between the lines may connect the composition. Professional original videogame branding, polished sculptural metallic title treatment, inspired by ancient astronomical instruments. Very large lettering filling 88 percent width and 78 percent height. Every letter intact and correct, no other words, no subtitle, no symbols replacing letters. Entire background pure uniform solid black RGB 0 0 0 for clean extraction; no stars in background, no haze, no shadow outside letters, no scenery, no mockup, no border. Wide title asset for compositing on game cover.",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/ff710c02-5178-4a2a-a74d-de99dee606f2/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvZmY3MTBjMDItNTE3OC00YTJhLWE3NGQtZGU5OWRlZTYwNmYyL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzY2OTN9fX1dfQ__&Signature=jaV~naJH6WE-XvygBnT8Zb5wMVErQXfgfYGJhgDMQZgKqvSL7XcSFhy8YVMPDlZYmB9eUqjRCgQnUrvjQqDm~Vx9O0mZWps63nn2PONUNDIo9EbuT8fqu6qQDpi7Ll3ijgU~-W210CZLepIlHuodmCcypcRCoR2pX3Ky3wttAo6DVd4p7vimDU93kRRj-pJ2LAsusHEKPV5DPk0CyYkZdkga-ty3w2opyif5KT3nqRyjzFdz7HwUbHnLMq3PSioXbmk1gutS6Pt9OOBB4sNq-P3V0sJrrpf2tvcZufgzpFQ4lBOq0HNxj-C6KKaZdbwtmTy5cmyx3WgLC0V5Hd0IOA__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T06:51:15.119141Z",
+  "completed_at": "2026-09-08T06:51:31.122269Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-12/w-x/outputs/AstralAlchemyXR/Assets/Art/UI/GeneratedUI/TitleRedesign20260908/Logo/01_generated_image_url.png"
+  ]
+}

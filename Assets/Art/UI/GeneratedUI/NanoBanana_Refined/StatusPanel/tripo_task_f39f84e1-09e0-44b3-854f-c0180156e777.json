@@ -1,0 +1,19 @@
+{
+  "task_id": "f39f84e1-09e0-44b3-854f-c0180156e777",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Premium fantasy alchemy game status ribbon HUD asset, straight-on orthographic flat UI, ultra-wide banner composition, deep indigo magical glass center, thin antique bronze and stargold bevel frame, subtle cyan constellation glints only at far corners, large uninterrupted clean center for Unity-rendered status message, crisp edges, luxurious AAA VR interface, isolated banner only on plain black background, NO TEXT, NO LETTERS, NO NUMBERS, NO MOCKUP, NO SCENE, NO CHARACTERS",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260907/f39f84e1-09e0-44b3-854f-c0180156e777/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDcvZjM5Zjg0ZTEtMDllMC00NGIzLTg1NGYtYzAxODAxNTZlNzc3L2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg4NDk3OTR9fX1dfQ__&Signature=XpGBR~b7bJX64RI2WKyRsc9tL2NWUlGO7TOiVF0q9AgDB24jfsKhesS8AKn0QKZmzM9O8ML6tN-cUgOJEVQsbr0FivEmMFHP5D2utaqggn-34Mq~AgSISs-kYtFNPjs1HlsHo8FzMG12K-pnJjpJJqypXaXY1jECyFnUz0mlmxrdiYnn8LF7AEsqiYb6i1HsdY0wB97-7HMXjCEgT-nk-AbifIuqqtXv7nC8rDIiXBKQBRt6n078UZ2vea97ZGTIFo2MGYcO5AG2AvnEesJt8RU~NqkZODKJq~DXmTahgDBh1LsZptK7Sn-ItTmqGzLAW2t5BK7HCAjnllovThVvJQ__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-07T06:42:56.907232Z",
+  "completed_at": "2026-09-07T06:43:12.385088Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-12/w-x/outputs/AstralAlchemyXR/Assets/Art/UI/GeneratedUI/NanoBanana_Refined/StatusPanel/01_generated_image_url.png"
+  ]
+}

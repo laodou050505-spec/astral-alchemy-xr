@@ -1,0 +1,19 @@
+{
+  "task_id": "dd8b0c38-451a-44b2-89eb-f8cf19a80070",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Premium fantasy alchemy game HUD side panel asset, straight-on orthographic flat UI, tall vertical composition, deep indigo-black obsidian body with subtle magical nebula texture, precise antique bronze and stargold layered frame, restrained cyan star-map accents, elegant arcane instrument details, three clearly separated spacious content zones including header slot large body slot and bottom status slot, ample inner padding for Unity Chinese text, crisp clean silhouettes, luxurious AAA VR game interface, high contrast, isolated panel only on plain black background, no text, no letters, no numbers, no mockup, no scene, no characters",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260907/dd8b0c38-451a-44b2-89eb-f8cf19a80070/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDcvZGQ4YjBjMzgtNDUxYS00NGIyLTg5ZWItZjhjZjE5YTgwMDcwL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg4NTAwNDJ9fX1dfQ__&Signature=Mtmc-f-wBkWvgFsBG4pJY6eYKKbvBX42ak1R6jxXumiLDPH8QVrXfKyySXV1zpzXawPjwyBltEV6sNDglt9X~UwOdc6UdPQk052CTkcEtAPooShuf1LsLH4B57SCRlFoT5DmmwDLELec~56eLw2jP-K-C~pvUjURIMrP7~Pp6RnB1nJKT5Y88WP7NmEI55PtduZmWlnKXEtPSLZAxBPx6UZXH~vP7eRrwah4NTnc-WXYpxs~0na3lzsKYfpLlU~ueQaJFABgh8I6lYy56VaCtFyEzrNsB2Ot2yNxAojc5~jSA9tLy9lzd0ZkpE05QYeJXwxJEr49bvygOqxusqCauQ__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-07T06:47:04.500299Z",
+  "completed_at": "2026-09-07T06:47:20.170074Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-12/w-x/outputs/AstralAlchemyXR/Assets/Art/UI/GeneratedUI/NanoBanana_Refined/SidePanel/01_generated_image_url.png"
+  ]
+}

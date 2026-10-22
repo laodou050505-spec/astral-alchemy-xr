@@ -1,0 +1,19 @@
+{
+  "task_id": "a2a04a57-ab32-444b-a3d0-cb013bc804ce",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Premium fantasy alchemy game UI icon sheet, six separate centered icons in a clean 2 by 3 grid with generous spacing, transparent background, no text and no white square backgrounds. Top row: living amber flame rune, icy cyan snowflake rune, violet lightning storm rune. Bottom row: emerald blooming leaf rune, deep indigo void spiral rune, radiant star-gold cosmic star rune. Each icon is a polished faceted crystal glyph with luminous inner core, antique copper micro accents, unified deep indigo purple and star-gold style, crisp high detail, orthographic front view.",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/a2a04a57-ab32-444b-a3d0-cb013bc804ce/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvYTJhMDRhNTctYWIzMi00NDRiLWEzZDAtY2IwMTNiYzgwNGNlL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzA2MjR9fX1dfQ__&Signature=QfwteHJSEETB7BM6WjGpw9v0kpglcK4oVA~OyQFjJwl0vryrKaxtIDD59f5qsT8HZwvSe39hGr3qFzl-lzQ9eLMl~SkcMHD8zeK5txoB1xOMLh~48da4SfP3a6gfUmRhr8os4ypwrXzeOM9wBJCxJVoUZtHPxrsTy5aYTiedDQRZ6b~4~~Tl42Fj8MV4fuQ7o~b1zL2q5zheiL5tUZ3bKVtEkjGo2uS~r6jnXbW6h6NS72rm1xth2dpPpmYA6dXSkDVrwDIkviH1vcovj1aezq~6ZdnXZhGYtmeOtQM5o8ozM4D6r3C7BpmaKhKOFyvlwvlDLwZ1qfCk2GMEiC4KiA__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T05:10:15.970907Z",
+  "completed_at": "2026-09-08T05:10:22.646579Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-12/w-x/outputs/AstralAlchemyXR/Assets/Art/UI/GeneratedUI/NanoBanana_Refined/ElementIcons/TripoGenerated/01_generated_image_url.png"
+  ]
+}

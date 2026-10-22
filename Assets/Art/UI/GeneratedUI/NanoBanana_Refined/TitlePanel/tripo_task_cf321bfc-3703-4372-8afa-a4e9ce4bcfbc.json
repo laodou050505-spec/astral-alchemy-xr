@@ -1,0 +1,19 @@
+{
+  "task_id": "cf321bfc-3703-4372-8afa-a4e9ce4bcfbc",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Premium fantasy alchemy game title interface panel asset, straight-on orthographic flat UI, wide cinematic composition, opaque deep indigo obsidian and subtle nebula glass interior, refined antique bronze and stargold filigree border, restrained cyan constellation traces, elegant arcane astrolabe corner ornaments, luxurious polished AAA game UI quality, generous clean empty central space for Unity rendered controller instructions and start button, readable at VR distance, crisp edges, high contrast, isolated panel only on plain black background, no text, no letters, no numbers, no labels, no mockup, no scene, no characters",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260907/cf321bfc-3703-4372-8afa-a4e9ce4bcfbc/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDcvY2YzMjFiZmMtMzcwMy00MzcyLThhZmEtYTRlOWNlNGJjZmJjL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg4NTAwMDV9fX1dfQ__&Signature=O4yqL3B3nZ1Xv515V1A3Sqy5N1ESlKy2V-S30-OoeeH2k2ohUrD8ZAip-~lESqHv8midcRTglUlnN8kwMCMkOKDv3I4PvjlkuaF3TsEa8oY2WvixNv9VQGdHNxlaNp7f12A1xhc5T-yXFRB2Qnkmfh6PUIo3-diNJHMA~t9LJnplXwjuIEqqY2tej9wmBonquDRIIPjGyvMctKmP0B2Mn~SGypuBmkN2QCbr-G3x493ymcQNHrEYrgSbtgdJa4QW~TIRZVXY61UglzRWiJY1~twifGN8FkWy6zFNMOe6RRXwmj2m2S~TiYvSONGVdz-isMvpH1wkbWojhgRr7IcySQ__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-07T06:46:27.860953Z",
+  "completed_at": "2026-09-07T06:46:44.081024Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-12/w-x/outputs/AstralAlchemyXR/Assets/Art/UI/GeneratedUI/NanoBanana_Refined/TitlePanel/01_generated_image_url.png"
+  ]
+}

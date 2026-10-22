@@ -1,0 +1,19 @@
+{
+  "task_id": "441c26ba-74d1-4d1b-ac48-bf2de3a9c90d",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Premium square fantasy alchemy game HUD information panel asset, straight-on orthographic flat UI, near-square composition, deep indigo-black obsidian glass body with subtle nebula texture, precise antique bronze and stargold layered frame, restrained cyan constellation accents, a slim clean header plaque at top, one large uninterrupted central information region, a compact clean footer region for status, very generous inner padding for sharp Unity-rendered Chinese text and two elemental tokens, elegant luxurious AAA VR game interface, crisp high contrast edges, isolated panel only on plain black background, no text, no letters, no numbers, no mockup, no scene, no characters",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260907/441c26ba-74d1-4d1b-ac48-bf2de3a9c90d/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDcvNDQxYzI2YmEtNzRkMS00ZDFiLWFjNDgtYmYyZGUzYTljOTBkL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg4NTA0NTl9fX1dfQ__&Signature=kJBZSUwzma81e8tdkbboVfNbZA4r8Ra7yAOPVdN3PnkS6MTSNppqJS0HVhOYkvBLSDmwuBokdTRq-TVRcBpokwToIhFhzQRosCsWXIVtGGCzaHcE0grhcHPSuZRPSPnyOAGl534YBtBZ-cvHMvVewSapcnO8hLEmZmt~EfNg0wm9~9NQCggIodP7MJ1bBbvq89bUEoFJMc9U84Pth~r~cbbFBTcqj5Vfr01ct6zS9B6aX5kXqXzI5B2S-twYjgry5sF7anJsGaJfLW2RKAFOVrEC5vUeN2DvUMX9QzjE7ztwZu~eOui3EM4Vkzq22eqM-Y-mJeMrzCm4JdgdEzn88w__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-07T06:49:30.902461Z",
+  "completed_at": "2026-09-07T06:54:16.897679Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-12/w-x/outputs/AstralAlchemyXR/Assets/Art/UI/GeneratedUI/NanoBanana_Refined/SidePanelSquare/01_generated_image_url.png"
+  ]
+}

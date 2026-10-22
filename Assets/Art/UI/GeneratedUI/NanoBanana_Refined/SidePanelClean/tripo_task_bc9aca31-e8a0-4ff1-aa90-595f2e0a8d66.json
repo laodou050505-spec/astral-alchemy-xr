@@ -1,0 +1,19 @@
+{
+  "task_id": "bc9aca31-e8a0-4ff1-aa90-595f2e0a8d66",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Premium square fantasy alchemy game HUD information frame, front-facing orthographic flat UI asset, one large uninterrupted empty deep indigo obsidian glass interior, precise antique bronze and stargold layered frame, restrained cyan constellation corner accents, a slim empty header plaque at top, no divider shelves, no bottles, no flame, no snowflake, no elemental symbols, no icons, no decorations inside the content area, generous safe padding for Unity-rendered Chinese text and runtime icons, crisp AAA VR interface, isolated single panel centered on pure black background, no text, no letters, no numbers, no mockup, no scene, no characters",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260907/bc9aca31-e8a0-4ff1-aa90-595f2e0a8d66/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDcvYmM5YWNhMzEtZThhMC00ZmYxLWFhOTAtNTk1ZjJlMGE4ZDY2L2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg4NjkzODZ9fX1dfQ__&Signature=tNNcbdUlpccldX6ReeP9Rxw3OMRpTziDxFSM4SwM6Bia4R1m8rWi~aw2W-7O7JcbdLlpjj10dDfWK5mDz368CD2JD-0EDGYFapQ5tHv17~nSG~C3ZZldKFoH1UAcTDJklAjv2R7Cj8EX4O1m5NvhtP9ZVJ2hepdx9P-GExzbp~St5KdVjL1tGMCoCc0XuXziej0KCS7HlM5vw1U-sQ0mcytIgJYBVV6TrMpGTDcZQ4ctTV982tI3L3-qxHzUtsqgpH~eNPq9zYUGzVlDybMMTkaKib2Hedb6aDcDuxJy3xEoE8D2~xKi-GNePzZU3tKXSk4JRN0v9SEwIoQWUpvdQw__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-07T12:09:28.124485Z",
+  "completed_at": "2026-09-07T12:09:44.329143Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-12/w-x/outputs/AstralAlchemyXR/Assets/Art/UI/GeneratedUI/NanoBanana_Refined/SidePanelClean/01_generated_image_url.png"
+  ]
+}

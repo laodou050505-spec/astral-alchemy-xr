@@ -1,0 +1,19 @@
+{
+  "task_id": "354a0003-30b5-4faa-ab68-8d9b04f5ac4d",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "A single premium fantasy alchemy element icon: living flame rune inside a faceted amber crystal, deep indigo and antique copper accents, luminous inner core, centered, isolated, no text, no border, transparent background, clean game UI asset, high detail",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/354a0003-30b5-4faa-ab68-8d9b04f5ac4d/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvMzU0YTAwMDMtMzBiNS00ZmFhLWFiNjgtOGQ5YjA0ZjVhYzRkL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzA1Nzd9fX1dfQ__&Signature=DDfvbwKxYFwUD0u69cQLUJBugN2QwadQSLzU-SVtN6tA-h7YWxPGh~hh9nLdy1wZDk0618N8pxFQAV8iKCC1wN7J4FKIa~Rac-go5Tq4zq4f1Xgf92FCK~IrbVBizH1iec1dumc06BQGNlXy9fhSQb3dnk5VEhQkuvqsm2N6BsDZqoB0QeVWYsoCZtIYX7mTVafjFJSJb~BLW1E-SzgcJRUTr2vrzB-5rgZY-lUUITX1cFYlE4CoyuIjbrOWYzne8Ll~D52lDJ2e6xTtJOgZk-UbtdvZubn0WEcHBZlOU7M~lm3P8d-WJtUPdSHnbt0uCEkXqyAQtGHVuDQoDJUsBg__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T05:09:28.446810Z",
+  "completed_at": "2026-09-08T05:09:34.482978Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-12/w-x/outputs/AstralAlchemyXR/Assets/Art/UI/GeneratedUI/NanoBanana_Refined/ElementIcons/TripoGenerated/01_generated_image_url.png"
+  ]
+}
