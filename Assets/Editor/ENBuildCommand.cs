@@ -20,7 +20,8 @@ public static class ENBuildCommand
         var icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/AppIcon/AppIcon.png");
         if (icon != null)
         {
-            PlayerSettings.SetIcons(NamedBuildTarget.Android, new[] { icon }, IconKind.Application);
+            // 使用 BuildTargetGroup（Unity 6000.5.5f1 兼容）
+            PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Android, new[] { icon });
             AssetDatabase.SaveAssets();
             Debug.Log("EN_BUILD: AppIcon applied.");
         }
@@ -31,7 +32,7 @@ public static class ENBuildCommand
 
         // 配置 Android 构建
         PlayerSettings.runInBackground = true;
-        PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
+        PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
         PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
         PlayerSettings.Android.applicationEntry = AndroidApplicationEntry.Activity;
         PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, new[] { UnityEngine.Rendering.GraphicsDeviceType.OpenGLES3 });
