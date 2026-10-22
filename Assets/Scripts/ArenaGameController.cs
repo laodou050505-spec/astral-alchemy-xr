@@ -205,7 +205,7 @@ namespace AstralAlchemy
             var miscastA = first;
             var miscastB = second;
             cauldron.Rampage(miscastA, miscastB);
-            SetStatus(“Miscast: “” + recipe.name + “” — “ + recipe.role, recipe.color);
+            SetStatus("Miscast: “" + recipe.name + "” — " + recipe.role, recipe.color);
             if (negativeAudio != null) negativeAudio.Play();
             // 误配 → 双手强震动，比炼制成功更重，提醒玩家注意后果
             picoInput?.TriggerHaptic(true, true, 0.65f, 0.11f);
@@ -281,7 +281,7 @@ namespace AstralAlchemy
             var hitSomething = false;
             var isWeaknessHit = false;
             var impactPoint = ray.origin + ray.direction * 5f;
-            var castMessage = “”” + preparedSpellName + “” cast — brew again to prepare the next shot”;
+            var castMessage = "“" + preparedSpellName + "” cast — brew again to prepare the next shot";
             var castColor = ElementPalette.ColorOf(preparedSpellElement);
             if (Physics.Raycast(ray, out var hit, 60f))
             {
@@ -293,8 +293,8 @@ namespace AstralAlchemy
                     hitSomething = true;
                     isWeaknessHit = preparedSpellElement == enemy.weakness;
                     castMessage = isWeaknessHit
-                        ? “Weakness hit! “ + ElementPalette.DisplayName(enemy.weakness) + “ deals amplified damage”
-                        : (enemy.IsShielded ? “Shield blocked — damage reduced” : “Hit! Enemy takes damage”);
+                        ? "Weakness hit! " + ElementPalette.DisplayName(enemy.weakness) + " deals amplified damage"
+                        : (enemy.IsShielded ? "Shield blocked — damage reduced" : "Hit! Enemy takes damage");
                     castColor = isWeaknessHit ? new Color(1f, .76f, .2f) : new Color(.78f, .88f, 1f);
                 }
             }
@@ -324,7 +324,7 @@ namespace AstralAlchemy
             {
                 score += 150;
                 tide = Mathf.Min(100f, tide + 16f);
-                castMessage = “Perfect release! “” + preparedSpellName + “” damage boosted”;
+                castMessage = "Perfect release! “" + preparedSpellName + "” damage boosted";
                 castColor = new Color(1f, .86f, .38f);
             }
 
