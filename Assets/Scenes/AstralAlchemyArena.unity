@@ -5661,8 +5661,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!222 &69657184
 CanvasRenderer:
@@ -5693,18 +5693,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
-    m_FontSize: 23
+    m_Font: {fileID: 12800000, guid: 79f14340e31534b86b97a7967871bc53, type: 3}
+    m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 21
-    m_MaxSize: 24
+    m_MinSize: 20
+    m_MaxSize: 23
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1.05
+    m_LineSpacing: 1.2
   m_Text: "\u708E + \u708E \u2192 \u8D64\u9633\u7206"
 --- !u!1 &71472128
 GameObject:
@@ -9010,7 +9010,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
+    m_Font: {fileID: 12800000, guid: 79f14340e31534b86b97a7967871bc53, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 1
@@ -9021,7 +9021,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1.22
+    m_LineSpacing: 1.25
   m_Text: "\u672C\u5C40\u661F\u5C18\u5206\u6570"
 --- !u!114 &110933985
 MonoBehaviour:
@@ -9035,8 +9035,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!222 &110933986
 CanvasRenderer:
@@ -20739,6 +20739,7 @@ MonoBehaviour:
   music: {fileID: 1084131667}
   spellAudio: {fileID: 980221420}
   positiveAudio: {fileID: 1417695526}
+  negativeAudio: {fileID: 0}
 --- !u!1 &243810421
 GameObject:
   m_ObjectHideFlags: 0
@@ -23328,7 +23329,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 0
   rotationCycleSeconds: 0
   breatheAmount: 0
-  phaseOffset: 0.82
+  phaseOffset: 1.23
 --- !u!1 &281103812
 GameObject:
   m_ObjectHideFlags: 0
@@ -49324,8 +49325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!222 &566489102
 CanvasRenderer:
@@ -49356,12 +49357,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
-    m_FontSize: 23
-    m_FontStyle: 0
+    m_Font: {fileID: 12800000, guid: 8e231f47506674535900a31f76c6eec0, type: 3}
+    m_FontSize: 24
+    m_FontStyle: 1
     m_BestFit: 1
-    m_MinSize: 21
-    m_MaxSize: 24
+    m_MinSize: 22
+    m_MaxSize: 25
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -59497,7 +59498,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 88}
-  m_SizeDelta: {x: 610, y: 52}
+  m_SizeDelta: {x: 610, y: 58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &685283749
 MonoBehaviour:
@@ -59511,8 +59512,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!222 &685283750
 CanvasRenderer:
@@ -59543,18 +59544,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
-    m_FontSize: 38
-    m_FontStyle: 0
+    m_Font: {fileID: 12800000, guid: 8e231f47506674535900a31f76c6eec0, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
     m_BestFit: 1
-    m_MinSize: 34
-    m_MaxSize: 40
+    m_MinSize: 36
+    m_MaxSize: 42
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
+    m_LineSpacing: 1.05
   m_Text: "\u661F\u6838\u5B88\u4F4F\u4E86\uFF01"
 --- !u!1 &688715625
 GameObject:
@@ -85212,7 +85213,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 28}
-  m_SizeDelta: {x: 560, y: 30}
+  m_SizeDelta: {x: 560, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1004675594
 MonoBehaviour:
@@ -85226,8 +85227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!222 &1004675595
 CanvasRenderer:
@@ -85250,7 +85251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
-  m_Color: {r: 0.93, g: 0.94, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.68, b: 0.15, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -85258,12 +85259,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
-    m_FontSize: 23
-    m_FontStyle: 0
+    m_Font: {fileID: 12800000, guid: 8e231f47506674535900a31f76c6eec0, type: 3}
+    m_FontSize: 24
+    m_FontStyle: 1
     m_BestFit: 1
-    m_MinSize: 20
-    m_MaxSize: 25
+    m_MinSize: 22
+    m_MaxSize: 26
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -118699,7 +118700,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 0
   rotationCycleSeconds: 0
   breatheAmount: 0
-  phaseOffset: 1.23
+  phaseOffset: 1.64
 --- !u!1 &1328139054
 GameObject:
   m_ObjectHideFlags: 0
@@ -140288,8 +140289,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!222 &1531089221
 CanvasRenderer:
@@ -140312,7 +140313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
-  m_Color: {r: 0.78, g: 0.9, b: 1, a: 1}
+  m_Color: {r: 0.82, g: 0.93, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -140320,18 +140321,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
+    m_Font: {fileID: 12800000, guid: 79f14340e31534b86b97a7967871bc53, type: 3}
     m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 21
-    m_MaxSize: 22
+    m_MinSize: 20
+    m_MaxSize: 23
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1.05
+    m_LineSpacing: 1.22
   m_Text: "\u9009\u62E9\u5143\u7D20 \xB7 \u70BC\u5236 \xB7 \u91CA\u653E"
 --- !u!1 &1536287769
 GameObject:
@@ -151806,8 +151807,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!114 &1660871736
 MonoBehaviour:
@@ -151830,7 +151831,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
+    m_Font: {fileID: 12800000, guid: 79f14340e31534b86b97a7967871bc53, type: 3}
     m_FontSize: 21
     m_FontStyle: 0
     m_BestFit: 1
@@ -153397,8 +153398,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!114 &1671217211
 MonoBehaviour:
@@ -153421,7 +153422,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
+    m_Font: {fileID: 12800000, guid: 79f14340e31534b86b97a7967871bc53, type: 3}
     m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 1
@@ -157072,7 +157073,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 0
   rotationCycleSeconds: 0
   breatheAmount: 0
-  phaseOffset: 1.64
+  phaseOffset: 0.41
 --- !u!1 &1714794746
 GameObject:
   m_ObjectHideFlags: 0
@@ -165742,8 +165743,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!114 &1793286329
 MonoBehaviour:
@@ -165766,7 +165767,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
+    m_Font: {fileID: 12800000, guid: 79f14340e31534b86b97a7967871bc53, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 1
@@ -181224,8 +181225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!222 &1893797809
 CanvasRenderer:
@@ -181248,7 +181249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
-  m_Color: {r: 0.93, g: 0.94, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.68, b: 0.15, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -181256,9 +181257,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
+    m_Font: {fileID: 12800000, guid: 8e231f47506674535900a31f76c6eec0, type: 3}
     m_FontSize: 24
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 22
     m_MaxSize: 25
@@ -193132,8 +193133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0.005, g: 0.002, b: 0.02, a: 0.96}
-  m_EffectDistance: {x: 0.85, y: -0.85}
+  m_EffectColor: {r: 0.003, g: 0.001, b: 0.018, a: 0.92}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!222 &1974584514
 CanvasRenderer:
@@ -193164,19 +193165,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 7fb3af17159564a9c9ff7ef16ca0a45d, type: 3}
-    m_FontSize: 25
-    m_FontStyle: 0
+    m_Font: {fileID: 12800000, guid: 8e231f47506674535900a31f76c6eec0, type: 3}
+    m_FontSize: 26
+    m_FontStyle: 1
     m_BestFit: 1
-    m_MinSize: 22
-    m_MaxSize: 25
+    m_MinSize: 24
+    m_MaxSize: 27
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.05
-  m_Text: "\u76EE\u6807\u914D\u65B9"
+  m_Text: Target Recipe
 --- !u!1 &1976538766
 GameObject:
   m_ObjectHideFlags: 0
@@ -201758,7 +201759,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 1080
   rotationCycleSeconds: 30
   breatheAmount: 0
-  phaseOffset: 0.41
+  phaseOffset: 0.82
 --- !u!23 &2083101825 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: c4218dddfca10404bb839d7e0576093a, type: 3}

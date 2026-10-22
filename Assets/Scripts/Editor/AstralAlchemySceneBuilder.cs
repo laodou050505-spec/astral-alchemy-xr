@@ -114,6 +114,29 @@ public static class AstralAlchemySceneBuilder
         Debug.Log("AstralAlchemy current user scene upgraded without changing user-authored prop positions or rotations.");
     }
 
+    // Batchmode scene-only upgrade: rebuilds both scenes and saves them WITHOUT
+    // triggering the APK build pipeline. Used by subagents that must not produce a package.
+    public static void BatchUpgradeScenesOnly()
+    {
+        try
+        {
+            var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            if (!scene.IsValid()) throw new Exception("Could not open authored scene: " + ScenePath);
+            BuildTitleScene();
+            scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            EnsureBuildScenes();
+            UpgradeCurrentUserScene();
+            ValidateDemo();
+            Debug.Log("BatchUpgradeScenesOnly: both scenes rebuilt and saved successfully.");
+            EditorApplication.Exit(0);
+        }
+        catch (Exception exception)
+        {
+            Debug.LogException(exception);
+            EditorApplication.Exit(2);
+        }
+    }
+
     // Batch-only finalization path used when the editor UI is unavailable. It deliberately
     // opens and upgrades the authored scene instead of rebuilding a new demo scene.
     public static void BatchFinalizeCurrentScene()
