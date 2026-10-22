@@ -138,15 +138,15 @@
 | tut.phase1.title | 教学 1/3 · 选择元素 | Tutorial 1/3 · Select Element | ArenaGameController.cs:481 | HUD 标题 | 已翻译 |
 | tut.phase2.title | 教学 2/3 · 完成炼制 | Tutorial 2/3 · Complete Brew | ArenaGameController.cs:482 | HUD 标题 | 已翻译 |
 | tut.phase3.title | 教学 3/3 · 瞄准释放 | Tutorial 3/3 · Aim & Cast | ArenaGameController.cs:483 | HUD 标题 | 已翻译 |
-| tut.phase1.detail | 左手瞄准红色「炎」球\n按扳机投入坩埚 | Aim left hand at red Fire orb\nPress trigger to add it | ArenaGameController.cs:492 | HUD 详情 | 已翻译 |
+| tut.phase1.detail | 左手瞄准红色「炎」球\n按扳机投入坩埚 | Aim left hand at red Fire orb\n[Pull Trigger] to add it | ArenaGameController.cs:492 | HUD 详情 | 已翻译 |
 | tut.phase2.detail | 已选 炎 · 再选蓝色「霜」\n两枚元素会自动炼制 | Fire added · Now select Frost\nTwo elements auto-brew | ArenaGameController.cs:493 | HUD 详情 | 已翻译 |
 | tut.phase3.detail | 右手瞄准敌人 · 按住扳机\n松开释放「{spell}」 | Aim right hand at enemy · Hold trigger\nRelease to cast "{spell}" | ArenaGameController.cs:494 | HUD 详情 | 已翻译 |
-| tut.begin.status | 教学 1/3\n左手瞄准红色「炎」元素球\n按扳机投入坩埚 | Tutorial 1/3\nAim left hand at the red Fire orb\nPress trigger to add it | ArenaGameController.cs:341 | 状态栏 | 已翻译 |
+| tut.begin.status | 教学 1/3\n左手瞄准红色「炎」元素球\n按扳机投入坩埚 | Tutorial 1/3\nAim left hand at the red Fire orb\n[Pull Trigger] to add it | ArenaGameController.cs:341 | 状态栏 | 已翻译 |
 | tut.reject1 | 教学 1/3\n请用左手射线选择\n发光的「{e}」元素球 | Tutorial 1/3\nAim left hand ray at\nthe glowing {e} orb | ArenaGameController.cs:130 | 状态栏 | 已翻译 |
 | tut.reject2 | 教学 2/3\n第一枚已入锅\n现在请选择「{e}」 | Tutorial 2/3\nFirst element added\nNow select {e} | ArenaGameController.cs:135 | 状态栏 | 已翻译 |
-| tut.advance2 | 教学 2/3\n很好！再用左手扳机\n选择「{e}」 | Tutorial 2/3\nGood! Use left trigger\nto select {e} | ArenaGameController.cs:149 | 状态栏 | 已翻译 |
-| tut.cast | 教学 3/3\n右手瞄准 · 按住扳机蓄力\n松开释放「{spell}」 | Tutorial 3/3\nAim right · Hold trigger to charge\nRelease to cast "{spell}" | ArenaGameController.cs:185 | 状态栏 | 已翻译 |
-| tut.miss | 教学 3/3 · 没有命中\n右手对准中央敌人\n再按住并松开扳机 | Tutorial 3/3 — missed!\nAim right at the center enemy\nHold then release the trigger | ArenaGameController.cs:323 | 状态栏 | 已翻译 |
+| tut.advance2 | 教学 2/3\n很好！再用左手扳机\n选择「{e}」 | Tutorial 2/3\nGood! [Pull Left Trigger]\nto select {e} | ArenaGameController.cs:149 | 状态栏 | 已翻译 |
+| tut.cast | 教学 3/3\n右手瞄准 · 按住扳机蓄力\n松开释放「{spell}」 | Tutorial 3/3\nAim right · [Hold Trigger] to charge\nRelease to cast "{spell}" | ArenaGameController.cs:185 | 状态栏 | 已翻译 |
+| tut.miss | 教学 3/3 · 没有命中\n右手对准中央敌人\n再按住并松开扳机 | Tutorial 3/3 — missed!\nAim right at the center enemy\n[Hold Trigger] · [Release] | ArenaGameController.cs:323 | 状态栏 | 已翻译 |
 | tut.complete | 教学完成！头顶元素是敌人弱点 · 用同色法术可造成 2.25 倍伤害 | Tutorial Complete! The element above an enemy is its weakness — a matching spell deals 2.25× damage | ArenaGameController.cs:384 | 状态栏 | 已翻译 |
 
 ---
@@ -171,7 +171,7 @@
 |---|---|---|---|---|---|
 | brew.first | 第一枚元素已入锅 · 再投入一枚完成炼制 | First element added — add another to brew | ArenaGameController.cs:151 | 状态栏 | 已翻译 |
 | brew.full | 已选满两枚元素 · 请先释放「{s}」 | Two elements selected — cast "{s}" first | ArenaGameController.cs:123 | 状态栏 | 已翻译 |
-| brew.success | 炼制成功 · 右手瞄准敌人，按住扳机蓄力，松开释放「{s}」 | Brew success! Aim right, hold trigger to charge, release to cast "{s}" | ArenaGameController.cs:178 | 状态栏 | 已翻译 |
+| brew.success | 炼制成功 · 右手瞄准敌人，按住扳机蓄力，松开释放「{s}」 | Brew success! Aim right, hold trigger to charge, [Release] to cast "{s}" | ArenaGameController.cs:178 | 状态栏 | 已翻译 |
 | brew.no_elements | 先按配方将两枚正确元素投入坩埚 | First brew two matching elements in the cauldron | ArenaGameController.cs:261 | 状态栏 | 已翻译 |
 
 ---
@@ -220,8 +220,8 @@
 |---|---|---|---|---|---|
 | result.victory.title | 星核守住了！ | Star Core Defended! | ArenaGameController.cs:557 | 结算标题 | 已翻译 |
 | result.defeat.title | 星核已熄灭 | Star Core Fallen | ArenaGameController.cs:557 | 结算标题 | 已翻译 |
-| result.victory.stats | 本局星尘分数  {s}\n击退敌人  {d}\n按任一手柄扳机 · 重新开始 | Score  {s}\nEnemies Defeated  {d}\nPress any trigger · Play Again | ArenaGameController.cs:558-560 | 结算正文 | 已翻译 |
-| result.defeat.stats | 敌人突破了炼金防线\n本局击退敌人  {d}\n按任一手柄扳机 · 再试一次 | The alchemy barrier was breached\nEnemies Defeated  {d}\nPress any trigger · Try Again | ArenaGameController.cs:558-560 | 结算正文 | 已翻译 |
+| result.victory.stats | 本局星尘分数  {s}\n击退敌人  {d}\n按任一手柄扳机 · 重新开始 | Score  {s}\nEnemies Defeated  {d}\n[Pull Any Trigger] · Play Again | ArenaGameController.cs:558-560 | 结算正文 | 已翻译 |
+| result.defeat.stats | 敌人突破了炼金防线\n本局击退敌人  {d}\n按任一手柄扳机 · 再试一次 | The alchemy barrier was breached\nEnemies Defeated  {d}\n[Pull Any Trigger] · Try Again | ArenaGameController.cs:558-560 | 结算正文 | 已翻译 |
 | result.victory.status | 胜利结算：星界炼金台稳定运转 | Victory: The Astral Alchemy Forge holds steady | ArenaGameController.cs:561 | 状态栏 | 已翻译 |
 | result.defeat.status | 失败结算：下一局优先完成正确配方 | Defeat: Next round — focus on correct recipes first | ArenaGameController.cs:561 | 状态栏 | 已翻译 |
 

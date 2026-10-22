@@ -146,7 +146,7 @@ namespace AstralAlchemy
                 {
                     tutorialStage = TutorialStage.SelectSecond;
                     SetTutorialDemand(currentRecipeB);
-                    SetStatus("Tutorial 2/3\nGood! Use left trigger\nto select " + ElementPalette.DisplayName(currentRecipeB), ElementPalette.ColorOf(currentRecipeB));
+                    SetStatus("Tutorial 2/3\nGood! [Pull Left Trigger]\nto select " + ElementPalette.DisplayName(currentRecipeB), ElementPalette.ColorOf(currentRecipeB));
                 }
                 else SetStatus("First element added — add another to brew", ElementPalette.ColorOf(first));
                 RefreshHud();
@@ -175,14 +175,14 @@ namespace AstralAlchemy
             preparedSpellName = recipe.name;
             cauldron.Correct(first, second);
             tide = Mathf.Min(100f, tide + 16f);
-            SetStatus("Brew success! Aim right, hold trigger to charge, release to cast “" + preparedSpellName + "”", new Color(1f, .76f, .21f));
+            SetStatus("Brew success! Aim right · [Hold Trigger] to charge · [Release] to cast “" + preparedSpellName + "”", new Color(1f, .76f, .21f));
             if (positiveAudio != null) positiveAudio.Play();
             if (tutorialStage == TutorialStage.SelectSecond)
             {
                 tutorialStage = TutorialStage.CastSpell;
                 SetTutorialDemand(null);
                 SpawnTutorialTarget();
-                SetStatus("Tutorial 3/3\nAim right · Hold trigger to charge\nRelease to cast “" + preparedSpellName + "”", new Color(1f, .76f, .21f));
+                SetStatus("Tutorial 3/3\nAim right · [Hold Trigger] to charge\n[Release] to cast “" + preparedSpellName + "”", new Color(1f, .76f, .21f));
             }
             if (ElementPalette.IsPair(recipe.a, recipe.b, currentRecipeA, currentRecipeB))
             {
@@ -320,7 +320,7 @@ namespace AstralAlchemy
                 else
                 {
                     spellReady = true;
-                    SetStatus("Tutorial 3/3 — missed!\nAim right at the center enemy\nHold then release the trigger", new Color(1f, .55f, .2f));
+                    SetStatus("Tutorial 3/3 — missed!\nAim right at the enemy\n[Hold Trigger] · [Release] to cast", new Color(1f, .55f, .2f));
                 }
             }
             RefreshHud();
@@ -338,7 +338,7 @@ namespace AstralAlchemy
             SetTutorialDemand(currentRecipeA);
             EnsureElementAvailable(currentRecipeA, "Tutorial");
             EnsureElementAvailable(currentRecipeB, "Tutorial");
-            SetStatus("Tutorial 1/3\nAim left hand at the red Fire orb\nPress trigger to add it", ElementPalette.ColorOf(currentRecipeA));
+            SetStatus("Tutorial 1/3\nAim left hand at the red Fire orb\n[Pull Trigger] to add it", ElementPalette.ColorOf(currentRecipeA));
         }
 
         private int FindSuggestedRecipe(ElementKind a, ElementKind b)
@@ -489,9 +489,9 @@ namespace AstralAlchemy
                 var suggested = ElementPalette.GetSuggestedRecipe(suggestedRecipeIndex);
                 recipeDetail.text = tutorialStage switch
                 {
-                    TutorialStage.SelectFirst => "Aim left hand at red Fire orb\nPress trigger to add it",
+                    TutorialStage.SelectFirst => "Aim left hand at red Fire orb\n[Pull Trigger] to add it",
                     TutorialStage.SelectSecond => "Fire added · Now select Frost\nTwo elements auto-brew",
-                    TutorialStage.CastSpell => "Aim right hand at enemy · Hold trigger\nRelease to cast “" + preparedSpellName + "”",
+                    TutorialStage.CastSpell => "Aim right hand at enemy · [Hold Trigger]\n[Release] to cast “" + preparedSpellName + "”",
                     _ => ElementPalette.DisplayName(currentRecipeA) + "  +  " + ElementPalette.DisplayName(currentRecipeB) + "   →   " + suggested.name + "\n" + suggested.role + "\nElement above enemy = Weakness"
                 };
             }
@@ -556,8 +556,8 @@ namespace AstralAlchemy
             if (statusLabel != null) statusLabel.transform.parent.gameObject.SetActive(false);
             if (resultTitle != null) resultTitle.text = victory ? "Star Core Defended!" : "Star Core Fallen";
             if (resultStats != null) resultStats.text = victory
-                ? "Score  " + score + "\nEnemies Defeated  " + defeated + "\nPress any trigger · Play Again"
-                : "The alchemy barrier was breached\nEnemies Defeated  " + defeated + "\nPress any trigger · Try Again";
+                ? "Score  " + score + "\nEnemies Defeated  " + defeated + "\n[Pull Any Trigger] · Play Again"
+                : "The alchemy barrier was breached\nEnemies Defeated  " + defeated + "\n[Pull Any Trigger] · Try Again";
             SetStatus(victory ? "Victory: The Astral Alchemy Forge holds steady" : "Defeat: Next round — focus on correct recipes first", victory ? new Color(1f, .76f, .2f) : new Color(1f, .25f, .32f));
             if (music != null) music.Stop();
         }
