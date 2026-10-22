@@ -23329,7 +23329,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 0
   rotationCycleSeconds: 0
   breatheAmount: 0
-  phaseOffset: 1.23
+  phaseOffset: 1.64
 --- !u!1 &281103812
 GameObject:
   m_ObjectHideFlags: 0
@@ -49213,7 +49213,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 206}
-  m_SizeDelta: {x: 640, y: 119}
+  m_SizeDelta: {x: 640, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &565773652
 MonoBehaviour:
@@ -118700,7 +118700,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 0
   rotationCycleSeconds: 0
   breatheAmount: 0
-  phaseOffset: 1.64
+  phaseOffset: 0.82
 --- !u!1 &1328139054
 GameObject:
   m_ObjectHideFlags: 0
@@ -140275,7 +140275,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 14}
-  m_SizeDelta: {x: 500, y: 96}
+  m_SizeDelta: {x: 520, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1531089220
 MonoBehaviour:
@@ -140322,11 +140322,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 79f14340e31534b86b97a7967871bc53, type: 3}
-    m_FontSize: 22
+    m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 20
-    m_MaxSize: 23
+    m_MinSize: 22
+    m_MaxSize: 27
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -153384,7 +153384,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -16}
-  m_SizeDelta: {x: 180, y: 25}
+  m_SizeDelta: {x: 250, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1671217210
 MonoBehaviour:
@@ -153423,11 +153423,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 79f14340e31534b86b97a7967871bc53, type: 3}
-    m_FontSize: 18
+    m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 17
-    m_MaxSize: 19
+    m_MinSize: 20
+    m_MaxSize: 23
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -177612,7 +177612,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 45}
-  m_SizeDelta: {x: 600, y: 140}
+  m_SizeDelta: {x: 600, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1864521572
 MonoBehaviour:
@@ -201759,7 +201759,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 1080
   rotationCycleSeconds: 30
   breatheAmount: 0
-  phaseOffset: 0.82
+  phaseOffset: 1.23
 --- !u!23 &2083101825 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: c4218dddfca10404bb839d7e0576093a, type: 3}

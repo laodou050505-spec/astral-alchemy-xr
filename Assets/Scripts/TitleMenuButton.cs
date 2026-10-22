@@ -56,19 +56,21 @@ namespace AstralAlchemy
             var targetScale = pressed ? .97f : IsFocused ? 1.05f : 1f;
             transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * targetScale, lerp);
 
-            // Background tint (works even without a sprite)
+            // Background: stay near-white so the alchemical frame texture always shows.
+            // Hover adds a very subtle warm tint; press flashes bright without hiding the frame.
             if (background != null)
             {
                 var targetBg = pressed
-                    ? new Color(1.4f, 1.2f, .8f, .95f)
-                    : IsFocused ? new Color(1.08f, 1.02f, .84f, .78f) : new Color(.9f, .82f, .65f, .38f);
+                    ? new Color(1.38f, 1.28f, .82f, 1f)   // Bright warm flash on press
+                    : IsFocused ? new Color(1.05f, 1.02f, .90f, 1f) : new Color(1f, 1f, 1f, 1f);
                 background.color = Color.Lerp(background.color, targetBg, lerp);
             }
 
-            // Glow overlay alpha
+            // Glow overlay: uses the same 9-sliced frame sprite (set in scene builder) so the
+            // gold halo follows the copper frame shape rather than flooding the button interior.
             if (glowOverlay != null)
             {
-                var targetAlpha = pressed ? .55f : IsFocused ? .35f : 0f;
+                var targetAlpha = pressed ? .72f : IsFocused ? .50f : 0f;
                 var c = glowOverlay.color;
                 c.a = Mathf.Lerp(c.a, targetAlpha, lerp);
                 glowOverlay.color = c;

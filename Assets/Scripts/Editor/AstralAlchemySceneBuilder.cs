@@ -529,7 +529,7 @@ public static class AstralAlchemySceneBuilder
         }
         RestylePanel(leftPanel, new Vector2(380f, 380f), new Vector2(-500f, 42f));
         RestylePanel(rightPanel, new Vector2(380f, 380f), new Vector2(500f, 42f));
-        RestylePanel(statusPanel, new Vector2(600f, 140f), new Vector2(0f, 45f));
+        RestylePanel(statusPanel, new Vector2(600f, 160f), new Vector2(0f, 45f));
         ArrangeWraparoundHud(canvas, leftPanel, rightPanel, statusPanel);
         var healthPanel = canvas.transform.Find("星核血量条_顶部");
         if (healthPanel == null || healthPanel == rightPanel)
@@ -542,7 +542,7 @@ public static class AstralAlchemySceneBuilder
         var coreBarRoot = game.coreFill != null ? game.coreFill.transform.parent : null;
         if (coreBarRoot != null && coreBarRoot.parent != healthPanel)
             coreBarRoot.SetParent(healthPanel, false);
-        RestylePanel(healthPanel, new Vector2(640f, 119f), new Vector2(0f, 206f));
+        RestylePanel(healthPanel, new Vector2(640f, 125f), new Vector2(0f, 206f));
         ApplyGeneratedPanelArt(healthPanel, LoadUiSprite(StatusUiTexturePath), .96f);
         if (game.coreLabel != null) SetTextLayout(game.coreLabel, new Vector2(560f, 32f), new Vector2(0f, 28f), 24, 22, 26);
         SetRect(game.coreFill != null ? game.coreFill.transform.parent : null, new Vector2(540f, 25f), new Vector2(0f, -16f));
@@ -619,7 +619,8 @@ public static class AstralAlchemySceneBuilder
             UpgradeWorldHealthBarVisuals(healthPanel, healthFeedback);
             if (healthFeedback.valueLabel != null)
             {
-                SetTextLayout(healthFeedback.valueLabel, new Vector2(180f, 25f), new Vector2(0f, -16f), 18, 17, 19);
+                // 22px at scale 0.0057 → cap-height 9.0cm; passes body threshold at d=3.69m (6.3cm).
+                SetTextLayout(healthFeedback.valueLabel, new Vector2(250f, 34f), new Vector2(0f, -16f), 22, 20, 23);
                 healthFeedback.valueLabel.color = Color.white;
             }
         }
@@ -647,15 +648,16 @@ public static class AstralAlchemySceneBuilder
         }
         if (game.statusLabel != null)
         {
-            SetTextLayout(game.statusLabel, new Vector2(500f, 96f), new Vector2(0f, 14f), 22, 20, 23);
+            // 26px matches left-panel body text; at d=3.69m gives cap-height 10.7cm > body threshold 6.3cm.
+            SetTextLayout(game.statusLabel, new Vector2(520f, 120f), new Vector2(0f, 14f), 26, 22, 27);
             game.statusLabel.font      = GetBodyFont();
             game.statusLabel.fontStyle = FontStyle.Normal;
-            game.statusLabel.fontSize  = 22;
+            game.statusLabel.fontSize  = 26;
             game.statusLabel.color     = new Color(.82f, .93f, 1f, 1f);
             game.statusLabel.lineSpacing = 1.22f;
             game.statusLabel.resizeTextForBestFit  = true;
-            game.statusLabel.resizeTextMinSize = 20;
-            game.statusLabel.resizeTextMaxSize = 23;
+            game.statusLabel.resizeTextMinSize = 22;
+            game.statusLabel.resizeTextMaxSize = 27;
             game.statusLabel.horizontalOverflow = HorizontalWrapMode.Wrap;
             game.statusLabel.verticalOverflow   = VerticalWrapMode.Truncate;
             game.statusLabel.alignment = TextAnchor.MiddleCenter;
@@ -1272,22 +1274,23 @@ public static class AstralAlchemySceneBuilder
     private static TitleMenuButton TitleButton(string value, Transform parent, Vector2 position, TitleMenuButton.Command command)
     {
         // Alchemical background from generated banana2 image, 9-sliced to preserve frame corners.
+        // Background starts white (1,1,1,1) so the texture shows at full quality; TitleMenuButton
+        // applies only a subtle warm tint on hover and a bright flash on press.
         var bgSprite = LoadButtonBgSprite();
-        var bgColor = bgSprite != null ? new Color(.9f, .82f, .65f, .42f) : new Color(.24f, .18f, .075f, .55f);
-        // Button height 95 canvas-px: at 6.45m viewing distance and canvas scale 0.0057 this gives
-        // a 44px cap-height of 18.1cm, exactly meeting the d×0.028 title spec.
-        var go = Panel("Button_" + command, parent, new Vector2(570f, 95f), position, bgColor, bgSprite);
+        var go = Panel("Button_" + command, parent, new Vector2(570f, 95f), position, Color.white, bgSprite);
         var bgImage = go.GetComponent<Image>();
         if (bgSprite != null) { bgImage.type = Image.Type.Sliced; bgImage.preserveAspect = false; }
         var button = go.AddComponent<TitleMenuButton>(); button.command = command; button.background = bgImage;
 
-        // Gold glow overlay — full-rect transparent Image used for hover brightening.
+        // Gold glow overlay — uses the SAME 9-sliced frame sprite tinted pure gold so the hover
+        // glow follows the copper frame outline rather than flooding the button interior.
         var glowGo = NewUi("GoldGlow", go.transform);
         var glowRect = glowGo.GetComponent<RectTransform>();
         glowRect.anchorMin = Vector2.zero; glowRect.anchorMax = Vector2.one;
         glowRect.offsetMin = Vector2.zero; glowRect.offsetMax = Vector2.zero;
         var glow = glowGo.AddComponent<Image>();
-        glow.color = new Color(1f, .82f, .3f, 0f);
+        if (bgSprite != null) { glow.sprite = bgSprite; glow.type = Image.Type.Sliced; glow.preserveAspect = false; }
+        glow.color = new Color(1f, .85f, .22f, 0f);  // Pure gold, starts fully transparent
         glow.raycastTarget = false;
         button.glowOverlay = glow;
 
