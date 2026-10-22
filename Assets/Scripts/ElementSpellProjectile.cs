@@ -60,7 +60,7 @@ namespace AstralAlchemy
 
         private ParticleSystem CreateTrail()
         {
-            var go = new GameObject("元素法术尾迹");
+            var go = new GameObject("ElementSpellTrail");
             go.transform.SetParent(transform, false);
             var ps = go.AddComponent<ParticleSystem>();
             var main = ps.main;

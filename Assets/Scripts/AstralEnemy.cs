@@ -113,7 +113,7 @@ namespace AstralAlchemy
                     core.Damage(touchDamage);
                     dead = true;
                     var game = FindFirstObjectByType<ArenaGameController>();
-                    if (game != null) game.SetStatus("敌人突破防线 · 星核 -" + Mathf.RoundToInt(touchDamage), new Color(1f, .26f, .32f));
+                    if (game != null) game.SetStatus("Enemy breach! Core -" + Mathf.RoundToInt(touchDamage), new Color(1f, .26f, .32f));
                     Destroy(gameObject);
                 }
             }

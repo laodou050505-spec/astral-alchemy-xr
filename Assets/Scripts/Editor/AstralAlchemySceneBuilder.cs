@@ -543,7 +543,7 @@ public static class AstralAlchemySceneBuilder
 
         if (game.recipeTitle != null)
         {
-            game.recipeTitle.text = "目标配方";
+            game.recipeTitle.text = "Target Recipe";
             game.recipeTitle.fontSize = 25;
         }
         if (game.recipeDetail != null)
@@ -556,8 +556,8 @@ public static class AstralAlchemySceneBuilder
         var selected = leftPanel != null ? leftPanel.Find("已选元素文字")?.GetComponent<Text>() : null;
         if (selected == null && leftPanel != null)
         {
-            selected = Text("已选元素", leftPanel, new Vector2(278f, 42f), new Vector2(0f, -48f), 19, new Color(.88f, .92f, 1f), TextAnchor.MiddleCenter);
-            selected.name = "已选元素文字";
+            selected = Text("Selected Element", leftPanel, new Vector2(278f, 42f), new Vector2(0f, -48f), 19, new Color(.88f, .92f, 1f), TextAnchor.MiddleCenter);
+            selected.name = "SelectedElementLabel";
         }
         if (selected != null)
         {
@@ -2287,7 +2287,7 @@ public static class AstralAlchemySceneBuilder
         var recipeTitle = Text("本轮星图配方", leftPanel.transform, new Vector2(320f, 42f), new Vector2(0f, 119f), 25, StarGold, TextAnchor.MiddleCenter);
         var recipeDetail = Text("炎 + 炎 → 赤阳爆", leftPanel.transform, new Vector2(318f, 102f), new Vector2(0f, 50f), 22, Color.white, TextAnchor.MiddleCenter);
         var selected = Text("已选元素  待选择  +  待选择", leftPanel.transform, new Vector2(320f, 48f), new Vector2(0f, -41f), 19, new Color(.88f, .92f, 1f), TextAnchor.MiddleCenter);
-        selected.name = "已选元素文字";
+        selected.name = "SelectedElementLabel";
         var tokenA = ImageCircle("元素令牌A", leftPanel.transform, new Vector2(-62f, -109f), 52f, ElementPalette.ColorOf(ElementKind.Fire));
         var tokenB = ImageCircle("元素令牌B", leftPanel.transform, new Vector2(62f, -109f), 52f, ElementPalette.ColorOf(ElementKind.Storm));
         Text("+", leftPanel.transform, new Vector2(54f, 46f), new Vector2(0f, -109f), 30, StarGold, TextAnchor.MiddleCenter);

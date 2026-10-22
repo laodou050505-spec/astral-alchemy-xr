@@ -76,7 +76,7 @@ namespace AstralAlchemy
 
         private void CreateMotes()
         {
-            var go = new GameObject("元素能量微粒_" + ElementPalette.ChineseName(orb.element));
+            var go = new GameObject("ElementParticle_" + ElementPalette.DisplayName(orb.element));
             go.transform.SetParent(transform, false);
             motes = go.AddComponent<ParticleSystem>();
             motes.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);

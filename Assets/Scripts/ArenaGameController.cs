@@ -120,20 +120,20 @@ namespace AstralAlchemy
             if (IsEnded || orb == null) return;
             if (spellReady)
             {
-                SetStatus("已选满两枚元素 · 请先释放「" + preparedSpellName + "」", new Color(1f, .76f, .22f));
+                SetStatus("Two elements selected — cast “" + preparedSpellName + "” first", new Color(1f, .76f, .22f));
                 RefreshHud();
                 return;
             }
 
             if (tutorialStage == TutorialStage.SelectFirst && orb.element != currentRecipeA)
             {
-                SetStatus("教学 1/3\n请用左手射线选择\n发光的「" + ElementPalette.ChineseName(currentRecipeA) + "」元素球", ElementPalette.ColorOf(currentRecipeA));
+                SetStatus("Tutorial 1/3\nAim left hand ray at\nthe glowing " + ElementPalette.DisplayName(currentRecipeA) + " orb", ElementPalette.ColorOf(currentRecipeA));
                 orb.ShowRejected();
                 return;
             }
             if (tutorialStage == TutorialStage.SelectSecond && orb.element != currentRecipeB)
             {
-                SetStatus("教学 2/3\n第一枚已入锅\n现在请选择「" + ElementPalette.ChineseName(currentRecipeB) + "」", ElementPalette.ColorOf(currentRecipeB));
+                SetStatus("Tutorial 2/3\nFirst element added\nNow select " + ElementPalette.DisplayName(currentRecipeB), ElementPalette.ColorOf(currentRecipeB));
                 orb.ShowRejected();
                 return;
             }
@@ -146,9 +146,9 @@ namespace AstralAlchemy
                 {
                     tutorialStage = TutorialStage.SelectSecond;
                     SetTutorialDemand(currentRecipeB);
-                    SetStatus("教学 2/3\n很好！再用左手扳机\n选择「" + ElementPalette.ChineseName(currentRecipeB) + "」", ElementPalette.ColorOf(currentRecipeB));
+                    SetStatus("Tutorial 2/3\nGood! Use left trigger\nto select " + ElementPalette.DisplayName(currentRecipeB), ElementPalette.ColorOf(currentRecipeB));
                 }
-                else SetStatus("第一枚元素已入锅 · 再投入一枚完成炼制", ElementPalette.ColorOf(first));
+                else SetStatus("First element added — add another to brew", ElementPalette.ColorOf(first));
                 RefreshHud();
                 return;
             }
@@ -175,14 +175,14 @@ namespace AstralAlchemy
             preparedSpellName = recipe.name;
             cauldron.Correct(first, second);
             tide = Mathf.Min(100f, tide + 16f);
-            SetStatus("炼制成功 · 右手瞄准敌人，按住扳机蓄力，松开释放「" + preparedSpellName + "」", new Color(1f, .76f, .21f));
+            SetStatus("Brew success! Aim right, hold trigger to charge, release to cast “" + preparedSpellName + "”", new Color(1f, .76f, .21f));
             if (positiveAudio != null) positiveAudio.Play();
             if (tutorialStage == TutorialStage.SelectSecond)
             {
                 tutorialStage = TutorialStage.CastSpell;
                 SetTutorialDemand(null);
                 SpawnTutorialTarget();
-                SetStatus("教学 3/3\n右手瞄准 · 按住扳机蓄力\n松开释放「" + preparedSpellName + "」", new Color(1f, .76f, .21f));
+                SetStatus("Tutorial 3/3\nAim right · Hold trigger to charge\nRelease to cast “" + preparedSpellName + "”", new Color(1f, .76f, .21f));
             }
             if (ElementPalette.IsPair(recipe.a, recipe.b, currentRecipeA, currentRecipeB))
             {
@@ -196,7 +196,7 @@ namespace AstralAlchemy
             var miscastA = first;
             var miscastB = second;
             cauldron.Rampage(miscastA, miscastB);
-            SetStatus("错误配方「" + recipe.name + "」· " + recipe.role, recipe.color);
+            SetStatus("Miscast: “" + recipe.name + "” — " + recipe.role, recipe.color);
             StartCoroutine(ApplyMiscastEffect(recipe));
         }
 
@@ -206,13 +206,13 @@ namespace AstralAlchemy
             if (recipe.style == "wildfire")
             {
                 foreach (var enemy in enemies) { enemy.Hit(ElementKind.Fire, 14f); enemy.ApplyBuff(AstralEnemy.BuffType.Frenzy, 9f); }
-                SetStatus("炽芽暴走：火雨清场，幸存敌人进入狂暴", recipe.color);
+                SetStatus("Wildfire Rampage: Rain of fire — survivors enter Frenzy", recipe.color);
             }
             else if (recipe.style == "backfire" || recipe.style == "overload")
             {
                 foreach (var enemy in enemies) enemy.ApplyBuff(recipe.style == "backfire" ? AstralEnemy.BuffType.Overcharge : AstralEnemy.BuffType.Frenzy, 9f);
                 if (starCore != null) starCore.Damage(7f);
-                SetStatus("炼金反噬：星核 -7，敌人速度与攻击提升", recipe.color);
+                SetStatus("Alchemic Backfire: Core -7, enemies gain speed & power", recipe.color);
             }
             else if (recipe.style == "rift")
             {
@@ -220,35 +220,35 @@ namespace AstralAlchemy
                 enemyShielded = true;
                 foreach (var enemy in enemies) enemy.ApplyBuff(AstralEnemy.BuffType.Ward, 12f);
                 if (starCore != null) starCore.Damage(7f);
-                SetStatus("黯焰裂缝：敌人获得虚空盾，星核 -7", recipe.color);
+                SetStatus("Dark Rift: Enemies gain Void Ward, Core -7", recipe.color);
             }
             else if (recipe.style == "flashfreeze")
             {
                 foreach (var enemy in enemies) enemy.Freeze(6.5f);
                 if (starCore != null) starCore.Heal(8f);
-                SetStatus("极昼风暴：全场冻结，星核 +8", recipe.color);
+                SetStatus("Flash Freeze: All enemies frozen, Core +8", recipe.color);
             }
             else if (recipe.style == "pollen")
             {
                 if (starCore != null) starCore.Heal(18f);
                 foreach (var enemy in enemies) enemy.ApplyBuff(AstralEnemy.BuffType.Siphon, 10f);
-                SetStatus("流星花粉：星核 +18，残敌获得汲能", recipe.color);
+                SetStatus("Meteor Pollen: Core +18, survivors gain Siphon", recipe.color);
             }
             else if (recipe.style == "bubbleburst")
             {
                 foreach (var orb in elementOrbs) if (orb != null) orb.Supply();
-                SetStatus("彗星霜雾：六色元素泡泡已全部补齐", recipe.color);
+                SetStatus("Frost Comet: All six element orbs resupplied", recipe.color);
             }
             else if (recipe.style == "vine")
             {
                 foreach (var enemy in enemies) enemy.Freeze(3.5f);
                 SpawnEnemy(AstralEnemy.BuffType.Ward);
-                SetStatus("食星藤蔓：敌人被缠绕，但唤醒一只护盾怪", recipe.color);
+                SetStatus("Star Vine: Enemies ensnared, a Ward enemy is summoned", recipe.color);
             }
             else
             {
                 foreach (var enemy in enemies) enemy.Hit(ElementKind.Star, 12f);
-                SetStatus(recipe.name + "：失控星尘横扫全场", recipe.color);
+                SetStatus(recipe.name + ": Entropy wave sweeps the arena", recipe.color);
             }
             yield return new WaitForSeconds(3.2f);
             activeMiscastShields = Mathf.Max(0, activeMiscastShields - 1);
@@ -259,7 +259,7 @@ namespace AstralAlchemy
         {
             if (!spellReady || IsEnded)
             {
-                SetStatus("先按配方将两枚正确元素投入坩埚", new Color(.78f, .84f, 1f));
+                SetStatus("First brew two matching elements in the cauldron", new Color(.78f, .84f, 1f));
                 return;
             }
             spellReady = false;
@@ -268,7 +268,7 @@ namespace AstralAlchemy
             var chargeMultiplier = perfect ? 1.9f : Mathf.Lerp(.7f, 1.45f, Mathf.Clamp01(charge / 1.55f));
             var hitSomething = false;
             var impactPoint = ray.origin + ray.direction * 5f;
-            var castMessage = "「" + preparedSpellName + "」已释放 · 再次炼制以准备下一发";
+            var castMessage = "“" + preparedSpellName + "” cast — brew again to prepare the next shot";
             var castColor = ElementPalette.ColorOf(preparedSpellElement);
             if (Physics.Raycast(ray, out var hit, 60f))
             {
@@ -279,8 +279,8 @@ namespace AstralAlchemy
                     enemy.Hit(preparedSpellElement, (preparedRecipe.damage + tide * .18f) * chargeMultiplier);
                     hitSomething = true;
                     castMessage = preparedSpellElement == enemy.weakness
-                        ? "弱点命中 · " + ElementPalette.ChineseName(enemy.weakness) + " 元素造成强化伤害"
-                        : (enemy.IsShielded ? "护盾生效 · 伤害被削弱" : "法术命中 · 敌人受到伤害");
+                        ? "Weakness hit! " + ElementPalette.DisplayName(enemy.weakness) + " deals amplified damage"
+                        : (enemy.IsShielded ? "Shield blocked — damage reduced" : "Hit! Enemy takes damage");
                     castColor = preparedSpellElement == enemy.weakness ? new Color(1f, .76f, .2f) : new Color(.78f, .88f, 1f);
                 }
             }
@@ -310,7 +310,7 @@ namespace AstralAlchemy
             {
                 score += 150;
                 tide = Mathf.Min(100f, tide + 16f);
-                castMessage = "精准释放 · 「" + preparedSpellName + "」伤害提升";
+                castMessage = "Perfect release! “" + preparedSpellName + "” damage boosted";
                 castColor = new Color(1f, .86f, .38f);
             }
             SetStatus(castMessage, castColor);
@@ -320,7 +320,7 @@ namespace AstralAlchemy
                 else
                 {
                     spellReady = true;
-                    SetStatus("教学 3/3 · 没有命中\n右手对准中央敌人\n再按住并松开扳机", new Color(1f, .55f, .2f));
+                    SetStatus("Tutorial 3/3 — missed!\nAim right at the center enemy\nHold then release the trigger", new Color(1f, .55f, .2f));
                 }
             }
             RefreshHud();
@@ -336,9 +336,9 @@ namespace AstralAlchemy
             suggestedRecipeIndex = FindSuggestedRecipe(currentRecipeA, currentRecipeB);
             recipeClock = 0f;
             SetTutorialDemand(currentRecipeA);
-            EnsureElementAvailable(currentRecipeA, "新手教学");
-            EnsureElementAvailable(currentRecipeB, "新手教学");
-            SetStatus("教学 1/3\n左手瞄准红色「炎」元素球\n按扳机投入坩埚", ElementPalette.ColorOf(currentRecipeA));
+            EnsureElementAvailable(currentRecipeA, "Tutorial");
+            EnsureElementAvailable(currentRecipeB, "Tutorial");
+            SetStatus("Tutorial 1/3\nAim left hand at the red Fire orb\nPress trigger to add it", ElementPalette.ColorOf(currentRecipeA));
         }
 
         private int FindSuggestedRecipe(ElementKind a, ElementKind b)
@@ -362,7 +362,7 @@ namespace AstralAlchemy
             if (tutorialTarget != null) return;
             tutorialTarget = SpawnEnemy();
             if (tutorialTarget == null) return;
-            tutorialTarget.name = "教学敌人_瞄准其头顶弱点";
+            tutorialTarget.name = "TutorialEnemy_AimAtWeaknessAbove";
             tutorialTarget.transform.position = new Vector3(0f, .4f, 4.15f);
             tutorialTarget.ConfigureType(AstralEnemy.EnemyType.Wisp);
             tutorialTarget.health = 28f;
@@ -381,13 +381,13 @@ namespace AstralAlchemy
             spawnCooldown = 3.5f;
             recipeClock = 0f;
             SetTutorialDemand(null);
-            SetStatus("教学完成！头顶元素是敌人弱点 · 用同色法术可造成 2.25 倍伤害", new Color(1f, .8f, .26f));
+            SetStatus("Tutorial Complete! The element above an enemy is its weakness — a matching spell deals 2.25× damage", new Color(1f, .8f, .26f));
         }
 
         private void CreateElementProjectile(Vector3 origin, Vector3 impact, ElementKind primary, ElementKind secondary)
         {
             var bolt = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            bolt.name = "元素融合弹_" + ElementPalette.ChineseName(primary) + "_" + ElementPalette.ChineseName(secondary);
+            bolt.name = "ElementProjectile_" + ElementPalette.DisplayName(primary) + "_" + ElementPalette.DisplayName(secondary);
             var collider = bolt.GetComponent<Collider>();
             if (collider != null) Destroy(collider);
             var projectile = bolt.AddComponent<ElementSpellProjectile>();
@@ -422,7 +422,7 @@ namespace AstralAlchemy
             if (enemyPrefab == null || enemySpawnPoints == null || enemySpawnPoints.Length == 0) return null;
             var point = enemySpawnPoints[Random.Range(0, enemySpawnPoints.Length)];
             var enemy = Instantiate(enemyPrefab, point.position, point.rotation);
-            enemy.name = "敌人_" + (defeated + FindObjectsByType<AstralEnemy>(FindObjectsSortMode.None).Length + 1);
+            enemy.name = "Enemy_" + (defeated + FindObjectsByType<AstralEnemy>(FindObjectsSortMode.None).Length + 1);
             var behavior = enemy.GetComponent<AstralEnemy>();
             var flatForward = starCore != null ? starCore.TargetTransform.position - enemy.transform.position : -point.forward;
             flatForward.y = 0f;
@@ -434,7 +434,7 @@ namespace AstralAlchemy
             if (forcedBuff != AstralEnemy.BuffType.None) behavior.ApplyBuff(forcedBuff, 10f);
             else if (enemyShielded) behavior.ApplyBuff(AstralEnemy.BuffType.Ward, 2f);
             else behavior.RefreshVisuals();
-            EnsureElementAvailable(behavior.weakness, "敌人弱点");
+            EnsureElementAvailable(behavior.weakness, "Enemy Weakness");
             return behavior;
         }
 
@@ -463,8 +463,8 @@ namespace AstralAlchemy
             currentRecipeB = recipe.b;
             recipeClock = 0f;
             foreach (var orb in elementOrbs) if (orb != null) orb.SetDemand(orb.element == currentRecipeA || orb.element == currentRecipeB);
-            EnsureElementAvailable(currentRecipeA, "推荐配方");
-            EnsureElementAvailable(currentRecipeB, "推荐配方");
+            EnsureElementAvailable(currentRecipeA, "Suggested Recipe");
+            EnsureElementAvailable(currentRecipeB, "Suggested Recipe");
         }
 
         private void EnsureElementAvailable(ElementKind kind, string reason)
@@ -472,32 +472,32 @@ namespace AstralAlchemy
             var orb = elementOrbs.Find(item => item != null && item.element == kind);
             if (orb == null || orb.IsAvailable) return;
             orb.Supply();
-            SetStatus("星轨补给 · " + ElementPalette.ChineseName(kind) + "（" + reason + "）", ElementPalette.ColorOf(kind));
+            SetStatus("Orbital Supply: " + ElementPalette.DisplayName(kind) + " (" + reason + ")", ElementPalette.ColorOf(kind));
         }
 
         public void RefreshHud()
         {
             if (recipeTitle != null) recipeTitle.text = tutorialStage switch
             {
-                TutorialStage.SelectFirst => "教学 1/3 · 选择元素",
-                TutorialStage.SelectSecond => "教学 2/3 · 完成炼制",
-                TutorialStage.CastSpell => "教学 3/3 · 瞄准释放",
-                _ => "目标配方"
+                TutorialStage.SelectFirst => "Tutorial 1/3 · Select Element",
+                TutorialStage.SelectSecond => "Tutorial 2/3 · Complete Brew",
+                TutorialStage.CastSpell => "Tutorial 3/3 · Aim & Cast",
+                _ => "Target Recipe"
             };
             if (recipeDetail != null)
             {
                 var suggested = ElementPalette.GetSuggestedRecipe(suggestedRecipeIndex);
                 recipeDetail.text = tutorialStage switch
                 {
-                    TutorialStage.SelectFirst => "左手瞄准红色「炎」球\n按扳机投入坩埚",
-                    TutorialStage.SelectSecond => "已选 炎 · 再选蓝色「霜」\n两枚元素会自动炼制",
-                    TutorialStage.CastSpell => "右手瞄准敌人 · 按住扳机\n松开释放「" + preparedSpellName + "」",
-                    _ => ElementPalette.ChineseName(currentRecipeA) + "  +  " + ElementPalette.ChineseName(currentRecipeB) + "   →   " + suggested.name + "\n" + suggested.role + "\n敌人头顶元素 = 弱点"
+                    TutorialStage.SelectFirst => "Aim left hand at red Fire orb\nPress trigger to add it",
+                    TutorialStage.SelectSecond => "Fire added · Now select Frost\nTwo elements auto-brew",
+                    TutorialStage.CastSpell => "Aim right hand at enemy · Hold trigger\nRelease to cast “" + preparedSpellName + "”",
+                    _ => ElementPalette.DisplayName(currentRecipeA) + "  +  " + ElementPalette.DisplayName(currentRecipeB) + "   →   " + suggested.name + "\n" + suggested.role + "\nElement above enemy = Weakness"
                 };
             }
-            if (scoreLabel != null) scoreLabel.text = "星尘分数  " + score.ToString("0000") + "\n击退 " + defeated + "/" + defeatTarget;
-            if (coreLabel != null) coreLabel.text = "星核完整度";
-            if (timerLabel != null) timerLabel.text = "星潮倒计时  " + Mathf.CeilToInt(Mathf.Max(0f, timeRemaining)) + " s";
+            if (scoreLabel != null) scoreLabel.text = "Score  " + score.ToString("0000") + "\n" + defeated + "/" + defeatTarget + " Defeated";
+            if (coreLabel != null) coreLabel.text = "Star Core";
+            if (timerLabel != null) timerLabel.text = "Timer  " + Mathf.CeilToInt(Mathf.Max(0f, timeRemaining)) + " s";
             // The bound StarCoreWorldHealthBar drives the visible fill, damage
             // trail and numeric value every frame. Do not overwrite that feedback
             // here with an abrupt eight-Hz jump.
@@ -510,9 +510,9 @@ namespace AstralAlchemy
             }
             if (selectionLabel != null)
             {
-                var firstName = hasFirst || spellReady ? ElementPalette.ChineseName(first) : "待选择";
-                var secondName = spellReady ? ElementPalette.ChineseName(second) : "待选择";
-                selectionLabel.text = "已选元素  " + firstName + "  +  " + secondName;
+                var firstName = hasFirst || spellReady ? ElementPalette.DisplayName(first) : "—";
+                var secondName = spellReady ? ElementPalette.DisplayName(second) : "—";
+                selectionLabel.text = "Selected  " + firstName + "  +  " + secondName;
             }
         }
 
@@ -554,11 +554,11 @@ namespace AstralAlchemy
             if (recipeTitle != null) recipeTitle.transform.parent.gameObject.SetActive(false);
             if (scoreLabel != null) scoreLabel.transform.parent.gameObject.SetActive(false);
             if (statusLabel != null) statusLabel.transform.parent.gameObject.SetActive(false);
-            if (resultTitle != null) resultTitle.text = victory ? "星核守住了！" : "星核已熄灭";
+            if (resultTitle != null) resultTitle.text = victory ? "Star Core Defended!" : "Star Core Fallen";
             if (resultStats != null) resultStats.text = victory
-                ? "本局星尘分数  " + score + "\n击退敌人  " + defeated + "\n按任一手柄扳机 · 重新开始"
-                : "敌人突破了炼金防线\n本局击退敌人  " + defeated + "\n按任一手柄扳机 · 再试一次";
-            SetStatus(victory ? "胜利结算：星界炼金台稳定运转" : "失败结算：下一局优先完成正确配方", victory ? new Color(1f, .76f, .2f) : new Color(1f, .25f, .32f));
+                ? "Score  " + score + "\nEnemies Defeated  " + defeated + "\nPress any trigger · Play Again"
+                : "The alchemy barrier was breached\nEnemies Defeated  " + defeated + "\nPress any trigger · Try Again";
+            SetStatus(victory ? "Victory: The Astral Alchemy Forge holds steady" : "Defeat: Next round — focus on correct recipes first", victory ? new Color(1f, .76f, .2f) : new Color(1f, .25f, .32f));
             if (music != null) music.Stop();
         }
 
@@ -575,7 +575,7 @@ namespace AstralAlchemy
                 desktop.transform.position = new Vector3(0f, 0f, -4.7f);
                 desktop.transform.rotation = Quaternion.identity;
             }
-            SetStatus("已回到设计起点 · 面向炼金台", new Color(.72f, .88f, 1f));
+            SetStatus("Reset to start position — facing the forge", new Color(.72f, .88f, 1f));
         }
     }
 }

@@ -18,38 +18,38 @@ namespace AstralAlchemy
 
         private static readonly Recipe[] StableRecipes =
         {
-            new Recipe(ElementKind.Fire, ElementKind.Fire, "赤阳爆", "爆裂 · 群攻", "burst", 56, 4.4f, new Color(1f,.34f,.22f)),
-            new Recipe(ElementKind.Frost, ElementKind.Frost, "冰晶钟", "冻结 · 控场", "freeze", 30, 5.1f, new Color(.45f,.86f,1f)),
-            new Recipe(ElementKind.Bloom, ElementKind.Bloom, "翠星脉", "穿透 · 修复", "heal", 38, 3.5f, new Color(.5f,.84f,.43f)),
-            new Recipe(ElementKind.Storm, ElementKind.Storm, "雷冠链", "连锁 · 追击", "chain", 46, 5.8f, new Color(1f,.84f,.32f)),
-            new Recipe(ElementKind.Void, ElementKind.Void, "吞星涡", "聚怪 · 斩杀", "vortex", 44, 5.4f, new Color(.72f,.48f,1f)),
-            new Recipe(ElementKind.Star, ElementKind.Star, "星海雨", "多重 · 覆盖", "rain", 38, 5f, new Color(1f,.55f,.78f)),
-            new Recipe(ElementKind.Fire, ElementKind.Frost, "蒸汽彗星", "高速 · 穿透", "comet", 50, 3.1f, new Color(.95f,.9f,.78f)),
-            new Recipe(ElementKind.Fire, ElementKind.Star, "日冕贯星", "暴击 · 直线", "lance", 64, 2.8f, new Color(1f,.64f,.32f)),
-            new Recipe(ElementKind.Frost, ElementKind.Bloom, "琥珀花钟", "冻结 · 回春", "garden", 34, 4.7f, new Color(.61f,.9f,.77f)),
-            new Recipe(ElementKind.Bloom, ElementKind.Storm, "荆雷风暴", "缠绕 · 群攻", "storm", 44, 4.9f, new Color(.72f,.85f,.36f)),
-            new Recipe(ElementKind.Storm, ElementKind.Star, "极光连击", "连锁 · 追击", "prism", 52, 6.2f, new Color(1f,.72f,.44f)),
-            new Recipe(ElementKind.Void, ElementKind.Star, "月蚀镜界", "定身 · 爆发", "eclipse", 50, 5.3f, new Color(.87f,.62f,.96f))
+            new Recipe(ElementKind.Fire, ElementKind.Fire, "Solar Burst", "Burst · AoE", "burst", 56, 4.4f, new Color(1f,.34f,.22f)),
+            new Recipe(ElementKind.Frost, ElementKind.Frost, "Frost Bell", "Freeze · Control", "freeze", 30, 5.1f, new Color(.45f,.86f,1f)),
+            new Recipe(ElementKind.Bloom, ElementKind.Bloom, "Verdant Pulse", "Pierce · Restore", "heal", 38, 3.5f, new Color(.5f,.84f,.43f)),
+            new Recipe(ElementKind.Storm, ElementKind.Storm, "Thunder Crown", "Chain · Pursuit", "chain", 46, 5.8f, new Color(1f,.84f,.32f)),
+            new Recipe(ElementKind.Void, ElementKind.Void, "Star Vortex", "Gather · Execute", "vortex", 44, 5.4f, new Color(.72f,.48f,1f)),
+            new Recipe(ElementKind.Star, ElementKind.Star, "Starfall Rain", "Multi · Coverage", "rain", 38, 5f, new Color(1f,.55f,.78f)),
+            new Recipe(ElementKind.Fire, ElementKind.Frost, "Steam Comet", "High-Speed · Pierce", "comet", 50, 3.1f, new Color(.95f,.9f,.78f)),
+            new Recipe(ElementKind.Fire, ElementKind.Star, "Corona Lance", "Crit · Linear", "lance", 64, 2.8f, new Color(1f,.64f,.32f)),
+            new Recipe(ElementKind.Frost, ElementKind.Bloom, "Amber Bloom", "Freeze · Rejuvenate", "garden", 34, 4.7f, new Color(.61f,.9f,.77f)),
+            new Recipe(ElementKind.Bloom, ElementKind.Storm, "Thornstorm", "Ensnare · AoE", "storm", 44, 4.9f, new Color(.72f,.85f,.36f)),
+            new Recipe(ElementKind.Storm, ElementKind.Star, "Aurora Chain", "Chain · Pursuit", "prism", 52, 6.2f, new Color(1f,.72f,.44f)),
+            new Recipe(ElementKind.Void, ElementKind.Star, "Eclipse Mirror", "Root · Burst", "eclipse", 50, 5.3f, new Color(.87f,.62f,.96f))
         };
 
         private static readonly Recipe[] Miscasts =
         {
-            new Recipe(ElementKind.Fire, ElementKind.Bloom, "炽芽暴走", "火雨清场 · 残敌狂暴", "wildfire", 32, 5.2f, new Color(1f,.45f,.28f), true),
-            new Recipe(ElementKind.Fire, ElementKind.Storm, "闪燃短路", "闪电连锁 · 近敌超载", "backfire", 45, 6.2f, new Color(1f,.75f,.3f), true),
-            new Recipe(ElementKind.Fire, ElementKind.Void, "黯焰裂缝", "聚怪爆裂 · 虚空护盾", "rift", 54, 5.8f, new Color(.85f,.42f,.73f), true),
-            new Recipe(ElementKind.Frost, ElementKind.Storm, "极昼风暴", "全场冻结 · 星核修复", "flashfreeze", 26, 99f, new Color(.65f,.95f,1f), true),
-            new Recipe(ElementKind.Frost, ElementKind.Void, "碎月镜片", "镜片散射 · 汲能标记", "mirror", 42, 6.6f, new Color(.64f,.72f,1f), true),
-            new Recipe(ElementKind.Frost, ElementKind.Star, "彗星霜雾", "霜雾爆发 · 补齐元素", "bubbleburst", 24, 4.8f, new Color(.72f,.9f,1f), true),
-            new Recipe(ElementKind.Bloom, ElementKind.Void, "食星藤蔓", "缠绕吸取 · 唤醒护盾", "vine", 36, 6f, new Color(.61f,.84f,.47f), true),
-            new Recipe(ElementKind.Bloom, ElementKind.Star, "流星花粉", "回春扩散 · 敌人汲能", "pollen", 20, 5.4f, new Color(1f,.62f,.82f), true),
-            new Recipe(ElementKind.Storm, ElementKind.Void, "黑潮雷暴", "连锁过载 · 余波狂暴", "overload", 48, 7f, new Color(.76f,.55f,1f), true)
+            new Recipe(ElementKind.Fire, ElementKind.Bloom, "Wildfire Rampage", "Rain of Fire · Survivors Frenzy", "wildfire", 32, 5.2f, new Color(1f,.45f,.28f), true),
+            new Recipe(ElementKind.Fire, ElementKind.Storm, "Backfire Flash", "Lightning Chain · Overload", "backfire", 45, 6.2f, new Color(1f,.75f,.3f), true),
+            new Recipe(ElementKind.Fire, ElementKind.Void, "Dark Rift", "Gather & Burst · Void Ward", "rift", 54, 5.8f, new Color(.85f,.42f,.73f), true),
+            new Recipe(ElementKind.Frost, ElementKind.Storm, "Flash Freeze", "Full Freeze · Core Restore", "flashfreeze", 26, 99f, new Color(.65f,.95f,1f), true),
+            new Recipe(ElementKind.Frost, ElementKind.Void, "Moon Shard", "Mirror Scatter · Energy Siphon", "mirror", 42, 6.6f, new Color(.64f,.72f,1f), true),
+            new Recipe(ElementKind.Frost, ElementKind.Star, "Frost Comet", "Frost Burst · Resupply Elements", "bubbleburst", 24, 4.8f, new Color(.72f,.9f,1f), true),
+            new Recipe(ElementKind.Bloom, ElementKind.Void, "Star Vine", "Snare & Drain · Ward Spawn", "vine", 36, 6f, new Color(.61f,.84f,.47f), true),
+            new Recipe(ElementKind.Bloom, ElementKind.Star, "Meteor Pollen", "Bloom Spread · Enemy Siphon", "pollen", 20, 5.4f, new Color(1f,.62f,.82f), true),
+            new Recipe(ElementKind.Storm, ElementKind.Void, "Dark Surge", "Chain Overload · Frenzy", "overload", 48, 7f, new Color(.76f,.55f,1f), true)
         };
 
         public static Recipe GetRecipe(ElementKind a, ElementKind b)
         {
             foreach (var recipe in StableRecipes) if (IsPair(a, b, recipe.a, recipe.b)) return recipe;
             foreach (var recipe in Miscasts) if (IsPair(a, b, recipe.a, recipe.b)) return recipe;
-            return new Recipe(a, b, "熵流溢出", "失控 · 星尘爆裂", "chaos", 38, 5.6f, new Color(.79f,.52f,.92f), true);
+            return new Recipe(a, b, "Entropy Overflow", "Wild · Star Dust Burst", "chaos", 38, 5.6f, new Color(.79f,.52f,.92f), true);
         }
 
         public static Recipe GetSuggestedRecipe(int index) => StableRecipes[index % StableRecipes.Length];
@@ -67,18 +67,22 @@ namespace AstralAlchemy
             };
         }
 
-        public static string ChineseName(ElementKind kind)
+        // EN: Renamed from ChineseName to DisplayName; callers updated accordingly.
+        public static string DisplayName(ElementKind kind)
         {
             return kind switch
             {
-                ElementKind.Fire => "炎",
-                ElementKind.Frost => "霜",
-                ElementKind.Storm => "雷",
-                ElementKind.Bloom => "生命",
-                ElementKind.Void => "虚空",
-                _ => "星辉"
+                ElementKind.Fire => "Fire",
+                ElementKind.Frost => "Frost",
+                ElementKind.Storm => "Storm",
+                ElementKind.Bloom => "Bloom",
+                ElementKind.Void => "Void",
+                _ => "Star"
             };
         }
+
+        // Backward-compat alias so any remaining call sites still compile.
+        public static string ChineseName(ElementKind kind) => DisplayName(kind);
 
         public static string SpellName(ElementKind first, ElementKind second)
         {
