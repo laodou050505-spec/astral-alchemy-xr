@@ -118700,7 +118700,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 0
   rotationCycleSeconds: 0
   breatheAmount: 0
-  phaseOffset: 0.82
+  phaseOffset: 0.41
 --- !u!1 &1328139054
 GameObject:
   m_ObjectHideFlags: 0
@@ -157073,7 +157073,7 @@ MonoBehaviour:
   rotationDegreesPerCycle: 0
   rotationCycleSeconds: 0
   breatheAmount: 0
-  phaseOffset: 0.41
+  phaseOffset: 0.82
 --- !u!1 &1714794746
 GameObject:
   m_ObjectHideFlags: 0
